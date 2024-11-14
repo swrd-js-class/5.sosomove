@@ -7,7 +7,11 @@ import Request from "./Request.jsx";
 import Signup from "./Signup.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
+<<<<<<< HEAD:sosomove/imports/ui/App.jsx
 import Nav from "./Nav.jsx";
+=======
+//import Nav from "./Nav.jsx";
+>>>>>>> main:imports/ui/App.jsx
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
 
 export const App = () => (
