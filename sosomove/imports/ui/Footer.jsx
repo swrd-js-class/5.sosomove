@@ -2,7 +2,7 @@ import React from "react";
 
 export default () => {
   return (
-    <div>
+    <div className="footer">
       <p><b>
         © 2024 소소이사(주)<br />
         사업자등록번호:xxx-xx-xxxxx<br />
@@ -11,4 +11,4 @@ export default () => {
       </b></p>
     </div>
   );
-};
+}; 

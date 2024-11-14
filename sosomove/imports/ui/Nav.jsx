@@ -11,6 +11,9 @@ export default ({ onNavClick }) => {
               <Link to="/login" >로그인</Link>
             </li>
             <li>
+              <Link to="/signup" >회원가입</Link>
+            </li>
+            <li>
               <Link to="/service" >서비스</Link>
             </li>
             <li>
