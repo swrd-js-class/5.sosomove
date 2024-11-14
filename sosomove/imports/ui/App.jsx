@@ -8,8 +8,7 @@ import Service from "./Service.jsx";
 import Request from "./Request.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
-import Nav from "./Nav.jsx";
-import PostDetail from "./PostDetail.jsx";
+//import Nav from "./Nav.jsx";
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
 
 export const App = () => (
