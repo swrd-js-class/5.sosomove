@@ -7,7 +7,6 @@ import Request from "./Request.jsx";
 import Signup from "./Signup.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
-import Nav from "./Nav.jsx";
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
 
 export const App = () => (
