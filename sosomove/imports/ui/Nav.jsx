@@ -8,6 +8,18 @@ export default () => {
         <nav>
           <ul>
             <li>
+              <Link to="/Login">로그인/</Link>
+            </li>
+            <li>
+              <Link to="/">서비스/</Link>
+            </li>
+            <li>
+              <Link to="/">견적요청/</Link>
+            </li>
+            <li>
+              <Link to="/">내 견적 조회/</Link>
+            </li>
+            <li>
               <Link to="/">Home</Link>
             </li>
             <li>
