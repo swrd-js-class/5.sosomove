@@ -7,10 +7,10 @@ body {
   font-family: sans-serif;
 }
 
-.main-image {
+.main-img {
   width: 100%;
   /* 부모 요소의 너비에 맞춰 100% 크기 */
-  height: 100px;
+  height: auto;
   /* 비율에 맞춰 자동으로 세로 크기 조정 */
   max-width: 800px;
   /* 최대 가로 크기 제한 */

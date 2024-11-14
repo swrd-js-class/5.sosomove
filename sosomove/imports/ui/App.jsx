@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import '/client/main.css';
 
@@ -8,7 +8,9 @@ import Service from "./Service.jsx";
 import Request from "./Request.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
-
+import Nav from "./Nav.jsx";
+import PostDetail from "./PostDetail.jsx";
+import DatePickerComponent from '../publicAPI/Calendar.jsx';
 
 export const App = () => (
   < Router >
@@ -21,7 +23,10 @@ export const App = () => (
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
-  </Router >
+    <div>
+      <DatePickerComponent /> {/* 달력 컴포넌트 삽입 */}
+    </div>
+  </Router>
 );
 
 

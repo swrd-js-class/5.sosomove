@@ -26,13 +26,13 @@ export default () => {
               Meteor.logout();
             }}
           >
-            Logout
+            로그아웃
           </button>
         </div>
       ) : (
         <div>
           <input ref={refUsername} type="text" placeholder="이메일을 입력하세요" />
-          <input ref={refPassword} type="text" placeholder="비밀번호를 입력하세요" /><br />
+          <input ref={refPassword} type="password" placeholder="비밀번호를 입력하세요" /><br />
           <button onClick={handleLogin}>로그인</button>
           <button>회원가입</button>
         </div>
