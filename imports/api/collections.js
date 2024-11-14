@@ -1,6 +1,5 @@
 import { Mongo } from 'meteor/mongo';
 
-export const Accounts = new Mongo.Collection('account');
 export const CollectionRequest = new Mongo.Collection('request');
 export const CollectionEstCar = new Mongo.Collection('estcar');
 export const CollectionEstHelper = new Mongo.Collection('esthelper');
