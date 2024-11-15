@@ -7,7 +7,7 @@ import Request from "./Request.jsx";
 import Signup from "./Signup.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
-import Nav from "./Nav.jsx";
+
 
 export const App = () => (
   < Router >
@@ -22,7 +22,7 @@ export const App = () => (
       </Route>
     </Routes>
     <div>
-      <DatePickerComponent /> {/* 달력 컴포넌트 삽입 */}
+      {/* <DatePickerComponent /> 달력 컴포넌트 삽입 */}
     </div>
   </Router>
 );

@@ -14,19 +14,23 @@ export default () => {
 
   return (
     <div>
-      소소이사(로고)
-      <div className='navbox'>
-        <Nav onNavClick={handleNavClick} />
-      </div>
+      <Nav onNavClick={handleNavClick} />
       {showImage && (
-        <div>
-          <img src="/img.jpg" alt="main_img" className="main-img" />
-        </div>
+        <>
+          <div className="main-img">
+            <img src="/img.jpg" alt="main_img" />
+          </div>
+          <div className="flex justify-center items-center">
+            <button className="bg-blue-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-2 rounded-xl shadow-md hover:scale-110 transition duration-300">
+              지금 시작하기
+            </button>
+          </div>
+        </>
+
       )}
       <main>
         <Outlet /> {/* This will render the matched child route */}
       </main>
-      <Link to="/signup">지금 시작하기</Link>
       <Footer />
     </div>
   );

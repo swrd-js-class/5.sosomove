@@ -3,29 +3,14 @@
 @tailwind utilities;
 
 body {
-  padding: 10px;
-  font-family: sans-serif;
+  /* padding: 10px;
+  font-family: sans-serif; */
 }
 
 .main-img {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
-  /* 부모 요소의 너비에 맞춰 100% 크기 */
   height: auto;
-  /* 비율에 맞춰 자동으로 세로 크기 조정 */
   max-width: 800px;
-  /* 최대 가로 크기 제한 */
-  margin: 0 auto;
-  /* 이미지가 중앙에 위치하도록 정렬 */
-}
-
-.navbox {
-  display: flex;
-  justify-content: flex-end;
-
-}
-
-.footer {
-  border: 1px solid black;
-  background-color: lightgray;
+  margin: 10px auto;
 }
