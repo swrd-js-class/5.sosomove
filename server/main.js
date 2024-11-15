@@ -73,8 +73,8 @@ if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
 
 }
 
-//const { objectId } = require('mongodb');
-//const id = new objectId();
+// //const { objectId } = require('mongodb');
+// //const id = new objectId();
 
 if (!CollectionRequest.findOne()) {
   //const users = Meteor.account.find({ "profile.type": "일반" }).fetch();
@@ -85,7 +85,7 @@ if (!CollectionRequest.findOne()) {
     createdAt: new Date(),
     user_id: user._id,
     user_name: user.name,
-    house_size: [10, 20, 30].random(), //집 평수
+    house_size: [10, 20, 30].ranomd(), //집 평수
     move_date: new Date(), //이사날짜
     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
     arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
@@ -143,7 +143,7 @@ if (!Collectionestimate.findOne()) {
   const request = requests.random();
 
   const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
-  const estCaruser = users.random();
+  const estCarUser = users.random();
 
   Collectionestimate.insert({
     request_id: request._id,
@@ -156,9 +156,9 @@ if (!Collectionestimate.findOne()) {
   });
 }
 
-if (!CollectionEstConfirm.findOne()) {
-  const requests = CollectionRequest.find().fetch();
-  const request = requests.random();
+// if (!CollectionEstConfirm.findOne()) {
+//   const requests = CollectionRequest.find().fetch();
+//   const request = requests.random();
 
   const estCars = CollectionEstCar.find({ request_id: request.id }).fetch();
   const estCar = estCars.random();
