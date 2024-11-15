@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { CollectionRequest } from '/imports/api/collections';
+import { CollectionRequest, Collectionestimate } from '/imports/api/collections';
 import { Meteor } from 'meteor/meteor';
 
 export default () => {
@@ -26,7 +26,14 @@ export default () => {
 
     return(
         <div>
-
+            <h2>요청서 목록</h2>
+            <ul>
+                {requestList.map((request) => (
+                    <li key={request._id}>
+                        {request.}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
