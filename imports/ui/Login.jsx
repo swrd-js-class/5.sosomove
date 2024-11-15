@@ -4,42 +4,59 @@ import { Link } from 'react-router-dom';
 
 //로그인
 export default () => {
-
-  useTracker(() => {
-    return [Meteor.user()];
-  });
-
+  const user = useTracker(() => Meteor.user());
+  // useTracker(() => {
+  //   return [Meteor.user()];
+  // });
   const refUsername = useRef(null);
   const refPassword = useRef(null);
 
   const handleLogin = () => {
-    const rslt = Meteor.loginWithPassword(
-      refUsername.current.value,
-      refPassword.current.value
-    );
-    console.log(rslt);
+    const username = refUsername.current.value;
+    const password = refPassword.current.value;
+    Meteor.loginWithPassword(username, password, (err) => {
+      if (err) {
+        console.error('로그인 실패:', err);
+        alert('로그인 실패: ' + err.message);
+      } else {
+        alert('로그인 되었습니다');
+      }
+    });
+  };
+  const handleLogout = () => {
+    Meteor.logout(() => {
+      alert('로그아웃 되었습니다');
+    });
   };
 
   return (
     <div>
-      {Meteor.user() ? (
-        <div>
-          <button
-            onClick={() => {
-              Meteor.logout();
-            }}
-          >
-            로그아웃
-          </button>
+      <Link to="/signup">회원가입</Link>
+
+      <div class="min-h-screen flex justify-center items-center bg-white">
+        <div class="p-10 border-[1px] -mt-10 border-slate-200 rounded-md flex flex-col items-center space-y-3">
+          <div class="py-8">
+            <p class="text-[32px] font-bold text-zinc-950 dark:text-white">Login</p>
+          </div>
+          <input class="p-3 border-[1px] border-slate-500 rounded-sm w-80" ref={refUsername} type="text" placeholder="이메일을 입력해주세요" />
+          <div class="flex flex-col space-y-1">
+            <input class="p-3 border-[1px] border-slate-500 rounded-sm w-80" ref={refPassword} type="password" placeholder="비밀번호를 입력해주세요" />
+            <div class="flex justify-center space-x-8">
+              <p class="font-bold text-[#0070ba]">아이디 찾기</p>
+              <p class="font-bold text-[#0070ba]">비밀번호 찾기</p>
+            </div>
+          </div>
+          <div class="flex flex-col space-y-5 w-full">
+            {Meteor.user() ? (
+              <button class="w-full bg-[#0070ba] rounded-3xl p-3 text-white font-bold transition duration-200 hover:bg-[#003087]" onClick={handleLogout}>로그아웃</button>
+            ) : (
+              <button class="w-full bg-[#0070ba] rounded-3xl p-3 text-white font-bold transition duration-200 hover:bg-[#003087]" onClick={handleLogin}>로그인</button>
+            )}
+            <div class="flex items-center justify-center border-t-[1px] border-t-slate-300 w-full relative"></div>
+            <button class="w-full border-blue-900 hover:border-[#003087] hover:border-[2px] border-[1px] rounded-3xl p-3 text-[#0070ba] font-bold transition duration-200">회원가입</button>
+          </div>
         </div>
-      ) : (
-        <div>
-          ID <input ref={refUsername} type="text" placeholder="이메일을 입력하세요" /><br />
-          PASSWORD <input ref={refPassword} type="password" placeholder="비밀번호를 입력하세요" /><br />
-          <button onClick={handleLogin}>로그인</button>
-          <Link to="/signup">회원가입</Link>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
