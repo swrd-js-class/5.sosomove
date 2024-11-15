@@ -19,6 +19,9 @@ export default ({ onNavClick }) => {
             <li>
               <Link to="/postinsert/testID" >내 견적 조회</Link>
             </li>
+            <li>
+              <Link to="/businessrequset" >사업자 견적서 작성</Link>
+            </li>
           </ul>
         </nav>
       </header>
