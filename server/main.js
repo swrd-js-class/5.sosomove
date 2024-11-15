@@ -184,7 +184,7 @@ Meteor.methods({
       if (testUser) {
         //this.setUserId(testUser._id);
         //this.setUsername(testUser.username);
-        return testUser.username;
+        return testUser.profile.name;
       }
     }
     return null;
