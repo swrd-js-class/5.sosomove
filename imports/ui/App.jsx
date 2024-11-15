@@ -9,7 +9,7 @@ import Request from "./Request.jsx";
 import BusinessReq from "./BusinessReq.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
-import Nav from "./Nav.jsx";
+import Checkrequest from "./CheckRequest.jsx";
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
 
 export const App = () => (
@@ -21,6 +21,7 @@ export const App = () => (
         <Route path="/request" element={<Request />} />
         <Route path="/businessrequset" element={<BusinessReq />} />
         <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
+        <Route path="/checkrequest" element={<Checkrequest />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

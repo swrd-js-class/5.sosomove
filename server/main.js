@@ -1,27 +1,27 @@
 // import {
-//   Accounts,
 //   CollectionRequest,
 //   CollectionEstCar,
 //   CollectionEstHelper,
 //   Collectionestimate,
 //   CollectionEstConfirm,
 // } from "/imports/api/collections";
-// //import "/lib/utils.js";
+// import "/lib/utils.js";
 
-// if (!Meteor.users.find({ type: "관리자" }) === 0) {
-//   Accounts.createUser({
+// if (!Meteor.users.find({ "profile.type": "관리자" }) === 0) {
+
+//   Meteor.users.insert({
 //     username: "admin",
 //     password: "password",
 //     profile: {
 //       type: "관리자",
-//       name: "관리자",
-//     },
+//       name: "관리자"
+//     }
 //   });
 // }
 
-// if (Meteor.users.find({ type: "일반" }).count() === 0) {
+// if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
 //   //일반 유저 생성
-//   Accounts.createUser({
+//   Meteor.users.insert({
 //     username: "user0",
 //     password: "password",
 //     profile: {
@@ -31,10 +31,11 @@
 //       profile: {},
 //     },
 //   });
+
 // }
 
-// if (Meteor.users.find({ type: "용달" }).count() === 0) {
-//   Accounts.createUser({
+// if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
+//   Meteor.users.insert({
 //     username: "business0",
 //     password: "password",
 //     profile: {
@@ -51,11 +52,12 @@
 //       },
 //     },
 //   });
-//   Accounts.createUser({
+
+//   Meteor.users.insert({
 //     username: "business1",
 //     password: "password",
 //     profile: {
-//       type: "헬퍼사업자", // 일반 / 사업자 / 관리자
+//       type: "헬퍼", // 일반 / 사업자 / 관리자
 //       name: "김헬퍼",
 //       phone: "010-444-4444",
 //       company: {
@@ -68,12 +70,14 @@
 //       },
 //     },
 //   });
+
 // }
 
-// //const { objectId } = require('mongodb');
-// //const id = new objectId();
+// // //const { objectId } = require('mongodb');
+// // //const id = new objectId();
 
 // if (!CollectionRequest.findOne()) {
+//   //const users = Meteor.account.find({ "profile.type": "일반" }).fetch();
 //   const users = Meteor.users.find({ "profile.type": "일반" }).fetch();
 //   const user = users.random();
 
@@ -81,7 +85,7 @@
 //     createdAt: new Date(),
 //     user_id: user._id,
 //     user_name: user.name,
-//     house_size: [10, 20, 30].ranomd(), //집 평수
+//     house_size: [10, 20, 30].random(), //집 평수
 //     move_date: new Date(), //이사날짜
 //     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
 //     arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
@@ -91,7 +95,6 @@
 // }
 
 // if (!CollectionEstCar.findOne()) {
-//   //const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
 //   const requests = CollectionRequest.find().fetch();
 //   CollectionEstCar.insert({
 //     createdAt: new Date(),
@@ -121,7 +124,7 @@
 // }
 
 // if (!CollectionEstHelper.findOne()) {
-//   const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
+//   const requests = CollectionRequest.find().fetch();
 //   CollectionEstHelper.insert({
 //     createdAt: new Date(),
 //     request_id: requests.random()._id,
@@ -135,31 +138,31 @@
 // }
 
 // //용달/헬퍼사업자 견적서(사업자)
-// if (!CollectionQuotation.findOne()) {
+// if (!Collectionestimate.findOne()) {
 //   const requests = CollectionRequest.find().fetch();
 //   const request = requests.random();
 
 //   const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
-//   const estCarUser = users.random();
+//   const estCaruser = users.random();
 
 //   Collectionestimate.insert({
 //     request_id: request._id,
-//     business_id: estCarUser.id,
-//     business_name: estCarUser.company.company_name,
-//     business_contect: estCarUser.phone,
+//     business_id: estCaruser._id,
+//     business_name: estCaruser.profile.company.company_name,
+//     business_contect: estCaruser.profile.phone,
 //     arrival_time: "16",
 //     details: "견적서1",
 //     amount: "20000",
 //   });
 // }
 
-// if (!CollectionEstConfirm.findOne()) {
-//   const requests = CollectionRequest.find().fetch();
-//   const request = requests.random();
+// // if (!CollectionEstConfirm.findOne()) {
+// //   const requests = CollectionRequest.find().fetch();
+// //   const request = requests.random();
 
 //   const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
 //   const estCar = estCars.random();
-//   const estHelpers = CollectionEstHelpers.find({
+//   const estHelpers = CollectionEstHelper.find({
 //     request_id: request._id,
 //   }).fetch();
 //   const estHelper = estHelpers.random();
@@ -171,4 +174,3 @@
 //     estCar_id: estCar._id,
 //     estHelper_id: estHelper._id,
 //   });
-// }
