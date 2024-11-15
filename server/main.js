@@ -160,7 +160,7 @@ if (!CollectionEstConfirm.findOne()) {
   const requests = CollectionRequest.find().fetch();
   const request = requests.random();
 
-  const estCars = CollectionEstCar.find({ request_id: request.id }).fetch();
+  const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
   const estCar = estCars.random();
   const estHelpers = CollectionEstHelper.find({
     request_id: request.id,
@@ -170,8 +170,24 @@ if (!CollectionEstConfirm.findOne()) {
     //사용자가 한건을 확정 지음.
     createdAt: new Date(),
     user_id: request.user_id,
-    request_id: request.id,
-    estCar_id: estCar.id,
-    estHelper_id: estHelper.id,
+    request_id: request._id,
+    estCar_id: estCar._id,
+    estHelper_id: estHelper._id,
   });
 }
+
+
+Meteor.methods({
+  loginAsTestUser() {
+    if (!this.userId) {
+      const testUser = Meteor.users.findOne({ 'username': 'admin' });
+
+      if (testUser) {
+        //this.setUserId(testUser._id);
+        //this.setUsername(testUser.username);
+        return testUser.username;
+      }
+    }
+    return null;
+  }
+});
