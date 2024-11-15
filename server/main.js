@@ -10,7 +10,7 @@ import "/lib/utils.js";
 if (!Meteor.users.find({ "profile.type": "관리자" }) === 0) {
 
   Meteor.users.insert({
-    username: "admin",
+    email_id: "admin",
     password: "password",
     profile: {
       type: "관리자",
@@ -22,13 +22,12 @@ if (!Meteor.users.find({ "profile.type": "관리자" }) === 0) {
 if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
   //일반 유저 생성
   Meteor.users.insert({
-    username: "user0",
+    email_id: "user0@naver.com",
     password: "password",
     profile: {
       type: "일반", // 일반 / 용달사업자 / 헬퍼사업자 / 관리자
       name: "김사용",
-      phone: "010-111-1111",
-      profile: {},
+      phone: "010-111-1111"
     },
   });
 
@@ -36,7 +35,7 @@ if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
 
 if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
   Meteor.users.insert({
-    username: "business0",
+    email_id: "business0@naver.com",
     password: "password",
     profile: {
       type: "용달", // 일반 / 사업자 / 관리자
@@ -54,7 +53,7 @@ if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
   });
 
   Meteor.users.insert({
-    username: "business1",
+    email_id: "business1@naver.com",
     password: "password",
     profile: {
       type: "헬퍼", // 일반 / 사업자 / 관리자
@@ -73,8 +72,8 @@ if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
 
 }
 
-//const { objectId } = require('mongodb');
-//const id = new objectId();
+// //const { objectId } = require('mongodb');
+// //const id = new objectId();
 
 if (!CollectionRequest.findOne()) {
   //const users = Meteor.account.find({ "profile.type": "일반" }).fetch();
@@ -84,8 +83,8 @@ if (!CollectionRequest.findOne()) {
   CollectionRequest.insert({
     createdAt: new Date(),
     user_id: user._id,
-    user_name: user.name,
-    house_size: [10, 20, 30].random(), //집 평수
+    user_name: user.profile.name,
+    house_size: [10, 20, 30].ranomd(), //집 평수
     move_date: new Date(), //이사날짜
     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
     arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
@@ -163,7 +162,7 @@ if (!CollectionEstConfirm.findOne()) {
   const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
   const estCar = estCars.random();
   const estHelpers = CollectionEstHelper.find({
-    request_id: request.id,
+    request_id: request._id,
   }).fetch();
   const estHelper = estHelpers.random();
   CollectionEstConfirm.insert({

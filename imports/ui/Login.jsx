@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTracker } from "meteor/react-meteor-data";
+import { Link } from 'react-router-dom';
 
+//로그인
 export default () => {
+
   useTracker(() => {
     return [Meteor.user()];
   });
@@ -31,10 +34,10 @@ export default () => {
         </div>
       ) : (
         <div>
-          <input ref={refUsername} type="text" placeholder="이메일을 입력하세요" />
-          <input ref={refPassword} type="password" placeholder="비밀번호를 입력하세요" /><br />
+          ID <input ref={refUsername} type="text" placeholder="이메일을 입력하세요" /><br />
+          PASSWORD <input ref={refPassword} type="password" placeholder="비밀번호를 입력하세요" /><br />
           <button onClick={handleLogin}>로그인</button>
-          <button>회원가입</button>
+          <Link to="/signup">회원가입</Link>
         </div>
       )}
     </div>
