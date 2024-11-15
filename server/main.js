@@ -10,7 +10,7 @@ import "/lib/utils.js";
 if (!Meteor.users.find({ "profile.type": "관리자" }) === 0) {
 
   Meteor.users.insert({
-    username: "admin",
+    email_id: "admin",
     password: "password",
     profile: {
       type: "관리자",
@@ -22,13 +22,12 @@ if (!Meteor.users.find({ "profile.type": "관리자" }) === 0) {
 if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
   //일반 유저 생성
   Meteor.users.insert({
-    username: "user0",
+    email_id: "user0@naver.com",
     password: "password",
     profile: {
       type: "일반", // 일반 / 용달사업자 / 헬퍼사업자 / 관리자
       name: "김사용",
-      phone: "010-111-1111",
-      profile: {},
+      phone: "010-111-1111"
     },
   });
 
@@ -36,7 +35,7 @@ if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
 
 if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
   Meteor.users.insert({
-    username: "business0",
+    email_id: "business0@naver.com",
     password: "password",
     profile: {
       type: "용달", // 일반 / 사업자 / 관리자
@@ -54,7 +53,7 @@ if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
   });
 
   Meteor.users.insert({
-    username: "business1",
+    email_id: "business1@naver.com",
     password: "password",
     profile: {
       type: "헬퍼", // 일반 / 사업자 / 관리자
@@ -84,7 +83,7 @@ if (!CollectionRequest.findOne()) {
   CollectionRequest.insert({
     createdAt: new Date(),
     user_id: user._id,
-    user_name: user.name,
+    user_name: user.profile.name,
     house_size: [10, 20, 30].ranomd(), //집 평수
     move_date: new Date(), //이사날짜
     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
@@ -143,7 +142,7 @@ if (!Collectionestimate.findOne()) {
   const request = requests.random();
 
   const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
-  const estCarUser = users.random();
+  const estCaruser = users.random();
 
   Collectionestimate.insert({
     request_id: request._id,
@@ -156,22 +155,22 @@ if (!Collectionestimate.findOne()) {
   });
 }
 
-// if (!CollectionEstConfirm.findOne()) {
-//   const requests = CollectionRequest.find().fetch();
-//   const request = requests.random();
+if (!CollectionEstConfirm.findOne()) {
+  const requests = CollectionRequest.find().fetch();
+  const request = requests.random();
 
-  const estCars = CollectionEstCar.find({ request_id: request.id }).fetch();
+  const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
   const estCar = estCars.random();
   const estHelpers = CollectionEstHelper.find({
-    request_id: request.id,
+    request_id: request._id,
   }).fetch();
   const estHelper = estHelpers.random();
   CollectionEstConfirm.insert({
     //사용자가 한건을 확정 지음.
     createdAt: new Date(),
     user_id: request.user_id,
-    request_id: request.id,
-    estCar_id: estCar.id,
-    estHelper_id: estHelper.id,
+    request_id: request._id,
+    estCar_id: estCar._id,
+    estHelper_id: estHelper._id,
   });
 }
