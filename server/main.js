@@ -18,6 +18,7 @@
 //     }
 //   });
 // }
+//
   Meteor.users.insert({
     email_id: "admin",
     password: "password",
