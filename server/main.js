@@ -1,5 +1,4 @@
 import {
-  CollectionAccount,
   CollectionRequest,
   CollectionEstCar,
   CollectionEstHelper,
@@ -8,9 +7,9 @@ import {
 } from "/imports/api/collections";
 import "/lib/utils.js";
 
-if (!CollectionAccount.find({ "profile.type": "관리자" }) === 0) {
+if (!Meteor.users.find({ "profile.type": "관리자" }) === 0) {
 
-  CollectionAccount.insert({
+  Meteor.users.insert({
     username: "admin",
     password: "password",
     profile: {
@@ -20,9 +19,9 @@ if (!CollectionAccount.find({ "profile.type": "관리자" }) === 0) {
   });
 }
 
-if (CollectionAccount.find({ "profile.type": "일반" }).count() === 0) {
+if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
   //일반 유저 생성
-  CollectionAccount.insert({
+  Meteor.users.insert({
     username: "user0",
     password: "password",
     profile: {
@@ -35,8 +34,8 @@ if (CollectionAccount.find({ "profile.type": "일반" }).count() === 0) {
 
 }
 
-if (CollectionAccount.find({ "profile.type": "용달" }).count() === 0) {
-  CollectionAccount.insert({
+if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
+  Meteor.users.insert({
     username: "business0",
     password: "password",
     profile: {
@@ -54,7 +53,7 @@ if (CollectionAccount.find({ "profile.type": "용달" }).count() === 0) {
     },
   });
 
-  CollectionAccount.insert({
+  Meteor.users.insert({
     username: "business1",
     password: "password",
     profile: {
@@ -79,7 +78,7 @@ if (CollectionAccount.find({ "profile.type": "용달" }).count() === 0) {
 
 if (!CollectionRequest.findOne()) {
   //const users = Meteor.account.find({ "profile.type": "일반" }).fetch();
-  const users = CollectionAccount.find({ "profile.type": "일반" }).fetch();
+  const users = Meteor.users.find({ "profile.type": "일반" }).fetch();
   const user = users.random();
 
   CollectionRequest.insert({
@@ -143,7 +142,7 @@ if (!Collectionestimate.findOne()) {
   const requests = CollectionRequest.find().fetch();
   const request = requests.random();
 
-  const users = CollectionAccount.find({ "profile.type": "용달" }).fetch();
+  const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
   const estCaruser = users.random();
 
   Collectionestimate.insert({
