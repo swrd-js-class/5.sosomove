@@ -18,6 +18,15 @@
 //     }
 //   });
 // }
+  Meteor.users.insert({
+    email_id: "admin",
+    password: "password",
+    profile: {
+      type: "관리자",
+      name: "관리자"
+    }
+  });
+}
 
 // if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
 //   //일반 유저 생성
@@ -31,6 +40,17 @@
 //       profile: {},
 //     },
 //   });
+if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
+  //일반 유저 생성
+  Meteor.users.insert({
+    email_id: "user0@naver.com",
+    password: "password",
+    profile: {
+      type: "일반", // 일반 / 용달사업자 / 헬퍼사업자 / 관리자
+      name: "김사용",
+      phone: "010-111-1111"
+    },
+  });
 
 // }
 
@@ -52,6 +72,24 @@
 //       },
 //     },
 //   });
+if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
+  Meteor.users.insert({
+    email_id: "business0@naver.com",
+    password: "password",
+    profile: {
+      type: "용달", // 일반 / 사업자 / 관리자
+      name: "김용달",
+      phone: "010-222-2222",
+      company: {
+        company_name: "배달해요",
+        company_phone: "010-333-3333",
+        ceo_name: "김대표",
+        address: "서울시 광진구 자양동1",
+        business_number: "0100-1101-20",
+        comfirm: "승인",
+      },
+    },
+  });
 
 //   Meteor.users.insert({
 //     username: "business1",
@@ -70,11 +108,30 @@
 //       },
 //     },
 //   });
+  Meteor.users.insert({
+    email_id: "business1@naver.com",
+    password: "password",
+    profile: {
+      type: "헬퍼", // 일반 / 사업자 / 관리자
+      name: "김헬퍼",
+      phone: "010-444-4444",
+      company: {
+        company_name: "도와줘요",
+        company_phone: "010-555-2555",
+        ceo_name: "김헬퍼",
+        address: "서울시 광진구 자양동2",
+        business_number: "0100-1101-30",
+        comfirm: "승인",
+      },
+    },
+  });
 
 // }
 
 // // //const { objectId } = require('mongodb');
 // // //const id = new objectId();
+// //const { objectId } = require('mongodb');
+// //const id = new objectId();
 
 // if (!CollectionRequest.findOne()) {
 //   //const users = Meteor.account.find({ "profile.type": "일반" }).fetch();
@@ -93,6 +150,18 @@
 //     confirmYN: "진행중",
 //   });
 // }
+  CollectionRequest.insert({
+    createdAt: new Date(),
+    user_id: user._id,
+    user_name: user.profile.name,
+    house_size: [10, 20, 30].ranomd(), //집 평수
+    move_date: new Date(), //이사날짜
+    start_address: ["서울시", "대구시", "부산시"].random(), //출발지
+    arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
+    addworker: "Y",
+    confirmYN: "진행중",
+  });
+}
 
 // if (!CollectionEstCar.findOne()) {
 //   const requests = CollectionRequest.find().fetch();
@@ -174,3 +243,18 @@
 //     estCar_id: estCar._id,
 //     estHelper_id: estHelper._id,
 //   });
+  const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
+  const estCar = estCars.random();
+  const estHelpers = CollectionEstHelper.find({
+    request_id: request._id,
+  }).fetch();
+  const estHelper = estHelpers.random();
+  CollectionEstConfirm.insert({
+    //사용자가 한건을 확정 지음.
+    createdAt: new Date(),
+    user_id: request.user_id,
+    request_id: request._id,
+    estCar_id: estCar._id,
+    estHelper_id: estHelper._id,
+  });
+}
