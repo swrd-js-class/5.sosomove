@@ -5,13 +5,14 @@ export default () => {
 
   const UsersList = useTracker(() => {
     Meteor.subscribe('users');
-    return Meteor.users.find({}, { sort: { createdAt: -1 } }).fetch();
+    return Meteor.users.find({ "profile.type": { $in: ["헬퍼", "용달"] } }, { sort: { createdAt: -1 } }).fetch();
   });
+  console.log(UsersList);
 
   return (
     <div>
       <h1>사업자회원 승인여부 체크 목록</h1>
-      <h1>회원 목록</h1>
+      <h1>사업자회원 목록</h1>
       {UsersList.map((user) => (
         <div key={user._id}>
           <div>{user.username}/
