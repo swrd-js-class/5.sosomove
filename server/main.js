@@ -1,5 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+
 // import {
-//   Accounts,
 //   CollectionRequest,
 //   CollectionEstCar,
 //   CollectionEstHelper,
@@ -8,16 +9,24 @@
 // } from "/imports/api/collections";
 // //import "/lib/utils.js";
 
-// if (!Meteor.users.find({ type: "관리자" }) === 0) {
-//   Accounts.createUser({
-//     username: "admin",
-//     password: "password",
-//     profile: {
-//       type: "관리자",
-//       name: "관리자",
-//     },
-//   });
-// }
+Meteor.startup(() => {
+  //Meteor.users를 퍼블리시합니다.
+  Meteor.publish('users', function () {
+    return Meteor.users.find();
+  });
+  if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
+    Accounts.createUser({
+      username: "admin",
+      password: "1111",
+      profile: {
+        type: "관리자",
+        name: "관리자",
+        phone: "1",
+        company: null
+      },
+    });
+  }
+});
 
 // if (Meteor.users.find({ type: "일반" }).count() === 0) {
 //   //일반 유저 생성
@@ -172,3 +181,6 @@
 //     estHelper_id: estHelper._id,
 //   });
 // }
+
+
+

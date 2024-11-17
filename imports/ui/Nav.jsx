@@ -44,11 +44,15 @@ export default ({ onNavClick }) => {
                   <Link to="/service" >서비스</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/Request" >견적요청</Link>
+                  <Link to="/request" >견적요청</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
                   <Link to="/postinsert/testID" >내 견적 조회</Link>
                 </li>
+                <li class="py-2 lg:py-0 ">
+                  <Link to="/admin" >관리자페이지</Link>
+                </li>
+
                 <li class="py-2 lg:py-0 ">
                   <a
                     class="text-red-600 hover:pb-4 hover:border-b-4 hover:border-yellow-400"
