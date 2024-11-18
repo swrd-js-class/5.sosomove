@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from './Layout';
 import Login from "./Login.jsx";
@@ -7,7 +7,6 @@ import Request from "./Request.jsx";
 import Signup from "./Signup.jsx";
 import Admin from "./Admin.jsx";
 import SignupDetail from "./SignupDetail.jsx";
-import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
 
 
@@ -21,13 +20,9 @@ export const App = () => (
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/signupdetail/:userType" element={<SignupDetail />} />
-        <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
-    <div>
-      {/* <DatePickerComponent /> 달력 컴포넌트 삽입 */}
-    </div>
   </Router>
 );
 
