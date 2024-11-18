@@ -1,103 +1,56 @@
 import React, { useState, useRef } from "react";
-import { Accounts } from 'meteor/accounts-base';
+import { useNavigate } from 'react-router-dom';
 
 //회원가입
 export default () => {
-  const refEmail = useRef(null);
-  const refPassword = useRef(null);
-  // const refUsername = useRef(null);
-  // const refPhone = useRef(0);
+  const navigate = useNavigate();
+  const [showImage, setShowImage] = useState(true);
+  const [status, setStatus] = useState('none');
 
-  const [status, setStatus] = useState('none'); //일반회원인지 사업자회원인지 구별
-  const [type, setType] = useState('none'); //용달사업자인지 헬퍼사업자인지 구별
-  const [error, setError] = useState('');
-
-  const handleButtonClick = (newStatus) => {
-    console.log(newStatus);
-    setStatus(newStatus);
-  };
-  // const handleBusinessTypeChange = (newType) => {
-  //   console.log(newType);
-  //   let type = newType;
-  //   setType(newType);
-  // };
-
-
-  const handleSignup = (event) => {
-    event.preventDefault();
-
-    const email = refEmail.current.value;
-    const password = refPassword.current.value;
-    // const username = refUsername.current.value;
-    // const phone = refPhone.current.value;
-
-    // Accounts.createUser 메서드를 사용하여 회원가입
-    Accounts.createUser({
-      id: email,
-      password: password,
-      profile: {
-        type: type,
-        // username: username,
-        // phone: phone,
-        // company: {
-        //   company_name:
-        //     company_phone:
-        //   ceo_name:
-        //     address:
-        //   business_number:
-        //     business_certificate:
-        //   call_number:
-        //     confirm: false,
-        // }
-      }
-    }, (err) => {
-      if (err) {
-        setError(err.reason);
-      } else {
-        setError('');
-        alert('회원가입 성공!');
-      }
+  const handleButtonClick = (e) => {
+    setStatus(e);
+    setShowImage(false);
+    if (e === '일반') {
+      navigate('/signupdetail/일반');
+    } else if (e === '사업자') {
+      navigate('/signupdetail/사업자');
     }
-    );
   };
 
   return (
-    <div>
-      <p>
-        소소이사에 오신걸 환영합니다!!!<br />
-        아래 양식에 맞춰 회원가입을 진행해주세요!!!<br />
-        회원가입 정보 입력
-      </p>
-      <button onClick={() => handleButtonClick('general')}>일반회원</button><br />
-      {status === 'general' &&
-        <form onSubmit={handleSignup}>
-          id(이메일 주소) <input type="email" ref={refEmail} /><br />
-          비밀번호 <input type="password" ref={refPassword} /><br />
-          {/* 이름 <input type="text" ref={refUsername} /><br />
-          핸드폰 번호 <input type="number" ref={refPhone} /><br /> */}
-          {error && <p>{error}</p>}
-          <button type="submit">회원가입</button>
-        </form>
-      }
-      <button onClick={() => handleButtonClick('business')}>사업자 회원</button><br />
-      {status === 'business' &&
-        <form onSubmit={handleSignup}>
-          이메일 주소 <input type="email" ref={refEmail} /><br />
-          비밀번호 <input type="password" ref={refPassword} /><br />
-          <p>사업 업종을 선택해주세요</p>
-          용달사업자 <input type="radio" name="type" value="1" onChange={() => handleButtonClick('b1')} />&nbsp;&nbsp;&nbsp;
-          헬퍼사업자 <input type="radio" name="type" value="2" onChange={() => handleButtonClick('b2')} /><br />
-
-          {/* 사업체명 <input type="text" ref={company_name} /><br />
-          사업자등록번호 <input type="number" ref={business_certificate} /><br />
-          대표자명 <input type="text" ref={ceo_name} /><br />
-          핸드폰 번호 <input type="number" ref={refPhone} /><br />
-          유선 번호 <input type="number" ref={call_number} /><br />
-          주소 <input type="text" ref={address} /><br /> */}
-          <button type="submit">회원가입</button>
-        </form>
-      }
-
-    </div>
+    <>
+      {showImage && (
+        <div class='flex items-center justify-center min-h-screen from-blue-100 via-blue-300 to-blue-500 bg-gradient-to-br'>
+          <div class='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-lg shadow-xl'>
+            <div class='max-w-md mx-auto space-y-6'>
+              <div class="space-y-4">
+                <p class="text-lg font-medium text-center text-neutral-900">회원가입 정보 입력</p>
+                <div class="relative " onClick={() => handleButtonClick('일반')}>
+                  <label for="option1-checkbox" class="inline-flex items-center justify-between w-full p-5 bg-white border-2 rounded-lg cursor-pointer group border-neutral-200/70 text-neutral-600 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-100 peer-checked:border-blue-400 peer-checked:text-neutral-900 peer-checked:bg-blue-200/50">
+                    <div class="flex items-center space-x-5">
+                      <svg class="w-16 h-auto" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><g fill="currentColor"><path d="M224 56v122.06l-39.72-39.72a8 8 0 0 0-11.31 0L147.31 164l-49.65-49.66a8 8 0 0 0-11.32 0L32 168.69V56a8 8 0 0 1 8-8h176a8 8 0 0 1 8 8" opacity="0.2" /><path d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v102.75l-26.07-26.06a16 16 0 0 0-22.63 0l-20 20l-44-44a16 16 0 0 0-22.62 0L40 149.37V56ZM40 172l52-52l80 80H40Zm176 28h-21.37l-36-36l20-20L216 181.38zm-72-100a12 12 0 1 1 12 12a12 12 0 0 1-12-12" /></g></svg>
+                      <div class="flex flex-col justify-start">
+                        <div class="w-full text-lg font-semibold" >일반회원</div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div class="relative" onClick={() => handleButtonClick('사업자')}>
+                  <label for="option2-checkbox" class="inline-flex items-center justify-between w-full p-5 bg-white border-2 rounded-lg cursor-pointer group border-neutral-200/70 text-neutral-600 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-100 peer-checked:border-blue-400 peer-checked:text-neutral-900 peer-checked:bg-blue-200/50">
+                    <div class="flex items-center space-x-5">
+                      <svg class="w-16 h-auto" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><g fill="currentColor"><path d="M224 56v122.06l-39.72-39.72a8 8 0 0 0-11.31 0L147.31 164l-49.65-49.66a8 8 0 0 0-11.32 0L32 168.69V56a8 8 0 0 1 8-8h176a8 8 0 0 1 8 8" opacity="0.2" /><path d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v102.75l-26.07-26.06a16 16 0 0 0-22.63 0l-20 20l-44-44a16 16 0 0 0-22.62 0L40 149.37V56ZM40 172l52-52l80 80H40Zm176 28h-21.37l-36-36l20-20L216 181.38zm-72-100a12 12 0 1 1 12 12a12 12 0 0 1-12-12" /></g></svg>
+                      <div class="flex flex-col justify-start">
+                        <div class="w-full text-lg font-semibold" >사업자회원</div>
+                        <div class="w-full text-sm opacity-60">(용달사업자&헬퍼사업자)</div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };

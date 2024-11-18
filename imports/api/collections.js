@@ -1,4 +1,4 @@
-// import { Mongo } from 'meteor/mongo';
+import { Mongo } from 'meteor/mongo';
 
 // export const CollectionUsers = new Mongo.Collection('users');
 export const CollectionRequest = new Mongo.Collection('request'); //(user) 기본 견적 요청서

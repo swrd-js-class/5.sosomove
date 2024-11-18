@@ -6,6 +6,8 @@ import Service from "./Service.jsx";
 import Request from "./Request.jsx";
 import Signup from "./Signup.jsx";
 import BusinessEst from "./BusinessEst.jsx";
+import Admin from "./Admin.jsx";
+import SignupDetail from "./SignupDetail.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
@@ -22,6 +24,8 @@ export const App = () => (
         <Route path="/signup" element={<Signup />} />
         <Route path="/businessestimate" element={<BusinessEst />} />
         <Route path="/allrequest" element={<AllRequest />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/signupdetail/:userType" element={<SignupDetail />} />
         <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
         <Route path="/checkrequest" element={<Checkrequest />} />
         <Route path="*" element={<NotFound />} />
