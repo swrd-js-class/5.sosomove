@@ -4,7 +4,7 @@ export default () => {
   return (
     <div className="flex items-end w-full h-1/4 bg-white">
       <footer className="w-full text-gray-700 bg-gray-100 body-font">
-        <div class="container flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
+        <div class="container flex flex-col flex-wrap px-5 py-12 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
           <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
             <p class="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
               소소이사
@@ -48,7 +48,7 @@ export default () => {
             <div class="w-full px-4 lg:w-full md:w-1/2">
               <nav class="mb-10 list-none">
                 <li class="mt-3">
-                  <a class="text-gray-500">사업자등록번호:xxx-xx-xxxxx</a>
+                  <a class="text-gray-500">사업자등록번호: 123-12-12345</a>
                 </li>
                 <li class="mt-3">
                   <a class="text-gray-500">주소: 서울시 광진구 아차산로30길 36(자양동)</a>
