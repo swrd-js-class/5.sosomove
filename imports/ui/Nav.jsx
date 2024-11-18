@@ -50,6 +50,9 @@ export default ({ onNavClick }) => {
                   <Link to="/postinsert/testID" >내 견적 조회</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
+                  <Link to="/allrequest" >사업자 견적요청 조회</Link>
+                </li>
+                <li class="py-2 lg:py-0 ">
                   <a
                     class="text-red-600 hover:pb-4 hover:border-b-4 hover:border-yellow-400"
                     href="#"
