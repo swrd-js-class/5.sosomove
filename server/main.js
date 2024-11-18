@@ -10,8 +10,8 @@ import "/lib/utils.js";
 
 if (Meteor.users.find({ "profile.type": "관리자" }).count() === 0) {
 
-  Meteor.users.insert({
-    email: "admin@naver.com",
+  Account.createUser({
+    username: "admin",
     password: "password",
     profile: {
       type: "관리자",
@@ -22,8 +22,8 @@ if (Meteor.users.find({ "profile.type": "관리자" }).count() === 0) {
 
 if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
   //일반 유저 생성
-  Meteor.users.insert({
-    email: "user0@naver.com",
+  Account.createUser({
+    username: "user0@naver.com",
     password: "password",
     profile: {
       type: "일반", // 일반 / 용달사업자 / 헬퍼사업자 / 관리자
@@ -35,8 +35,8 @@ if (Meteor.users.find({ "profile.type": "일반" }).count() === 0) {
 }
 
 if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
-  Meteor.users.insert({
-    email: "business0@naver.com",
+  Account.createUser({
+    username: "business0@naver.com",
     password: "password",
     profile: {
       type: "용달", // 일반 / 사업자 / 관리자
@@ -53,8 +53,8 @@ if (Meteor.users.find({ "profile.type": "용달" }).count() === 0) {
     },
   });
 
-  Meteor.users.insert({
-    email: "business1@naver.com",
+  Account.createUser({
+    username: "business1@naver.com",
     password: "password",
     profile: {
       type: "헬퍼", // 일반 / 사업자 / 관리자
