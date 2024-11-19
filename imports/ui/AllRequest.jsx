@@ -24,7 +24,9 @@ export default () => {
 
   if (businessType === "일반") {
     return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  }
+  } else if(businessType === "관리자") {
+    return <p>해당 페이지에 접근할 수 없습니다.</p>;
+  };
 
   return (
     <div>
@@ -39,7 +41,7 @@ export default () => {
               {businessType === '용달' && (
                 <p>인부 추가: {request.addworker ? '1명 추가' : '없음'}</p>
               )} 
-              <Link to={`/request-details/${request._id}`}>견적 요청 작성</Link>
+              <Link to={`/request-details/${request._id}`}>견적서 작성</Link>
             </li>
           ))}
         </ul>
