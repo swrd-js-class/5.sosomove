@@ -15,9 +15,6 @@ export default () => {
 
   useEffect(() => {
 
-    console.log("****userId : " + id);
-
-
     //내 견적요청서 조회
     Meteor.call('requestDetailCall', { param: id }, (err, result) => {
 
@@ -56,6 +53,10 @@ export default () => {
     });
   }, []);
 
+  const handleConfirm = () => {
+
+  }
+
   return (
     <>
       <div>
@@ -75,38 +76,46 @@ export default () => {
           })}
         </div>
         <div>
-          {/*내 견적 요청서 조회-용달*/}
           {reqEstCar.map((estcar) => {
             return (
               <div>
-                도착요청시간 <input type='text' readOnly>{estcar.req_arr_time}</input>
-                출발지-e/v <input type='text' readOnly>{estcar.str_addr_elv}</input>
-                도착지-e/v <input type='text' readOnly>{estcar.arr_addr_elv}</input>
+                도착요청시간 : {estcar.req_arr_time}시<tr />
+                출발지-e/v : {estcar.str_addr_elv}<tr />
+                도착지-e/v : {estcar.arr_addr_elv}<tr />
                 사다리차 필요 여부<tr />
-                출발지 {estcar.ladder_truck.start == "true" ? (
+                출발지 : {estcar.ladder_truck.start == "true" ? (
                   <input type='checkbox' checked />
                 ) : <input type='checkbox' />
-                }
+                }<tr />
                 도착지 {estcar.ladder_truck.arrive == "true" ? (
                   <input type='checkbox' checked />
                 ) : <input type='checkbox' />
+                }<tr />
+                가전 {
+                  estcar.appliances.map((app) => {
+                    <button disabled="true">{app}</button>
+                  }
+                  )
+                }<tr />
+                가구 {
+                  estcar.funiture.map((funiture) => {
+                    <input type='text' readOnly>{funiture}</input>
+                  }
+                  )
                 }
-                가전 <input type='text' readOnly>{estcar.appliances}</input>
-                가구 <input type='text' readOnly>{estcar.funiture}</input>
               </div>
             )
           })}
         </div>
         <div>
-          {/*내 견적 요청서 조회-헬퍼 */}
           {reqHelper.map((helper) => {
             return (
               <div>
-                요청시간대 <input type='text' readOnly>{helper.request_time_area}</input>
-                요청사항 <input type='text' readOnly>{helper.h_type}</input>
-                도착요청시간 <input type='text' readOnly>{helper.h_req_arr_time}</input>
-                평-출발 <input type='text' readOnly>{helper.s_house_size}</input>
-                평-도착 <input type='text' readOnly>{helper.a_house_size}</input>
+                요청시간대 : {helper.request_time_area}<tr />
+                요청사항 : {helper.h_type}<tr />
+                도착요청시간 : {helper.h_req_arr_time}<tr />
+                평-출발 : {helper.s_house_size}<tr />
+                평-도착 : {helper.a_house_size}<tr />
               </div>
             )
           })}
@@ -117,11 +126,12 @@ export default () => {
         {estimateList.map((estimate) => {
           return (
             <div>
-              {estimate.business_name}
-              {estimate.business_contact}
-              {estimate.arrival_time}
-              {estimate.amount}
-              {estimate.details}
+              업체명 : {estimate.business_name} <tr />
+              연락처 : {estimate.business_contect}<tr />
+              도착시간 : {estimate.arrival_time}<tr />
+              가격 : {estimate.amount}<tr />
+              상세내역 : {estimate.details}<tr />
+              <button onClick={() => handleConfirm(estimate.business_id)}>컨펌</button>
             </div>
           )
         })}
