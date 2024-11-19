@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from './Layout';
 import Login from "./Login.jsx";
@@ -8,7 +8,6 @@ import Signup from "./Signup.jsx";
 import BusinessEst from "./BusinessEst.jsx";
 import Admin from "./Admin.jsx";
 import SignupDetail from "./SignupDetail.jsx";
-import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
 import AllRequest from "./AllRequest.jsx";
@@ -33,7 +32,7 @@ export const App = () => {
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
           <Route path="/checkrequest" element={<Checkrequest />} />
-          <Route path="/requestdetail:_id" element={<RequestDetail />} />
+          <Route path="/requestdetail/:_id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
           <Route path="*" element={<NotFound />} />
         </Route>
