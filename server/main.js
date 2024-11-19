@@ -105,22 +105,22 @@ Meteor.startup(() => {
 
 
 
-  if (CollectionRequest.find().count() === 0) {
-    const users = Meteor.users.find({ 'profile.type': '일반' }).fetch();
-    const user = users.random();
+  // if (CollectionRequest.find().count() === 0) {
+  //   const users = Meteor.users.find({ 'profile.type': '일반' }).fetch();
+  //   const user = users.random();
 
-    CollectionRequest.insert({
-      createdAt: new Date(),
-      user_id: user._id,
-      user_name: user.profile.name,
-      house_size: [10, 20, 30].random(), //집 평수
-      move_date: new Date(), //이사날짜
-      start_address: ["서울시", "대구시", "부산시"].random(), //출발지
-      arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
-      addworker: "Y",
-      confirmYN: "진행중",
-    });
-  }
+  //   CollectionRequest.insert({
+  //     createdAt: new Date(),
+  //     user_id: user._id,
+  //     user_name: user.profile.name,
+  //     house_size: [10, 20, 30].random(), //집 평수
+  //     move_date: new Date(), //이사날짜
+  //     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
+  //     arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
+  //     addworker: "Y",
+  //     confirmYN: "진행중",
+  //   });
+  // }
 
   // if (!CollectionEstCar.findOne()) {
   //   const requests = CollectionRequest.find().fetch();
@@ -131,20 +131,20 @@ Meteor.startup(() => {
   //     str_addr_elv: "Y",
   //     arr_addr_elv: "N",
   //     ladder_truck: {
-  //       start: "불필요",
-  //       arrive: "필요",
+  //       start: "false",
+  //       arrive: "true",
   //     },
   //     appliances: {
   //       //가전
-  //       세탁기: "Y",
-  //       건조기: "Y",
-  //       냉장고: "Y",
+  //       세탁기,
+  //       건조기,
+  //       냉장고,
   //     },
   //     funiture: {
-  //       침대메트리스: "Y",
-  //       침대프레임: "Y",
-  //       책상: "Y",
-  //       의자: "Y",
+  //       침대메트리스,
+  //       침대프레임,
+  //       책상,
+  //       의자,
   //     },
   //     detail: "",
   //     picthure: [],
@@ -202,7 +202,7 @@ Meteor.startup(() => {
   //     estCar_id: estCar._id,
   //     estHelper_id: estHelper._id,
   //   });
-  // }
+  //}
 
   //ksh. 테스트용 코드입니다.
   Meteor.methods({
@@ -219,6 +219,7 @@ Meteor.startup(() => {
       return null;
     },
 
+    //견적요청서 리스트 조회
     requestListCall() {
       const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
 
@@ -227,15 +228,58 @@ Meteor.startup(() => {
       }
 
       return null;
+    },
+
+    //견적요청서 상세내역 조회
+    requestDetailCall(id) {
+      check(id, string);
+
+      console.log("Main id : " + id);
+
+      const requestDetail = CollectionRequest.find({ _id: id }).fetch();
+
+      if (requestList) {
+        return requestDetail;
+      }
+
+      return null;
+    },
+
+    //견적요청서 조회-용달
+    requestEstCarCall() {
+      const requestEstCar = CollectionEstCar.find({ 'request_id': id }).fetch();
+
+      if (requestList) {
+        return requestEstCar;
+      }
+
+      return null;
+    },
+
+    //견적요청서 조회-헬퍼
+    requestHelperCall() {
+      const requestHelper = CollectionEstHelper.find({ 'request_id': id }).fetch();
+
+      if (requestList) {
+        return requestHelper;
+      }
+
+      return null;
+    },
+
+    //사업자 견적서 조회
+    estimateCall() {
+      const estimateList = Collectionestimate.find({ 'request_id': id }).fetch();
+
+      if (requestList) {
+        return estimateList;
+      }
+
+      return null;
     }
+
   });
 
 
-
-  // Meteor.publish(
-  //   'CollectionRequest', function () {
-  //     return CollectionRequest.find();
-  //   }
-  // );
 
 });

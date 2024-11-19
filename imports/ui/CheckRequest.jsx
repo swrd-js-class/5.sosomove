@@ -74,6 +74,9 @@ export default () => {
           })}
         </div>
       </div>
+      <div>
+        <Link to={'/newRequest'} ><button>새 견적 요청</button></Link>
+      </div>
       <MypageNavbar />
     </>
   );

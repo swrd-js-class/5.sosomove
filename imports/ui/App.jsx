@@ -11,6 +11,7 @@ import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
 import RequestDetail from "./RequestDetail.jsx";
+import NewRequest from "./NewRequest.jsx";
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
 import MypageNavbar from "./MypageNavbar.jsx";
 
@@ -28,6 +29,7 @@ export const App = () => {
           <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail:_id" element={<RequestDetail />} />
+          <Route path="/NewRequest" element={<NewRequest />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
