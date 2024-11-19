@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default () => {
   const { user, businessType, requests } = useTracker(() => {
+    // 구독
     Meteor.subscribe('Users');
     Meteor.subscribe('CollectionRequest');
     Meteor.subscribe('CollectionEstCar');
@@ -12,7 +13,6 @@ export default () => {
 
     const user = Meteor.user();
     const businessType = user.profile.type || null;
-
     const allRequests = CollectionRequest.find({}).fetch();
 
     return {
