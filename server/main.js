@@ -117,7 +117,8 @@ Meteor.startup(() => {
       move_date: new Date(), //이사날짜
       start_address: ["서울시", "대구시", "부산시"].random(), //출발지
       arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
-      addworker: "Y",
+      addworker: true,
+      addHelper: true,
       confirmYN: "진행중",
     });
   }
@@ -136,15 +137,15 @@ Meteor.startup(() => {
       },
       appliances: {
         //가전
-        세탁기,
-        건조기,
-        냉장고,
+        세탁기: true,
+        건조기: true,
+        냉장고: true,
       },
       funiture: {
-        침대메트리스,
-        침대프레임,
-        책상,
-        의자,
+        침대메트리스: true,
+        침대프레임: false,
+        책상: true,
+        의자: true,
       },
       detail: "",
       picthure: [],
@@ -291,4 +292,8 @@ Meteor.publish('CollectionEstCar', function () {
 
 Meteor.publish('CollectionEstHelper', function () {
   return CollectionEstHelper.find();
+});
+
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
 });
