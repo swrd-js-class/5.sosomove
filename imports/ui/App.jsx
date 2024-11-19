@@ -5,11 +5,13 @@ import Login from "./Login.jsx";
 import Service from "./Service.jsx";
 import Request from "./Request.jsx";
 import Signup from "./Signup.jsx";
+import BusinessEst from "./BusinessEst.jsx";
 import Admin from "./Admin.jsx";
 import SignupDetail from "./SignupDetail.jsx";
 import Postinsert from "./Postinsert.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
+import AllRequest from "./AllRequest.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
@@ -25,6 +27,9 @@ export const App = () => {
           <Route path="/request" element={<Request />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/allrequest" element={<AllRequest />} />
+          <Route path="/businessestimate" element={<BusinessEst />} />
+          <Route path="/businessestimate/:request._id" element={<BusinessEst />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
           <Route path="/checkrequest" element={<Checkrequest />} />

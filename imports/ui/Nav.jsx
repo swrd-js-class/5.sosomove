@@ -50,6 +50,9 @@ export default ({ onNavClick }) => {
                   <Link to="/postinsert/testID" >내 견적 조회</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
+                  <Link to="/allrequest" >사업자 견적요청 조회</Link>
+                </li>
+                <li>
                   <Link to="/admin" >관리자페이지</Link>
                 </li>
 
