@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import Nav from "./Nav.jsx";
 import Footer from './Footer.jsx';
-import '/client/main.css';
 import { useNavigate } from 'react-router-dom';
 
 export default () => {

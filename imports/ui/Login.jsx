@@ -9,9 +9,6 @@ export default () => {
   const [showImage, setShowImage] = useState(true);
 
   useTracker(() => Meteor.user());
-  // useTracker(() => {
-  //   return [Meteor.user()];
-  // });
   const refEmail = useRef(null);
   const refPassword = useRef(null);
 
@@ -26,7 +23,20 @@ export default () => {
         alert('로그인 실패: ' + err.message);
       } else {
         alert('로그인 되었습니다');
+
+        // 로그인 후
+        const user = Meteor.user();
+        if (user.profile.type === '관리자') {
+          navigate('/admin');
+        } else if (user.profile.type === '일반') {
+          // navigate('/request');
+        } else if (user.profile.type === '용달') {
+          // navigate('/request');
+        } else {
+          // navigate('/mypage');
+        }
       }
+
     });
   };
   const handleLogout = () => {

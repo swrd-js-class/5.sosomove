@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
-//회원가입
+//회원가입 유형
 export default () => {
   const navigate = useNavigate();
   const [showImage, setShowImage] = useState(true);
