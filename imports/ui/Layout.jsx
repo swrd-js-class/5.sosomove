@@ -31,7 +31,7 @@ export default () => {
         </>
       )}
       <main>
-        <Outlet /> {/* This will render the matched child route */}
+        <Outlet />
       </main>
       <Footer />
     </div>

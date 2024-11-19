@@ -16,6 +16,10 @@ Meteor.startup(() => {
     return Meteor.users.find();
   });
 
+  Meteor.publish('users', function (skip, limit) {
+    return Meteor.users.find({}, { skip, limit });
+  });
+
   // //관리자 생성
   // if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
   //   Accounts.createUser({
@@ -117,14 +121,6 @@ Meteor.methods({
 
 
 
-
-
-
-
-
-// //const { objectId } = require('mongodb');
-// //const id = new objectId();
-
 // if (!CollectionRequest.findOne()) {
 //   const users = Meteor.users.find({ "profile.type": "일반" }).fetch();
 //   const user = users.random();
@@ -224,6 +220,3 @@ Meteor.methods({
 //     estHelper_id: estHelper._id,
 //   });
 // }
-
-
-
