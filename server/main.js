@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
 import {
-  // CollectionUsers,
   CollectionRequest,
   CollectionEstCar,
   CollectionEstHelper,
@@ -115,7 +114,7 @@ if (!CollectionRequest.findOne()) {
     createdAt: new Date(),
     user_id: user._id,
     user_name: user.profile.name,
-    house_size: [10, 20, 30].random(), //집 평수
+    house_size: [10, 20, 30].ranomd(), //집 평수
     move_date: new Date(), //이사날짜
     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
     arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
@@ -196,7 +195,6 @@ if (!CollectionEstConfirm.findOne()) {
     request_id: request._id,
   }).fetch();
   const estHelper = estHelpers.random();
-  
   CollectionEstConfirm.insert({
     //사용자가 한건을 확정 지음.
     createdAt: new Date(),
@@ -206,3 +204,12 @@ if (!CollectionEstConfirm.findOne()) {
     estHelper_id: estHelper._id,
   });
 }
+
+// 퍼블리시
+Meteor.publish('CollectionEstCar', function () {
+  return CollectionEstCar.find();
+});
+
+Meteor.publish('CollectionEstHelper', function () {
+  return CollectionEstHelper.find();
+});
