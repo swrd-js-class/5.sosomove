@@ -57,6 +57,10 @@ export default ({ onNavClick }) => {
                 </li>
 
                 <li class="py-2 lg:py-0 ">
+                  <Link to="/checkrequest" >견적서 조회</Link>
+                </li>
+
+                <li class="py-2 lg:py-0 ">
                   <a
                     class="text-red-600 hover:pb-4 hover:border-b-4 hover:border-yellow-400"
                     href="#"
