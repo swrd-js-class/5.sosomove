@@ -231,14 +231,14 @@ Meteor.startup(() => {
     },
 
     //견적요청서 상세내역 조회
-    requestDetailCall(id) {
-      check(id, string);
+    requestDetailCall({ param }) {
+      // check(id, string);
 
-      console.log("Main id : " + id);
+      console.log("Main id : " + param);
 
-      const requestDetail = CollectionRequest.find({ _id: id }).fetch();
+      const requestDetail = CollectionRequest.find({ _id: param }).fetch();
 
-      if (requestList) {
+      if (requestDetail) {
         return requestDetail;
       }
 
@@ -246,10 +246,10 @@ Meteor.startup(() => {
     },
 
     //견적요청서 조회-용달
-    requestEstCarCall() {
-      const requestEstCar = CollectionEstCar.find({ 'request_id': id }).fetch();
+    requestEstCarCall(param) {
+      const requestEstCar = CollectionEstCar.find({ 'request_id': param }).fetch();
 
-      if (requestList) {
+      if (requestEstCar) {
         return requestEstCar;
       }
 
@@ -257,10 +257,10 @@ Meteor.startup(() => {
     },
 
     //견적요청서 조회-헬퍼
-    requestHelperCall() {
-      const requestHelper = CollectionEstHelper.find({ 'request_id': id }).fetch();
+    requestHelperCall(param) {
+      const requestHelper = CollectionEstHelper.find({ 'request_id': param }).fetch();
 
-      if (requestList) {
+      if (requestHelper) {
         return requestHelper;
       }
 
@@ -268,10 +268,10 @@ Meteor.startup(() => {
     },
 
     //사업자 견적서 조회
-    estimateCall() {
-      const estimateList = Collectionestimate.find({ 'request_id': id }).fetch();
+    estimateCall(param) {
+      const estimateList = Collectionestimate.find({ 'request_id': param }).fetch();
 
-      if (requestList) {
+      if (estimateList) {
         return estimateList;
       }
 

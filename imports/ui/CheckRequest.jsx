@@ -52,6 +52,7 @@ export default () => {
 
   return (
     <>
+      <MypageNavbar />
       <div>
         <img src="/user_img.jpg" alt="user image" class="user_img" />
         <h4>{user}님</h4>
@@ -77,7 +78,7 @@ export default () => {
       <div>
         <Link to={'/newRequest'} ><button>새 견적 요청</button></Link>
       </div>
-      <MypageNavbar />
+
     </>
   );
 };

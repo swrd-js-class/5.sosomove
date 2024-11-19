@@ -19,7 +19,8 @@ export default () => {
 
 
     //내 견적요청서 조회
-    Meteor.call('requestDetailCall', id, (err, result) => {
+    Meteor.call('requestDetailCall', { param: id }, (err, result) => {
+
       if (err) {
         console.log(err);
         return;
@@ -28,7 +29,7 @@ export default () => {
     });
 
     //용달 견적요청서 조회
-    Meteor.call('requestEstCarCall', id, (err, result) => {
+    Meteor.call('requestEstCarCall', { param: id }, (err, result) => {
       if (err) {
         console.log(err);
         return;
@@ -37,7 +38,7 @@ export default () => {
     });
 
     //헬퍼 견적요청서 조회
-    Meteor.call('requestHelperCall', id, (err, result) => {
+    Meteor.call('requestHelperCall', { param: id }, (err, result) => {
       if (err) {
         console.log(err);
         return;
@@ -46,7 +47,7 @@ export default () => {
     });
 
     //사업자 견적서 조회
-    Meteor.call('estimateCall', id, (err, result) => {
+    Meteor.call('estimateCall', { param: id }, (err, result) => {
       if (err) {
         console.log(err);
         return;
@@ -58,55 +59,61 @@ export default () => {
   return (
     <>
       <div>
-        {/*내 견적 요청서 조회*/}
-        {reqDetail.map((detail) => {
-          return (
-            <div>
-              {reqDetail.move_date.toStringYMD()}
-              {reqDetail.start_address}
-              {reqDetail.arrive_address}
-              {reqDetail.house_size}
-              {reqDetail.addworker}
-              {reqDetail.confirmYN}
-            </div>
-          )
-        })}
-        {/*내 견적 요청서 조회-용달*/}
-        {reqEstCar.map((estcar) => {
-          return (
-            <div>
-              도착요청시간 <input type='text' readOnly>{estcar.req_arr_time}</input>
-              출발지-e/v <input type='text' readOnly>{estcar.str_addr_elv}</input>
-              도착지-e/v <input type='text' readOnly>{estcar.arr_addr_elv}</input>
-              사다리차 필요 여부<tr />
-              출발지 {estcar.ladder_truck.start == "true" ? (
-                <input type='checkbox' checked />
-              ) : <input type='checkbox' />
-              }
-              도착지 {estcar.ladder_truck.arrive == "true" ? (
-                <input type='checkbox' checked />
-              ) : <input type='checkbox' />
-              }
-              가전 <input type='text' readOnly>{estcar.appliances}</input>
-              가구 <input type='text' readOnly>{estcar.funiture}</input>
-            </div>
-          )
-        })}
-        {/*내 견적 요청서 조회-헬퍼 */}
-        {reqHelper.map((helper) => {
-          return (
-            <div>
-              요청시간대 <input type='text' readOnly>{helper.request_time_area}</input>
-              요청사항 <input type='text' readOnly>{helper.h_type}</input>
-              도착요청시간 <input type='text' readOnly>{helper.h_req_arr_time}</input>
-              평-출발 <input type='text' readOnly>{helper.s_house_size}</input>
-              평-도착 <input type='text' readOnly>{helper.a_house_size}</input>
-            </div>
-          )
-        })}
+        <div>
+          {/*내 견적 요청서 조회*/}
+          {reqDetail.map((detail) => {
+            return (
+              <div>
+                {detail.move_date.toStringYMD()}
+                {detail.start_address}
+                {detail.arrive_address}
+                {detail.house_size}
+                {detail.addworker}
+                {detail.confirmYN}
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          {/*내 견적 요청서 조회-용달*/}
+          {reqEstCar.map((estcar) => {
+            return (
+              <div>
+                도착요청시간 <input type='text' readOnly>{estcar.req_arr_time}</input>
+                출발지-e/v <input type='text' readOnly>{estcar.str_addr_elv}</input>
+                도착지-e/v <input type='text' readOnly>{estcar.arr_addr_elv}</input>
+                사다리차 필요 여부<tr />
+                출발지 {estcar.ladder_truck.start == "true" ? (
+                  <input type='checkbox' checked />
+                ) : <input type='checkbox' />
+                }
+                도착지 {estcar.ladder_truck.arrive == "true" ? (
+                  <input type='checkbox' checked />
+                ) : <input type='checkbox' />
+                }
+                가전 <input type='text' readOnly>{estcar.appliances}</input>
+                가구 <input type='text' readOnly>{estcar.funiture}</input>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          {/*내 견적 요청서 조회-헬퍼 */}
+          {reqHelper.map((helper) => {
+            return (
+              <div>
+                요청시간대 <input type='text' readOnly>{helper.request_time_area}</input>
+                요청사항 <input type='text' readOnly>{helper.h_type}</input>
+                도착요청시간 <input type='text' readOnly>{helper.h_req_arr_time}</input>
+                평-출발 <input type='text' readOnly>{helper.s_house_size}</input>
+                평-도착 <input type='text' readOnly>{helper.a_house_size}</input>
+              </div>
+            )
+          })}
+        </div>
       </div>
       <div>
-        <h2>견적서</h2>
+        <h2>받은 견적서</h2>
         {estimateList.map((estimate) => {
           return (
             <div>
@@ -119,7 +126,6 @@ export default () => {
           )
         })}
       </div>
-      <div>You page is not found. [404]</div>;
     </>
   );
 };
