@@ -30,7 +30,6 @@ export const App = () => {
           <Route path="/businessestimate" element={<BusinessEst />} />
           <Route path="/businessestimate/:request._id" element={<BusinessEst />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
-          <Route path="/postinsert/:_id" element={<Postinsert></Postinsert>} />
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail/:_id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
