@@ -22,6 +22,10 @@ export default () => {
     };
   });
 
+  if (businessType === "일반") {
+    return <p>해당 페이지에 접근할 수 없습니다.</p>;
+  }
+
   return (
     <div>
       <h2>{businessType} 요청서 목록</h2>
