@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Files } from "/imports/api/Files.js";
 
 // import {
 //   CollectionRequest,
@@ -7,18 +8,27 @@ import { Meteor } from 'meteor/meteor';
 //   Collectionestimate,
 //   CollectionEstConfirm,
 // } from "/imports/api/collections";
-// //import "/lib/utils.js";
+
+Meteor.publish('files', function () {
+  if (this.userId) {
+    // 파일 메타데이터에서 userId 필드를 찾아 퍼블리시
+    return Files.find().cursor; // 로그인한 사용자 ID로 파일 필터링
+  }
+  return [];  // 로그인하지 않으면 빈 배열 반환
+});
 
 Meteor.startup(() => {
 
-  //Meteor.users를 퍼블리시함
-  Meteor.publish('users', function () {
-    return Meteor.users.find();
-  });
+  //   //Meteor.users를 퍼블리시함
+  //   Meteor.publish('users', function () {
+  //     return Meteor.users.find();
+  //   });
 
-  Meteor.publish('users', function (skip, limit) {
-    return Meteor.users.find({}, { skip, limit });
-  });
+  //   Meteor.publish('users', function (skip, limit) {
+  //     return Meteor.users.find({}, { skip, limit });
+  //   });
+
+
 
   // //관리자 생성
   // if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
@@ -49,8 +59,6 @@ Meteor.startup(() => {
   //     });
   //   }
   // }
-
-
 
   // //용달사업자 등록
   // if (Meteor.users.find({ 'type': "용달" }).count() === 0) {
@@ -108,115 +116,14 @@ Meteor.startup(() => {
 
 });
 
-Meteor.methods({
-  'users.update'(_id, confirm) {
-    Meteor.users.update(_id, {
-      $set: {
-        'profile.company.confirm': confirm,
-      },
-    });
-  }
-});
+// Meteor.methods({
+//   'users.update'(_id, confirm) {
+//     Meteor.users.update(_id, {
+//       $set: {
+//         'profile.company.confirm': confirm,
+//       },
+//     });
+//   }
+// });
 
 
-
-
-// if (!CollectionRequest.findOne()) {
-//   const users = Meteor.users.find({ "profile.type": "일반" }).fetch();
-//   const user = users.random();
-
-//   CollectionRequest.insert({
-//     createdAt: new Date(),
-//     user_id: user._id,
-//     user_name: user.name,
-//     house_size: [10, 20, 30].ranomd(), //집 평수
-//     move_date: new Date(), //이사날짜
-//     start_address: ["서울시", "대구시", "부산시"].random(), //출발지
-//     arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
-//     addworker: "Y",
-//     confirmYN: "진행중",
-//   });
-// }
-
-// if (!CollectionEstCar.findOne()) {
-//   //const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
-//   const requests = CollectionRequest.find().fetch();
-//   CollectionEstCar.insert({
-//     createdAt: new Date(),
-//     request_id: requests.random()._id,
-//     req_arr_time: "14", //도착요청시간
-//     str_addr_elv: "Y",
-//     arr_addr_elv: "N",
-//     ladder_truck: {
-//       start: "불필요",
-//       arrive: "필요",
-//     },
-//     appliances: {
-//       //가전
-//       세탁기: "Y",
-//       건조기: "Y",
-//       냉장고: "Y",
-//     },
-//     funiture: {
-//       침대메트리스: "Y",
-//       침대프레임: "Y",
-//       책상: "Y",
-//       의자: "Y",
-//     },
-//     detail: "",
-//     picthure: [],
-//   });
-// }
-
-// if (!CollectionEstHelper.findOne()) {
-//   const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
-//   CollectionEstHelper.insert({
-//     createdAt: new Date(),
-//     request_id: requests.random()._id,
-//     request_time_area: "오전", //요청시간대
-//     h_type: "짐싸기", //요청사항
-//     h_req_arr_time: "10", //도착요청시간
-//     s_house_size: "7", //출발집평수
-//     a_house_size: "15", //도착집평수,
-//     picture: "",
-//   });
-// }
-
-// //용달/헬퍼사업자 견적서(사업자)
-// if (!CollectionQuotation.findOne()) {
-//   const requests = CollectionRequest.find().fetch();
-//   const request = requests.random();
-
-//   const users = Meteor.users.find({ "profile.type": "용달" }).fetch();
-//   const estCarUser = users.random();
-
-//   Collectionestimate.insert({
-//     request_id: request._id,
-//     business_id: estCarUser.id,
-//     business_name: estCarUser.company.company_name,
-//     business_contect: estCarUser.phone,
-//     arrival_time: "16",
-//     details: "견적서1",
-//     amount: "20000",
-//   });
-// }
-
-// if (!CollectionEstConfirm.findOne()) {
-//   const requests = CollectionRequest.find().fetch();
-//   const request = requests.random();
-
-//   const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
-//   const estCar = estCars.random();
-//   const estHelpers = CollectionEstHelpers.find({
-//     request_id: request._id,
-//   }).fetch();
-//   const estHelper = estHelpers.random();
-//   CollectionEstConfirm.insert({
-//     //사용자가 한건을 확정 지음.
-//     createdAt: new Date(),
-//     user_id: request.user_id,
-//     request_id: request._id,
-//     estCar_id: estCar._id,
-//     estHelper_id: estHelper._id,
-//   });
-// }

@@ -29,13 +29,13 @@ export default () => {
       if (user.profile.type === '관리자') {
         navigate('/admin');
       } else if (user.profile.type === '일반') {
-        // navigate('/request'); //일반회원 마이페이지로 이동
+        // navigate('/'); //일반회원 마이페이지로 이동
       } else if (user.profile.type === '용달' || '헬퍼') {
         if (user.profile.company.confirm === false) {
           alert('가입승인 중입니다')
           navigate('/');
         } else {
-          // navigate('/mypage'); //사업자 마이페이지로 이동
+          // navigate('/'); //사업자 마이페이지로 이동
         }
       }
     });

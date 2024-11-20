@@ -1,40 +1,76 @@
-import React, { useState } from "react";
-import { useTracker } from 'meteor/react-meteor-data';
+import React, { useState } from 'react';
+import { useTracker } from "meteor/react-meteor-data";
+import { Files } from "/imports/api/Files.js";
 
 export default () => {
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const PageSize = 5;
-  const [currentPage, setCurrentPage] = useState(1);
-  // 데이터 구독 및 상태 업데이트
-  const { items, ready } = useTracker(() => {
-    const skip = (currentPage - 1) * PageSize;
-    const limit = PageSize;
-    Meteor.subscribe('users', skip, limit);
-    return {
-      items: Meteor.users.find({}, { skip, limit }).fetch(),
-      ready: true
-    };
-  }, [currentPage]);
-  const totalCount = Meteor.users.find().count();
-  if (!ready) {
-    return <div>Loading...</div>;
-  }
-  const totalPages = Math.ceil(totalCount / PageSize);
+  const handleFileChange = (e) => {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      const file = e.currentTarget.files[0];
+      setSelectedFile(file);
+      console.log(file);
+    }
+  };
+  //파일 업로드
+  const handleFileUpload = () => {
+    if (!selectedFile) {
+      alert("No file selected for upload.");
+      return;
+    }
+    const upload = Files.insert(
+      {
+        file: selectedFile,
+        chunkSize: "dynamic",
+      },
+      false
+    );
+    upload.on("start", function () {
+      console.log("Upload started...");
+    });
+    upload.on("end", function (error, fileObj) {
+      if (error) {
+        alert(`Error during upload: ${error}`);
+      } else {
+        alert(`File "${fileObj.name}" successfully uploaded`);
+      }
+    });
+    upload.start();
+  };
+  //파일 조회
+  const files = useTracker(() => {
+    const subscription = Meteor.subscribe('files');
+    if (!subscription.ready()) {
+      return '로딩 중';
+    }
+    return Files.find().fetch();
+  });
+
+  console.log(files);
+
+
 
   return (
     <div>
-      <h1>페이징처리 테스트</h1>
-      <ul>
-        {items.map((item) =>
-          <li key={item._id}>
-            {item.username}
-          </li>
-        )}
-      </ul>
+      <input
+        type="file"
+        onChange={handleFileChange}
+      />
+      <button onClick={handleFileUpload}>업로드</button>
+      <h4>Uploaded Files:</h4>
       <div>
-        <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>이전</button>
-        <span>{` page ${currentPage} of ${totalPages} `}</span>
-        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>다음</button>
+        {Files.find()
+          .fetch()
+          .map((file) => {
+            const fileUrl = `http://localhost:3000/cfs/hoho/files/${file._id}/${file.name}`;
+            return (
+              <div key={file._id}>
+                <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+                  {file.name}/{fileUrl}
+                </a>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
