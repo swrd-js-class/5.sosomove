@@ -50,25 +50,25 @@ export default ({ onNavClick }) => {
                 <button onClick={handleLogout} >로그아웃</button>
               </li>
             ) : (
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/login" >로그인</Link>
-                </li>
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/request" >견적요청</Link>
-                </li>
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/postinsert/testID" >내 견적 조회</Link>
-                </li>               
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/allrequest" >사업자 견적요청 조회</Link>
-                </li>
-                <li>
-                  <Link to="/admin" >관리자페이지</Link>
-                </li>
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/checkrequest" >견적서 조회</Link>
-                </li>
-            );
+              <li class="py-2 lg:py-0 ">
+                <Link to="/login" >로그인</Link>
+              </li>
+            )}
+            <li class="py-2 lg:py-0 ">
+              <Link to="/signup" >회원가입</Link>
+            </li>
+            <li class="py-2 lg:py-0 ">
+              <Link to="/request" >페이징처리테스트(효정)</Link>
+            </li>
+            <li class="py-2 lg:py-0 ">
+              <Link to="/allrequest" >사업자 견적요청 조회(희원)</Link>
+            </li>
+            <li>
+              <Link to="/admin" >관리자페이지(효정)</Link>
+            </li>
+            <li class="py-2 lg:py-0 ">
+              <Link to="/checkrequest" >견적서 조회(송희)</Link>
+            </li>
           </ul>
         </nav>
       </div>
