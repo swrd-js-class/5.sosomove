@@ -5,16 +5,6 @@ import { Link } from "react-router-dom";
 
 export default () => {
 
-  //모든 사업자 리스트
-  // const UsersList = useTracker(() => {
-  //   Meteor.subscribe('users');
-  //   return Meteor.users.find(
-  //     {
-  //       "profile.type": { $in: ["헬퍼", "용달"] },
-  //     },
-  //     { sort: { createdAt: -1 } }).fetch();
-  // });
-
   //페이징처리+모든 사업자 리스트
   const PageSize = 5;  //한 페이지당 갯수
   const [currentPage, setCurrentPage] = useState(1);

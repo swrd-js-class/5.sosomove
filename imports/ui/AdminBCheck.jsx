@@ -5,38 +5,20 @@ import { Link } from "react-router-dom";
 
 export default () => {
 
-  //페이징처리+모든 사업자 리스트
-  // const PageSize = 5;  //한 페이지당 갯수
-  // const [currentPage, setCurrentPage] = useState(1);
-
-  // const UsersList = useTracker(() => {
-  //   const skip = (currentPage - 1) * PageSize;
-  //   const limit = PageSize;
-  //   Meteor.subscribe('users', skip, limit);
-  //   return Meteor.users.find(
-  //     {
-  //       "profile.type": { $in: ["헬퍼", "용달"] },
-  //     },
-  //     { sort: { createdAt: -1 }, skip, limit }).fetch();
-  // }, [currentPage]);
-
-  // const totalCount = Meteor.users.find({ "profile.type": { $in: ["헬퍼", "용달"] } }).count();
-  // const totalPages = Math.ceil(totalCount / PageSize);
-
-
-
-  //'승인신청 중'인 사업자 리스트
+  //페이징처리+'승인신청 중'인 사업자 리스트
   const PageSize = 5;  //한 페이지당 갯수
   const [currentPage, setCurrentPage] = useState(1);
 
   const UsersAll = useTracker(() => {
-    Meteor.subscribe('users');
+    const skip = (currentPage - 1) * PageSize;
+    const limit = PageSize;
+    Meteor.subscribe('users', skip, limit);
     return Meteor.users.find(
       {
         "profile.type": { $in: ["헬퍼", "용달"] },
         "profile.company.confirm": false
       },
-      { sort: { createdAt: -1 } }).fetch();
+      { sort: { createdAt: -1 }, skip, limit }).fetch();
   }, [currentPage]);
   const totalCount = Meteor.users.find({ "profile.type": { $in: ["헬퍼", "용달"] }, "profile.company.confirm": false }).count();
   const totalPages = Math.ceil(totalCount / PageSize);
