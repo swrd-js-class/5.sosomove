@@ -16,7 +16,7 @@ Meteor.startup(() => {
     return Meteor.users.find();
   });
 
-  // //관리자 생성
+  //관리자 생성
   // if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
   //   Accounts.createUser({
   //     username: "admin",
@@ -75,32 +75,32 @@ Meteor.startup(() => {
   //   }
   // }
 
-  //헬퍼사업자 등록
-  if (Meteor.users.find({ 'profile.type': "헬퍼" }).count() === 0) {
-    for (let i = 1; i <= 5; i++) {
-      Accounts.createUser({
-        username: `헬퍼${i}`,
-        password: "1111",
-        profile: {
-          type: "헬퍼",
-          name: "김헬퍼",
-          phone: "010-333-3333",
-          company: [
-            {
-              company_name: "도와줘요",
-              company_phone: "010-555-2555",
-              ceo_name: "김헬퍼",
-              address: "서울시 광진구 자양동2",
-              business_number: "0100-1101-30",
-              business_certificate: null,
-              call_number: null,
-              confirm: false,
-            }
-          ],
-        },
-      });
-    }
-  }
+  // //헬퍼사업자 등록
+  // if (Meteor.users.find({ 'profile.type': "헬퍼" }).count() === 0) {
+  //   for (let i = 1; i <= 5; i++) {
+  //     Accounts.createUser({
+  //       username: `헬퍼${i}`,
+  //       password: "1111",
+  //       profile: {
+  //         type: "헬퍼",
+  //         name: "김헬퍼",
+  //         phone: "010-333-3333",
+  //         company: [
+  //           {
+  //             company_name: "도와줘요",
+  //             company_phone: "010-555-2555",
+  //             ceo_name: "김헬퍼",
+  //             address: "서울시 광진구 자양동2",
+  //             business_number: "0100-1101-30",
+  //             business_certificate: null,
+  //             call_number: null,
+  //             confirm: false,
+  //           }
+  //         ],
+  //       },
+  //     });
+  //   }
+  // }
 
   Meteor.methods({
     'users.update'(_id, confirm) {
@@ -173,6 +173,66 @@ Meteor.startup(() => {
       picture: "",
     });
   }
+
+  // // CollectionRequest 추가 데이터
+  // if (CollectionRequest.find().count() < 3) {
+  //   const users = Meteor.users.find({ 'profile.type': '일반' }).fetch();
+  //   for (let i = 0; i < 2; i++) {
+  //     const user = users.random();
+  
+  //     CollectionRequest.insert({
+  //       createdAt: new Date(),
+  //       user_id: user._id,
+  //       user_name: user.profile.name,
+  //       house_size: [10, 20, 30].random(),
+  //       move_date: new Date(),
+  //       start_address: ["서울시", "대구시", "부산시"].random(),
+  //       arrive_address: ["서울시", "대구시", "부산시"].random(),
+  //       addworker: [true, false].random(),
+  //       addHelper: [true, false].random(),
+  //       confirmYN: "진행중",
+  //     });
+  //   }
+  // }
+  
+  // // CollectionEstCar 추가 데이터
+  // if (CollectionEstCar.find().count() < 3) {
+  //   const requests = CollectionRequest.find().fetch();
+  //   for (let i = 0; i < 2; i++) {
+  //     CollectionEstCar.insert({
+  //       createdAt: new Date(),
+  //       request_id: requests.random()._id,
+  //       req_arr_time: ["12", "14", "16"].random(),
+  //       str_addr_elv: ["Y", "N"].random(),
+  //       arr_addr_elv: ["Y", "N"].random(),
+  //       ladder_truck: {
+  //         start: [true, false].random(),
+  //         arrive: [true, false].random(),
+  //       },
+  //       appliances: ["세탁기", "건조기", "냉장고","김치냉장고","TV모니터", "에어컨", "의류관리기", "안마의자", "전자레인지", "가스레인지", "인덕션", "공기청정기", "청소기", "정수기", "비데", "운동용품", "PC데스크탑"].shuffle().slice(0, 2),
+  //       funiture: ["침대메트리스", "침대프레임", "책상", "의자", "소파", "테이블", "수납장", "서랍장", "책장", "옷장", "화장대", "행거"].shuffle().slice(0, 2),
+  //       detail: "",
+  //       picthure: [],
+  //     });
+  //   }
+  // }
+  
+  // // CollectionEstHelper 추가 데이터
+  // if (CollectionEstHelper.find().count() < 3) {
+  //   const requests = CollectionRequest.find().fetch();
+  //   for (let i = 0; i < 2; i++) {
+  //     CollectionEstHelper.insert({
+  //       createdAt: new Date(),
+  //       request_id: requests.random()._id,
+  //       request_time_area: ["오전", "오후", "저녁"].random(),
+  //       h_type: ["짐싸기", "짐정리"].random(),
+  //       h_req_arr_time: ["8", "10", "12"].random(),
+  //       s_house_size: ["5", "7", "10"].random(),
+  //       a_house_size: ["10", "15", "20"].random(),
+  //       picture: "",
+  //     });
+  //   }
+  // }
 
   //용달/헬퍼사업자 견적서(사업자)
   if (!Collectionestimate.findOne()) {
