@@ -23,20 +23,21 @@ export default () => {
         alert('로그인 실패: ' + err.message);
       } else {
         alert('로그인 되었습니다');
-
-        // 로그인 후
-        const user = Meteor.user();
-        if (user.profile.type === '관리자') {
-          navigate('/admin');
-        } else if (user.profile.type === '일반') {
-          // navigate('/request');
-        } else if (user.profile.type === '용달') {
-          // navigate('/request');
+      }
+      // 로그인 후
+      const user = Meteor.user();
+      if (user.profile.type === '관리자') {
+        navigate('/admin');
+      } else if (user.profile.type === '일반') {
+        // navigate('/'); //일반회원 마이페이지로 이동
+      } else if (user.profile.type === '용달' || '헬퍼') {
+        if (user.profile.company.confirm === false) {
+          alert('가입승인 중입니다')
+          navigate('/');
         } else {
-          // navigate('/mypage');
+          // navigate('/'); //사업자 마이페이지로 이동
         }
       }
-
     });
   };
   const handleLogout = () => {
