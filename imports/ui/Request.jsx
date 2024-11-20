@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTracker } from "meteor/react-meteor-data";
 import { Files } from "/imports/api/Files.js";
 
+//테스트용
 export default () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
