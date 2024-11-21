@@ -8,7 +8,6 @@ export default () => {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileLink, setFileLink] = useState('');
-
   const handleFileChange = (e) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       const file = e.currentTarget.files[0];
@@ -19,8 +18,7 @@ export default () => {
   const userId = Meteor.userId();
   console.log(userId);
 
-
-  //파일 업로드
+  //파일 업로드 버튼 누르면 
   const handleFileUpload = () => {
     if (!selectedFile) {
       alert("No file selected for upload.");
@@ -53,12 +51,16 @@ export default () => {
     });
     upload.start();
   };
-
   const files = useTracker(() => {
     Meteor.subscribe('files');
     return Files.find({ userId }).fetch();
   });
   console.log(files);
+
+
+
+
+
 
   return (
     <div>
