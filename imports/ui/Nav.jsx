@@ -58,7 +58,7 @@ export default ({ onNavClick }) => {
               <Link to="/signup" >회원가입</Link>
             </li>
             <li class="py-2 lg:py-0 ">
-              <Link to="/request" >페이징처리테스트(효정)</Link>
+              <Link to="/request" >테스트(효정)</Link>
             </li>
             <li class="py-2 lg:py-0 ">
               <Link to="/allrequest" >사업자 견적요청 조회(희원)</Link>

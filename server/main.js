@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Files } from "/imports/api/Files.js";
 
+
 // import {
 //   CollectionRequest,
 //   CollectionEstCar,
@@ -9,13 +10,9 @@ import { Files } from "/imports/api/Files.js";
 //   CollectionEstConfirm,
 // } from "/imports/api/collections";
 
-Meteor.publish('files', function () {
-  if (this.userId) {
-    // 파일 메타데이터에서 userId 필드를 찾아 퍼블리시
-    return Files.find().cursor; // 로그인한 사용자 ID로 파일 필터링
-  }
-  return [];  // 로그인하지 않으면 빈 배열 반환
-});
+
+
+
 
 Meteor.startup(() => {
 
@@ -28,7 +25,20 @@ Meteor.startup(() => {
   //     return Meteor.users.find({}, { skip, limit });
   //   });
 
+  Meteor.publish('files', function () {
+    return Files.find().cursor;
+  });
 
+
+  Meteor.methods({
+    getFileLink(fileId) {
+      const file = Files.findOne(fileId);
+      if (file) {
+        return file.link();
+      }
+      throw new Meteor.Error("파일을 찾을 수 없습니다.");
+    }
+  });
 
   // //관리자 생성
   // if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
@@ -233,9 +243,9 @@ Meteor.startup(() => {
 //   });
 // }
 
-if (!CollectionEstConfirm.findOne()) {
-  const requests = CollectionRequest.find().fetch();
-  const request = requests.random();
+// if (!CollectionEstConfirm.findOne()) {
+//   const requests = CollectionRequest.find().fetch();
+//   const request = requests.random();
 
 //   const estCars = CollectionEstCar.find({ request_id: request._id }).fetch();
 //   const estCar = estCars.random();

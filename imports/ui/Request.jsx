@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
 import { useTracker } from "meteor/react-meteor-data";
 import { Files } from "/imports/api/Files.js";
+import { BusinessFiles } from "/imports/api/collections";
 
-//테스트용
+//파일 올리기 테스트용
 export default () => {
+
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileLink, setFileLink] = useState('');
 
   const handleFileChange = (e) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       const file = e.currentTarget.files[0];
       setSelectedFile(file);
-      console.log(file);
     }
   };
+
+  const userId = Meteor.userId();
+  console.log(userId);
+
+
   //파일 업로드
   const handleFileUpload = () => {
     if (!selectedFile) {
@@ -31,47 +38,54 @@ export default () => {
     });
     upload.on("end", function (error, fileObj) {
       if (error) {
-        alert(`Error during upload: ${error}`);
+        alert(`업로드 중 에러: ${error}`);
       } else {
-        alert(`File "${fileObj.name}" successfully uploaded`);
+        alert(`파일 "${fileObj.name}" 업로드 성공`);
+
+        Meteor.call('getFileLink', fileObj._id, (err, link) => {
+          if (err) {
+            alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
+          } else {
+            setFileLink(link);
+          }
+        });
       }
     });
     upload.start();
   };
-  //파일 조회
+
   const files = useTracker(() => {
-    const subscription = Meteor.subscribe('files');
-    if (!subscription.ready()) {
-      return '로딩 중';
-    }
-    return Files.find().fetch();
+    Meteor.subscribe('files');
+    return Files.find({ userId }).fetch();
   });
-
   console.log(files);
-
-
 
   return (
     <div>
-      <input
-        type="file"
-        onChange={handleFileChange}
-      />
+      <input type="file" onChange={handleFileChange} />
       <button onClick={handleFileUpload}>업로드</button>
-      <h4>Uploaded Files:</h4>
+      <h4>업로드된 파일:</h4>
       <div>
-        {Files.find()
-          .fetch()
-          .map((file) => {
-            const fileUrl = `http://localhost:3000/cfs/hoho/files/${file._id}/${file.name}`;
-            return (
-              <div key={file._id}>
-                <a href={fileUrl} target="_blank" rel="noopener noreferrer">
-                  {file.name}/{fileUrl}
-                </a>
-              </div>
-            );
-          })}
+        {files.map((file) => {
+          return (
+            <div key={file._id}>
+              {file.name}/
+              <button
+                onClick={() => {
+                  Meteor.call('getFileLink', file._id, (err, link) => {
+                    if (err) {
+                      alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
+                    } else {
+                      window.open(link, '_blank');
+                    }
+                  });
+                }}
+              >
+                이미지 확인
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
