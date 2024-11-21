@@ -2,17 +2,16 @@ import React, { useState, useRef } from "react";
 import { Accounts } from 'meteor/accounts-base';
 import { useParams } from 'react-router-dom';
 
-
 //회원가입
 export default () => {
 
   //일반회원과 사업자회원을 param으로 구별
   const { userType } = useParams();
-
   const refEmail = useRef(null);
   const refPassword = useRef(null);
   const refUsername = useRef(null);
   const refPhone = useRef(0);
+
   //사업자회원일 경우
   const company_name = useRef(null);
   const company_phone = useRef(0);
@@ -35,6 +34,7 @@ export default () => {
     const password = refPassword.current.value;
     const name = refUsername.current.value;
     const phone = refPhone.current.value;
+
     // 사업자회원은 회원가입시 company에 추가 정보가 필요함
     let company = null;
     if (userType === 'business') {
@@ -219,41 +219,6 @@ export default () => {
             </form>
           </div>
         }
-
-
-
-        {/* 회원 타입별 입력창
-        {userType === '일반' &&
-          <form onSubmit={handleSignup}>
-            id(이메일 주소) <input type="email" ref={refEmail} /><br />
-            비밀번호 <input type="password" ref={refPassword} /><br />
-            이름 <input type="text" ref={refUsername} /><br />
-            핸드폰 번호 <input type="number" ref={refPhone} /><br />
-            {error && <p>{error}</p>}
-            <button type="submit">회원가입</button>
-          </form>
-        }
-        {userType === '사업자' &&
-          <form onSubmit={handleSignup}>
-            id(이메일 주소) <input type="email" ref={refEmail} /><br />
-            비밀번호 <input type="password" ref={refPassword} /><br />
-            이름 <input type="text" ref={refUsername} /><br />
-            핸드폰 번호 <input type="number" ref={refPhone} /><br />
-
-            <p>*사업 업종을 선택해주세요*</p>
-            용달사업자 <input type="radio" name="type" value="1" onChange={() => handleBusinessType('용달')} />&nbsp;&nbsp;&nbsp;
-            헬퍼사업자 <input type="radio" name="type" value="2" onChange={() => handleBusinessType('헬퍼')} /><br />
-            사업장명 <input type="text" ref={company_name} /><br />
-            대표번호(선택) <input type="number" ref={company_phone} /><br />
-            대표자명 <input type="text" ref={ceo_name} /><br />
-            사업장 주소 <input type="text" ref={address} /><br />
-            사업자 번호 <input type="number" ref={business_number} /><br />
-            사업자등록증 <input type="number" ref={business_certificate} /><br />
-            유선 연락처(선택) <input type="number" ref={call_number} /><br />
-            {error && <p>{error}</p>}
-            <button type="submit">회원가입</button>
-          </form>
-        } */}
 
       </div>
     </>
