@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-
 import {
   CollectionRequest,
   CollectionEstCar,
@@ -8,6 +7,11 @@ import {
   CollectionEstConfirm,
 } from "/imports/api/collections";
 import "/lib/utils.js";
+import fs from 'fs';
+import path from 'path';
+import { check } from 'meteor/check';
+import { WebApp } from 'meteor/webapp';
+
 
 Meteor.startup(() => {
 
@@ -105,6 +109,7 @@ Meteor.startup(() => {
   //     });
   //   }
   // }
+
   // //헬퍼사업자 등록
   // if (Meteor.users.find({ 'type': "헬퍼" }).count() === 0) {
   //   for (let i = 1; i <= 5; i++) {
@@ -333,3 +338,5 @@ Meteor.publish('CollectionEstHelper', function () {
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
 });
+
+
