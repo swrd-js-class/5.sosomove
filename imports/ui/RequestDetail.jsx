@@ -13,6 +13,10 @@ export default () => {
   const [reqHelper, setHelper] = useState([]);
   const [estimateList, setEstimateList] = useState([]);
 
+  const [ businessId, setBusinessId ] = useState();
+  const carBusiFlag = false;
+  const helperBusiFlag = false;
+
   useEffect(() => {
 
     //내 견적요청서 조회
@@ -53,8 +57,9 @@ export default () => {
     });
   }, []);
 
-  const handleConfirm = () => {
-
+  //컨펌내역 확정
+  const handleConfirm = (business_id) => {
+    //
   }
 
   return (
@@ -131,10 +136,14 @@ export default () => {
               도착시간 : {estimate.arrival_time}<tr />
               가격 : {estimate.amount}<tr />
               상세내역 : {estimate.details}<tr />
-              <button onClick={() => handleConfirm(estimate.business_id)}>컨펌</button>
+              <button onClick={() => {
+                
+                handleConfirmBtnClick(estimate.business_id)}
+                }>컨펌</button>
             </div>
           )
         })}
+        <button onClick={handleConfirm()}>컨펌 확정</button>
       </div>
     </>
   );
