@@ -10,6 +10,7 @@ import Admin from "./Admin.jsx";
 import AdminNavbar from "./AdminNavbar.jsx";
 import AdminBCheck from "./AdminBCheck.jsx";
 import AdminBList from "./AdminBList.jsx";
+import AdminEdit from "./AdminEdit.jsx";
 import SignupDetail from "./SignupDetail.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
@@ -33,6 +34,7 @@ export const App = () => {
           <Route path="/adminnavbar" element={<AdminNavbar />} />
           <Route path="/adminbcheck" element={<AdminBCheck />} />
           <Route path="/adminblist" element={<AdminBList />} />
+          <Route path="/adminedit" element={<AdminEdit />} />
           <Route path="/allrequest" element={<AllRequest />} />
           <Route path="/businessestimate/:id" element={<BusinessEst />} />
           <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />

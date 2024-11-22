@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Files } from "/imports/api/Files.js";
-import {
-  CollectionRequest,
-  CollectionEstimate,
-} from "/imports/api/collections";
+import { CollectionRequest, CollectionEstimate } from "/imports/api/collections";
 import "/lib/utils.js";
+import { Accounts } from "meteor/accounts-base";
 
 //user - 관리자
 Meteor.publish('users', function () {
@@ -18,25 +16,37 @@ Meteor.publish('users', function (skip, limit) {
 Meteor.publish('files', function () {
   return Files.find().cursor;
 });
-//file-link처리
+
 Meteor.methods({
+  //file-link처리
   getFileLink(fileId) {
     const file = Files.findOne(fileId);
     if (file) {
       return file.link();
     }
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
-  }
-});
-//가입승인
-Meteor.methods({
+  },
+  //가입승인
   'users.update'(_id, confirm) {
     Meteor.users.update(_id, {
       $set: {
         'profile.company.confirm': confirm,
       },
     });
-  }
+  },
+  //관리자 정보수정(이름, 핸드폰번호)
+  'adminedit'({ name, phone }) {
+    Meteor.users.update(this.userId, {
+      $set: {
+        'profile.name': name,
+        'profile.phone': phone,
+      }
+    })
+  },
+  //관리자 정보수정(비밀번호)
+  'adminchangepw'(newPassword) {
+    Accounts.setPassword(this.userId, newPassword, { logout: false });
+  },
 });
 
 Meteor.startup(() => {
