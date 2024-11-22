@@ -27,15 +27,15 @@ export default () => {
       // 로그인 후
       const user = Meteor.user();
       if (user.profile.type === '관리자') {
-        navigate('/admin');
+        navigate('/admin'); //관리자 페이지 이동
       } else if (user.profile.type === '일반') {
-        // navigate('/'); //일반회원 마이페이지로 이동
+        navigate('/checkrequest'); //일반회원 마이페이지로 이동
       } else if (user.profile.type === '용달' || '헬퍼') {
         if (user.profile.company.confirm === false) {
           alert('가입승인 중입니다')
           navigate('/');
         } else {
-          // navigate('/'); //사업자 마이페이지로 이동
+          navigate('/allrequest'); //사업자 마이페이지로 이동
         }
       }
     });
