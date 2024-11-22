@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Meteor } from "meteor/meteor";
 import { useParams } from "react-router-dom";
+import { CollectionEstConfirm } from "/imports/api/collections";
 import "/lib/utils.js";
 
 export default () => {
@@ -53,9 +54,16 @@ export default () => {
     });
   }, []);
 
-  const handleConfirm = () => {
-
-  }
+  //컨펌
+  const handleConfirm = (business_id) => {
+    //컨펌 정보를 estConfirm 테이블에 저장
+    CollectionEstConfirm.insert({
+      request_id : id,
+      createdAt : new Date(),
+      user_id : reqDetail.user_id,
+      bisness_id : business_id
+    });
+  } 
 
   return (
     <>

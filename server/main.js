@@ -206,7 +206,7 @@ Meteor.startup(() => {
 //     });
 //   }
 
-  // // CollectionRequest 추가 데이터
+  // CollectionRequest 추가 데이터
   // if (CollectionRequest.find().count() < 3) {
   //   const users = Meteor.users.find({ 'profile.type': '일반' }).fetch();
   //   for (let i = 0; i < 2; i++) {
@@ -227,46 +227,46 @@ Meteor.startup(() => {
   //   }
   // }
   
-  // // CollectionEstCar 추가 데이터
-  // if (CollectionEstCar.find().count() < 3) {
-  //   const requests = CollectionRequest.find().fetch();
-  //   for (let i = 0; i < 2; i++) {
-  //     CollectionEstCar.insert({
-  //       createdAt: new Date(),
-  //       request_id: requests.random()._id,
-  //       req_arr_time: ["12", "14", "16"].random(),
-  //       str_addr_elv: ["Y", "N"].random(),
-  //       arr_addr_elv: ["Y", "N"].random(),
-  //       ladder_truck: {
-  //         start: [true, false].random(),
-  //         arrive: [true, false].random(),
-  //       },
-  //       appliances: ["세탁기", "건조기", "냉장고","김치냉장고","TV모니터", "에어컨", "의류관리기", "안마의자", "전자레인지", "가스레인지", "인덕션", "공기청정기", "청소기", "정수기", "비데", "운동용품", "PC데스크탑"].shuffle().slice(0, 2),
-  //       funiture: ["침대메트리스", "침대프레임", "책상", "의자", "소파", "테이블", "수납장", "서랍장", "책장", "옷장", "화장대", "행거"].shuffle().slice(0, 2),
-  //       detail: "",
-  //       picthure: [],
-  //     });
-  //   }
-  // }
+  // CollectionEstCar 추가 데이터
+//   if (CollectionEstCar.find().count() < 3) {
+//     const requests = CollectionRequest.find().fetch();
+//     for (let i = 0; i < 2; i++) {
+//       CollectionEstCar.insert({
+//         createdAt: new Date(),
+//         request_id: requests.random()._id,
+//         req_arr_time: ["12", "14", "16"].random(),
+//         str_addr_elv: ["Y", "N"].random(),
+//         arr_addr_elv: ["Y", "N"].random(),
+//         ladder_truck: {
+//           start: [true, false].random(),
+//           arrive: [true, false].random(),
+//         },
+//         appliances: ["세탁기", "건조기", "냉장고","김치냉장고","TV모니터", "에어컨", "의류관리기", "안마의자", "전자레인지", "가스레인지", "인덕션", "공기청정기", "청소기", "정수기", "비데", "운동용품", "PC데스크탑"].shuffle().slice(0, 2),
+//         funiture: ["침대메트리스", "침대프레임", "책상", "의자", "소파", "테이블", "수납장", "서랍장", "책장", "옷장", "화장대", "행거"].shuffle().slice(0, 2),
+//         detail: "",
+//         picthure: [],
+//       });
+//     }
+//   }
   
-  // // CollectionEstHelper 추가 데이터
-  // if (CollectionEstHelper.find().count() < 3) {
-  //   const requests = CollectionRequest.find().fetch();
-  //   for (let i = 0; i < 2; i++) {
-  //     CollectionEstHelper.insert({
-  //       createdAt: new Date(),
-  //       request_id: requests.random()._id,
-  //       request_time_area: ["오전", "오후", "저녁"].random(),
-  //       h_type: ["짐싸기", "짐정리"].random(),
-  //       h_req_arr_time: ["8", "10", "12"].random(),
-  //       s_house_size: ["5", "7", "10"].random(),
-  //       a_house_size: ["10", "15", "20"].random(),
-  //       picture: "",
-  //     });
-  //   }
-  // }
+//   // CollectionEstHelper 추가 데이터
+//   if (CollectionEstHelper.find().count() < 3) {
+//     const requests = CollectionRequest.find().fetch();
+//     for (let i = 0; i < 2; i++) {
+//       CollectionEstHelper.insert({
+//         createdAt: new Date(),
+//         request_id: requests.random()._id,
+//         request_time_area: ["오전", "오후", "저녁"].random(),
+//         h_type: ["짐싸기", "짐정리"].random(),
+//         h_req_arr_time: ["8", "10", "12"].random(),
+//         s_house_size: ["5", "7", "10"].random(),
+//         a_house_size: ["10", "15", "20"].random(),
+//         picture: "",
+//       });
+//     }
+//   }
 
-//용달/헬퍼사업자 견적서(사업자)
+// // 용달/헬퍼사업자 견적서(사업자)
 // if (!Collectionestimate.findOne()) {
 //   const requests = CollectionRequest.find().fetch();
 //   const request = requests.random();
@@ -277,7 +277,7 @@ Meteor.startup(() => {
 //     Collectionestimate.insert({
 //       request_id: request._id,
 //       business_id: estCaruser._id,
-//       business_name: estCaruser.profile.company[0].company_name,
+//       business_name: estCaruser.profile.company.company_name,
 //       business_contect: estCaruser.profile.phone,
 //       arrival_time: "16",
 //       details: "견적서1",
