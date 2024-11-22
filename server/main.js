@@ -177,12 +177,11 @@ Meteor.startup(() => {
   //견적서(용달 사업자 용)
   if (CollectionEstimate.find({ 'business_type': '용달' }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
-    const request = requests.random();
-
     const users = Meteor.users.find({ 'profile.type': '용달' }).fetch();
 
-    users.forEach(function (estCaruser) {
-      for (let i = 0; i < 5; i++) {
+    requests.forEach(function (request) {
+      users.forEach(function (estCaruser) {
+        // for (let i = 0; i < 5; i++) {
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -194,19 +193,19 @@ Meteor.startup(() => {
           business_type: "용달",
           crateAt: new Date()
         });
-      }
+        // }
+      })
     })
   }
 
   //견적서(헬퍼 사업자 용)
   if (CollectionEstimate.find({ 'business_type': "헬퍼" }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
-    const request = requests.random();
-
     const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
 
-    users.forEach(function (estCaruser) {
-      for (let i = 0; i < 5; i++) {
+    requests.forEach(function (request) {
+      users.forEach(function (estCaruser) {
+        //for (let i = 0; i < 5; i++) {
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -218,7 +217,58 @@ Meteor.startup(() => {
           business_type: "헬퍼",
           crateAt: new Date()
         });
-      }
+        //}
+      })
     })
   }
-});//끝
+});//더미데이터 끝
+
+//ksh. 
+Meteor.methods({
+
+  //테스트용 코드입니다.
+  loginAsTestUser() {
+    if (!this.userId) {
+      const testUser = Meteor.users.findOne({ 'profile.type': '관리자' });
+
+      if (testUser) {
+        return testUser.profile.name;
+      }
+    }
+    return null;
+  },
+
+  //견적요청서 리스트 조회
+  requestListCall() {
+    const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
+
+    if (requestList) {
+      return requestList;
+    }
+
+    return null;
+  },
+
+  //견적요청서 상세내역 조회
+  requestDetailCall({ param }) {
+
+    const requestDetail = CollectionRequest.find({ _id: param }).fetch();
+
+    if (requestDetail) {
+      return requestDetail;
+    }
+
+    return null;
+  },
+
+  //사업자 견적서 조회
+  estimateCall({ param, business_type }) {
+    const estimateList = CollectionEstimate.find({ 'request_id': param, 'business_type': business_type }).fetch();
+
+    if (estimateList) {
+      return estimateList;
+    }
+
+    return null;
+  }
+});

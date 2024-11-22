@@ -31,24 +31,6 @@ export default () => {
       setReqDetail(result);
     });
 
-    //용달 견적요청서 조회
-    Meteor.call('requestEstCarCall', { param: id }, (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      setReqEstCar(result);
-    });
-
-    //헬퍼 견적요청서 조회
-    Meteor.call('requestHelperCall', { param: id }, (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      setHelper(result);
-    });
-
     //사업자 견적서 조회-용달
     Meteor.call('estimateCall', { param: id, business_type: '용달' }, (err, result) => {
       if (err) {
