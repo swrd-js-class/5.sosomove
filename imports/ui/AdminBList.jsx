@@ -12,7 +12,7 @@ export default () => {
   const UsersList = useTracker(() => {
     const skip = (currentPage - 1) * PageSize;
     const limit = PageSize;
-    Meteor.subscribe('users', skip, limit);
+    Meteor.subscribe('users_paged', skip, limit);
     return Meteor.users.find(
       {
         "profile.type": { $in: ["헬퍼", "용달"] },
