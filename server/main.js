@@ -28,6 +28,15 @@ Meteor.methods({
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
   }
 });
+//요청서 확인
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
+});
+//견적서 확인
+Meteor.publish('CollectionEstimate', function () {
+  return CollectionEstimate.find();
+});
+
 //가입승인
 Meteor.methods({
   'users.update'(_id, confirm) {
@@ -177,12 +186,11 @@ Meteor.startup(() => {
   //견적서(용달 사업자 용)
   if (CollectionEstimate.find({ 'business_type': '용달' }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
-    const request = requests.random();
-
     const users = Meteor.users.find({ 'profile.type': '용달' }).fetch();
 
     users.forEach(function (estCaruser) {
       for (let i = 0; i < 5; i++) {
+        const request = requests.random();
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -201,12 +209,11 @@ Meteor.startup(() => {
   //견적서(헬퍼 사업자 용)
   if (CollectionEstimate.find({ 'business_type': "헬퍼" }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
-    const request = requests.random();
-
     const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
 
     users.forEach(function (estCaruser) {
       for (let i = 0; i < 5; i++) {
+        const request = requests.random();
 
         CollectionEstimate.insert({
           request_id: request._id,
