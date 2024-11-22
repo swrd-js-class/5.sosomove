@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Meteor } from "meteor/meteor";
 import { useParams } from "react-router-dom";
+import { CollectionEstConfirm } from "/imports/api/collections";
 import "/lib/utils.js";
 
 export default () => {
@@ -11,9 +12,10 @@ export default () => {
   const [reqDetail, setReqDetail] = useState([]);
   const [reqEstCar, setReqEstCar] = useState([]);
   const [reqHelper, setHelper] = useState([]);
-  const [estimateList, setEstimateList] = useState([]);
+  const [estimateCarList, setEstimateCarList] = useState([]);
+  const [estimateHelList, setEstimateHelList] = useState([]);
 
-  const [ businessId, setBusinessId ] = useState();
+  const [businessId, setBusinessId] = useState([]);
   const carBusiFlag = false;
   const helperBusiFlag = false;
 
@@ -47,19 +49,123 @@ export default () => {
       setHelper(result);
     });
 
-    //사업자 견적서 조회
-    Meteor.call('estimateCall', { param: id }, (err, result) => {
+    //사업자 견적서 조회-용달
+    Meteor.call('estimateCall', { param: id, business_type: '용달' }, (err, result) => {
       if (err) {
         console.log(err);
         return;
       }
-      setEstimateList(result);
+      setEstimateCarList(result);
+    });
+
+    //사업자 견적서 조회-헬퍼
+    Meteor.call('estimateCall', { param: id, business_type: '헬퍼' }, (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      setEstimateHelList(result);
     });
   }, []);
 
+
+  // 체크박스 체크 시 호출되는 함수
+  const handleCheckboxChange = (b_id, isChecked, type) => {
+    console.log(isChecked ? "Checked ID:" : "Unchecked ID:", b_id);
+    if (isChecked) {
+      setBusinessId((prevBusinessId) => [...prevBusinessId, b_id]);
+      if (type === "car") carBusiFlag = true;
+      else if (type === "help") helperBusiFlag = true;
+      return;
+    } else {
+      setBusinessId((prevBusinessId) =>
+        prevBusinessId.filter((id) => id !== b_id)
+      );
+      if (type === "car") carBusiFlag = false;
+      else if (type === "help") helperBusiFlag = false;
+      return;
+    }
+  };
+
+  // 체크 상태 관리
+  const toggleCheckbox = (id, type) => {
+
+    if (type === "car") {
+      if (carBusiFlag) {
+        alert("하나의 용달 업체만 선택 가능합니다. 변경을 원하시면 체크를 해제해주세요.");
+        return;
+      }
+      setEstimateCarList((prevRows) => {
+        return prevRows.map((row) => {
+          if (row.business_id === id) {
+            return { ...row, isChecked: !row.isChecked };
+          } else {
+            return row;
+          }
+        }
+        )
+      }
+      );
+
+      const updatedRow = estimateCarList.find((row) => row.business_id === id);
+      if (updatedRow) {
+        handleCheckboxChange(id, !updatedRow.isChecked, type); // 현재 상태 반전 후 처리
+      }
+    }
+    else if (type === "help") {
+      if (helperBusiFlag) {
+        alert("하나의 도우미 업체만 선택 가능합니다. 변경을 원하시면 체크를 해제해주세요.");
+        return;
+      }
+
+      setEstimateHelList((prevRows) => {
+        return prevRows.map((row) => {
+          if (row.business_id === id) {
+            return { ...row, isChecked: !row.isChecked };
+          } else {
+            return row;
+          }
+        }
+        )
+      }
+      );
+
+      const updatedRow = estimateHelList.find((row) => row.business_id === id);
+      if (updatedRow) {
+        handleCheckboxChange(id, !updatedRow.isChecked); // 현재 상태 반전 후 처리
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log("Updated businessId: ", businessId);
+  }, [businessId]);
+
+
   //컨펌내역 확정
-  const handleConfirm = (business_id) => {
-    //
+  const handleConfirm = () => {
+    console.log("businessId.length : " + businessId.length);
+
+    const isconfirm = window.confirm("선택된 업체를 저장하시겠습니까?");
+
+    if (isconfirm) {
+      console.log("확인");
+
+      //최종 사업자선택 컨펌
+      if (businessId.length > 0) {
+        businessId.map((row) => {
+          CollectionEstConfirm.insert({
+            request_id: id,
+            createdAt: new Date(),
+            user_id: reqDetail[0].user_id,
+            business_id: row
+          });
+        });
+      }
+    } else {
+      console.log("취소");
+      return;
+    }
   }
 
   return (
@@ -103,8 +209,8 @@ export default () => {
                   )
                 }<tr />
                 가구 {
-                  estcar.funiture.map((funiture) => {
-                    <input type='text' readOnly>{funiture}</input>
+                  estcar.funiture.map((furniture) => {
+                    <input type='text' readOnly>{furniture}</input>
                   }
                   )
                 }
@@ -128,22 +234,75 @@ export default () => {
       </div>
       <div>
         <h2>받은 견적서</h2>
-        {estimateList.map((estimate) => {
-          return (
-            <div>
-              업체명 : {estimate.business_name} <tr />
-              연락처 : {estimate.business_contect}<tr />
-              도착시간 : {estimate.arrival_time}<tr />
-              가격 : {estimate.amount}<tr />
-              상세내역 : {estimate.details}<tr />
-              <button onClick={() => {
-                
-                handleConfirmBtnClick(estimate.business_id)}
-                }>컨펌</button>
-            </div>
-          )
-        })}
-        <button onClick={handleConfirm()}>컨펌 확정</button>
+        <h3>용달 업체</h3>
+        <div>
+          <table border="1" style={{ width: "100%", textAlign: "left" }}>
+            <thead>
+              <tr>
+                <th>선택</th>
+                <th>업체명</th>
+                <th>연락처</th>
+                <th>가격</th>
+                <th>상세내역</th>
+              </tr>
+            </thead>
+            <tbody>
+              {estimateCarList.map((carestimate) => {
+                return (
+                  <tr key={carestimate.business_id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={carestimate.isChecked}
+                        onChange={() => toggleCheckbox(carestimate.business_id, "car")}
+                      />
+                    </td>
+                    <td>업체명 : {carestimate.business_name}</td>
+                    <td>연락처 : {carestimate.business_contect}</td>
+                    <td>가격 : {carestimate.amount}</td>
+                    <td>상세내역 : {carestimate.details}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+        <h3>도우미 업체</h3>
+        <div>
+          <table border="1" style={{ width: "100%", textAlign: "left" }}>
+            <thead>
+              <tr>
+                <th>선택</th>
+                <th>업체명</th>
+                <th>연락처</th>
+                <th>가격</th>
+                <th>상세내역</th>
+              </tr>
+            </thead>
+            <tbody>
+              {console.log("헬퍼사업자리스트 : " + estimateHelList.length)}
+              {estimateHelList.map((helestimate) => {
+                return (
+                  <tr key={helestimate.business_id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={helestimate.isChecked}
+                        onChange={() => toggleCheckbox(helestimate.business_id, "help")}
+                      />
+                    </td>
+                    <td>업체명 : {helestimate.business_name} </td>
+                    <td>연락처 : {helestimate.business_contect}</td>
+                    <td>가격 : {helestimate.amount}</td>
+                    <td>상세내역 : {helestimate.details}</td>
+                  </tr>
+
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+        <button onClick={handleConfirm}>컨펌 확정</button>
       </div>
     </>
   );
