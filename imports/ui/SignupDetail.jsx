@@ -16,12 +16,9 @@ export default () => {
   const refUsername = useRef(null);
   const refPhone = useRef(0);
   //사업자회원
-  const company_name = useRef(null);
-  const company_phone = useRef(0);
   const ceo_name = useRef(null);
   const address = useRef(null);
   const business_number = useRef(0);
-  const call_number = useRef(0);
 
   //사업자등록증 파일 첨부 위한 코드
   const [selectedFile, setSelectedFile] = useState(null);
@@ -52,13 +49,9 @@ export default () => {
     let company = null;
     if (userType === '사업자') {
       company = {
-        // company_name: company_name.current ? company_name.current.value : '',
-        // company_phone: company_phone.current ? company_phone.current.value : '',
         ceo_name: ceo_name.current ? ceo_name.current.value : '',
         address: address.current ? address.current.value : '',
         business_number: business_number.current ? business_number.current.value : null,
-        // business_certificate: refEmail,
-        // call_number: call_number.current ? call_number.current.value : null,
         confirm: false,
       };
     }
@@ -219,18 +212,6 @@ export default () => {
                     </div>
 
                   </div>
-                  {/* <div class="relative">
-                    <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업장명</p>
-                    <input type="text" ref={company_name} className="border placeholder-gray-400 focus:outline-none
-                  focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
-                  border-gray-300 rounded-md"/>
-                  </div>
-                  <div class="relative">
-                    <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">대표번호(선택)</p>
-                    <input type="text" ref={company_phone} className="border placeholder-gray-400 focus:outline-none
-                  focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
-                  border-gray-300 rounded-md"/>
-                  </div> */}
                   <div class="relative">
                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">대표자명</p>
                     <input type="text" ref={ceo_name} className="border placeholder-gray-400 focus:outline-none
@@ -258,12 +239,6 @@ export default () => {
                   border-gray-300 rounded-md"/>
                   </div>
 
-                  {/* <div class="relative">
-                    <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">유선연락처(선택)</p>
-                    <input type="text" ref={call_number} className="border placeholder-gray-400 focus:outline-none
-                  focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
-                  border-gray-300 rounded-md"/>
-                  </div> */}
                   <div class="relative">
                     <button type="submit" className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
                   rounded-lg transition duration-200 hover:bg-indigo-600 ease">회원가입</button>
@@ -273,7 +248,6 @@ export default () => {
             </form>
           </div>
         }
-
       </div>
     </>
   );

@@ -31,13 +31,13 @@ export default ({ onNavClick }) => {
           <div class="flex-1 flex justify-between items-center">
             <a href="/" class="flex text-lg font-semibold">
               <img
-                src="https://dev.rz-codes.com/static/logo-275e932fd817cc84d99d91f7519a9a22.svg"
-                width="50"
-                height="50"
+                src="/logo.png"
+                width="80"
+                height="80"
                 class="p-2"
                 alt="Rz Codes Logo"
               />
-              <div class="mt-3 text-red-600">소소이사</div>
+              <div class="mt-6 text-red-600 text-center">소소이사</div>
             </a>
           </div>
           <label htmlFor="menu-toggle" class="cursor-pointer lg:hidden block">
