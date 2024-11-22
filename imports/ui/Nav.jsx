@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
+
 
 export default ({ onNavClick }) => {
   const navigate = useNavigate();
@@ -99,4 +101,5 @@ export default ({ onNavClick }) => {
       </header>
     </>
   );
+
 };
