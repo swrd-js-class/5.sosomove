@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
+
 
 
 export default ({ onNavClick }) => {
@@ -18,6 +20,7 @@ export default ({ onNavClick }) => {
       window.location.reload(); //강제 페이지 리로드 
     });
   };
+  useTracker(() => Meteor.user());
 
 
   return (
@@ -69,30 +72,16 @@ export default ({ onNavClick }) => {
                   <Link to="/service" >서비스</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/request" >견적요청</Link>
+                  <Link to="/request" >테스트용(효정)</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/postinsert/testID" >내 견적 조회</Link>
+                  <Link to="/allrequest" >사업자 마이페이지(희원)</Link>
                 </li>
-                
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/allrequest" >사업자 마이페이지</Link>
+                  <Link to="/checkrequest" >일반 마이페이지(송희)</Link>
                 </li>
                 <li>
                   <Link to="/admin" >관리자페이지</Link>
-                </li>
-
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/checkrequest" >견적서 조회</Link>
-                </li>
-
-                <li class="py-2 lg:py-0 ">
-                  <a
-                    class="text-red-600 hover:pb-4 hover:border-b-4 hover:border-yellow-400"
-                    href="#"
-                  >
-                    임시
-                  </a>
                 </li>
               </ul>
             </nav>
