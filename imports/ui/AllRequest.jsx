@@ -3,7 +3,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
 import { CollectionRequest, CollectionEstHelper } from '/imports/api/collections';
 import { Link } from 'react-router-dom';
-import BusinessMyPageNavbar from './BusinessMyPageNavbar';
+// import BusinessMyPageNavBar from './BusinessMyPageNavBar';
 
 
 export default () => {
@@ -68,7 +68,7 @@ export default () => {
       ) : (
         <p>현재 요청서가 없습니다.</p>
       )}
-      <BusinessMyPageNavbar />
+      {/* <BusinessMyPageNavbar /> */}
     </div>
   );
 };

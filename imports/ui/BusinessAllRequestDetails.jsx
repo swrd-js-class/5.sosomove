@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { CollectionRequest, CollectionEstCar, CollectionEstHelper } from '/imports/api/collections';
+import { Link } from 'react-router-dom';
+
 
 export default () => {
   const { id } = useParams();
@@ -67,6 +69,9 @@ export default () => {
           <p>사진 {helperData.picture}</p>
         </div>
       )}
+    <div>
+    <Link to={`/businessestimate/${id}`}>견적서 작성</Link>
+    </div>
     </div>
   );
 };

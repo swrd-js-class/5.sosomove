@@ -74,7 +74,7 @@ export default ({ onNavClick }) => {
                 </li>
                 
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/allrequest" >(사업자용) 견적요청서 조회</Link>
+                  <Link to="/allrequest" >사업자 마이페이지</Link>
                 </li>
                 <li>
                   <Link to="/admin" >관리자페이지</Link>
@@ -82,10 +82,6 @@ export default ({ onNavClick }) => {
 
                 <li class="py-2 lg:py-0 ">
                   <Link to="/checkrequest" >견적서 조회</Link>
-                </li>
-
-                <li>
-                  <Link to="/request-details/${request._id}">상세보기</Link>
                 </li>
 
                 <li class="py-2 lg:py-0 ">
