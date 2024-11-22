@@ -270,5 +270,20 @@ Meteor.methods({
     }
 
     return null;
+  },
+
+  updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
+    const query = {
+      '_id': requestId
+    }
+
+    const update = {
+      $set: {
+        'reqCar.car_confirm_id': car_businessId,
+        'reqHelper.hel_confirm_id': hel_businessId
+      }
+    }
+
+    CollectionRequest.update(query, update);
   }
 });
