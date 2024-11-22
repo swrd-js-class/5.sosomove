@@ -40,7 +40,7 @@ Meteor.startup(() => {
     }
   });
 
-  // //관리자 생성
+  //관리자 생성
   // if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
   //   Accounts.createUser({
   //     username: "admin",
