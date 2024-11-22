@@ -28,10 +28,12 @@ Meteor.methods({
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
   }
 });
+
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
 });
+
 //견적서 확인
 Meteor.publish('CollectionEstimate', function () {
   return CollectionEstimate.find();
@@ -46,6 +48,20 @@ Meteor.methods({
       },
     });
   }
+});
+
+//견적서 생성
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+  CollectionEstimate.insert({
+    ...estimateData,
+    createdAt: new Date(),
+  });
+  },
 });
 
 Meteor.startup(() => {
@@ -88,7 +104,7 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "용달",
-          name: "김용달",
+          name: `김용달${i}`,
           phone: "010-222-2222",
           company:
           {
@@ -114,7 +130,7 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "헬퍼",
-          name: "김헬퍼",
+          name: `김헬퍼${i}`,
           phone: "010-333-3333",
           company:
           {

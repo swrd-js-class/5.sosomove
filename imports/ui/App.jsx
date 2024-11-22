@@ -17,7 +17,6 @@ import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
-import DatePickerComponent from '../publicAPI/Calendar.jsx';
 import MypageNavbar from "./MypageNavbar.jsx";
 
 export const App = () => {
@@ -43,9 +42,6 @@ export const App = () => {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      <div>
-        {/* <DatePickerComponent /> 달력 컴포넌트 삽입 */}
-      </div>
     </Router>
   )
 };
