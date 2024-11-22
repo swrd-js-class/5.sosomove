@@ -14,6 +14,7 @@ import SignupDetail from "./SignupDetail.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
 import AllRequest from "./AllRequest.jsx";
+import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
 import DatePickerComponent from '../publicAPI/Calendar.jsx';
@@ -33,8 +34,8 @@ export const App = () => {
           <Route path="/adminbcheck" element={<AdminBCheck />} />
           <Route path="/adminblist" element={<AdminBList />} />
           <Route path="/allrequest" element={<AllRequest />} />
-          <Route path="/businessestimate" element={<BusinessEst />} />
-          <Route path="/businessestimate/:request._id" element={<BusinessEst />} />
+          <Route path="/businessestimate/:id" element={<BusinessEst />} />
+          <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
