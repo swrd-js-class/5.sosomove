@@ -1,33 +1,46 @@
 import React, { useState, useRef } from "react";
 import { Accounts } from 'meteor/accounts-base';
 import { useParams } from 'react-router-dom';
+import { Files } from "/imports/api/Files.js";
+
 
 //회원가입
 export default () => {
 
   //일반회원과 사업자회원을 param으로 구별
   const { userType } = useParams();
+
+  //일반회원+사업자회원
   const refEmail = useRef(null);
   const refPassword = useRef(null);
   const refUsername = useRef(null);
   const refPhone = useRef(0);
-
-  //사업자회원일 경우
+  //사업자회원
   const company_name = useRef(null);
   const company_phone = useRef(0);
   const ceo_name = useRef(null);
   const address = useRef(null);
   const business_number = useRef(0);
-  const business_certificate = useRef(0);
   const call_number = useRef(0);
+
+  //사업자등록증 파일 첨부 위한 코드
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileLink, setFileLink] = useState('');
+  const handleFileChange = (e) => {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      const file = e.currentTarget.files[0];
+      setSelectedFile(file);
+    }
+  };
 
   //용달사업자와 헬퍼사업자 구별 
   const [type, setType] = useState('none');
   const [error, setError] = useState('');
-
   const handleBusinessType = (e) => {
     setType(e);
   };
+
+  //회원가입버튼 누름
   const handleSignup = (event) => {
     event.preventDefault();
     const email = refEmail.current.value;
@@ -35,22 +48,57 @@ export default () => {
     const name = refUsername.current.value;
     const phone = refPhone.current.value;
 
-    // 사업자회원은 회원가입시 company에 추가 정보가 필요함
+    // 사업자회원 회원가입시 company에 추가 정보 필요
     let company = null;
-    if (userType === 'business') {
+    if (userType === '사업자') {
       company = {
         company_name: company_name.current ? company_name.current.value : '',
         company_phone: company_phone.current ? company_phone.current.value : '',
         ceo_name: ceo_name.current ? ceo_name.current.value : '',
         address: address.current ? address.current.value : '',
         business_number: business_number.current ? business_number.current.value : null,
-        business_certificate: business_certificate.current ? business_certificate.current.value : '',
+        // business_certificate: refEmail,
         call_number: call_number.current ? call_number.current.value : null,
         confirm: false,
       };
     }
 
-    //DB에 저장
+    //사업자등록증 DB 저장
+    function upload() {
+      if (!selectedFile) {
+        alert("No file selected for upload.");
+        return;
+      }
+      const upload = Files.insert(
+        {
+          file: selectedFile,
+          chunkSize: "dynamic",
+        },
+        false
+      );
+      upload.on("start", function () {
+        console.log("Upload started...");
+      });
+      upload.on("end", function (error, fileObj) {
+        if (error) {
+          alert(`업로드 중 에러: ${error}`);
+        } else {
+          alert(`파일 "${fileObj.name}" 업로드 성공`);
+
+          Meteor.call('getFileLink', fileObj._id, (err, link) => {
+            if (err) {
+              alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
+            } else {
+              setFileLink(link);
+            }
+          });
+        }
+      });
+
+      upload.start();
+    }
+
+    //회원정보 DB 저장
     Accounts.createUser({
       username: email,
       password: password,
@@ -66,16 +114,19 @@ export default () => {
         setError(err.reason);
       } else {
         setError('');
+        upload();
         alert('회원가입 되었습니다!');
       }
     }
     );
   };
 
+
+
   return (
     <>
       <div class='flex items-center justify-center min-h-screen from-blue-100 via-blue-300 to-blue-500 bg-gradient-to-br'>
-        {/* css 적용 */}
+
         {userType === '일반' &&
           <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
             <form onSubmit={handleSignup} >
@@ -197,13 +248,16 @@ export default () => {
                     <input type="number" ref={business_number} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
+
+                    {/* 사업자등록증 파일 첨부 */}
                   </div>
                   <div class="relative">
                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업자등록증</p>
-                    <input type="text" ref={business_certificate} className="border placeholder-gray-400 focus:outline-none
+                    <input type="file" onChange={handleFileChange} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                   </div>
+
                   <div class="relative">
                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">유선연락처(선택)</p>
                     <input type="text" ref={call_number} className="border placeholder-gray-400 focus:outline-none
