@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from "react-router-dom";
+import { Files } from "/imports/api/Files.js";
+
 
 
 export default () => {
@@ -12,7 +14,7 @@ export default () => {
   const UsersAll = useTracker(() => {
     const skip = (currentPage - 1) * PageSize;
     const limit = PageSize;
-    Meteor.subscribe('users', skip, limit);
+    Meteor.subscribe('users_paged', skip, limit);
     return Meteor.users.find(
       {
         "profile.type": { $in: ["헬퍼", "용달"] },
@@ -37,6 +39,17 @@ export default () => {
     });
     UsersAll();
   };
+
+  const userId = Meteor.userId();
+  console.log(userId);
+
+
+  const files = useTracker(() => {
+    Meteor.subscribe('files');
+    return Files.find({ userId }).fetch();
+  });
+  console.log(files);
+
 
 
   return (
@@ -134,9 +147,31 @@ export default () => {
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
                     </td>
+
+                    {/* 사업자등록증 파일 */}
                     <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.profile.company.business_certificate === null ? '없음' : '있음'}</p>
+                      {files.map((file) => {
+                        return (
+                          <div key={file._id}>
+                            {file.name}/
+                            <button className="cursor-pointer bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold hover:bg-blue-700 transition duration-200"
+                              onClick={() => {
+                                Meteor.call('getFileLink', file._id, (err, link) => {
+                                  if (err) {
+                                    alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
+                                  } else {
+                                    window.open(link, '_blank');
+                                  }
+                                });
+                              }}
+                            >
+                              파일확인
+                            </button>
+                          </div>
+                        );
+                      })}
                     </td>
+
                     <td class="p-4 py-5">
                       <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true">승인</button>

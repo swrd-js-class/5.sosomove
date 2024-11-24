@@ -1,7 +1,10 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { CollectionRequest } from '/imports/api/collections';
+import { Meteor } from "meteor/meteor";
+import { CollectionRequest, CollectionEstHelper } from '/imports/api/collections';
 import { Link } from 'react-router-dom';
+// import BusinessMyPageNavBar from './BusinessMyPageNavBar';
+
 
 export default () => {
   const { user, businessType, requests } = useTracker(() => {
@@ -15,18 +18,29 @@ export default () => {
     const businessType = user.profile.type || null;
     const allRequests = CollectionRequest.find({}).fetch();
 
+    let businessHelper = allRequests
+    if (businessType === '헬퍼') {
+      const allRequestsHelper = CollectionEstHelper.find({}).fetch();
+      businessHelper = allRequests.map((request) => {
+        const helperData = allRequestsHelper.find(
+          (helper) => helper.request_id === request._id);
+        return {
+          ...request,
+          helperData: helperData || null,
+        };
+      });
+    }
+
     return {
       user,
       businessType,
-      requests: allRequests,
+      requests: businessType === '헬퍼' ? businessHelper : allRequests,
     };
   });
 
-  if (businessType === "일반") {
+  if (businessType === "일반" || businessType === "관리자") {
     return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  } else if(businessType === "관리자") {
-    return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  };
+  } 
 
   return (
     <div>
@@ -40,14 +54,21 @@ export default () => {
               <p>도착지: {request.arrive_address}</p>
               {businessType === '용달' && (
                 <p>인부 추가: {request.addworker ? '1명 추가' : '없음'}</p>
-              )} 
-              <Link to={`/request-details/${request._id}`}>견적서 작성</Link>
+              )}
+              {businessType === '헬퍼' && request.helperData && (
+                <>
+                <p>요청 시간대: {request.helperData.request_time_area}</p>
+                <p>요청 사항: {request.helperData.h_type}</p>
+                </>
+              )}
+              <Link to={`/request-details/${request._id}`}>상세 보기</Link>
             </li>
           ))}
         </ul>
       ) : (
         <p>현재 요청서가 없습니다.</p>
       )}
+      {/* <BusinessMyPageNavbar /> */}
     </div>
   );
 };
