@@ -42,8 +42,8 @@ export default () => {
   return (
 
     // 사이드바
-    <div class="flex">
-      <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-[calc(100vh-4rem)] w-full max-w-[20rem] p-4  border">
+    <div class="flex h-screen bg-rose-50">
+      <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-full w-full max-w-[20rem] p-4 border">
         <div class="mb-2 p-4">
           <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">관리자페이지</h5>
         </div>
@@ -83,15 +83,30 @@ export default () => {
         </nav>
       </div>
 
-      <div>
-        <h1>내 정보 수정</h1>
-        <form onSubmit={handleSubmit}>
-          비밀번호 재설정: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
-          이름: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /><br />
-          핸드폰번호: <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} /><br />
-          <button type="submit">수정</button>
-        </form>
-      </div>
+      {/* 수정할 내용 */}
+      <form onSubmit={handleSubmit}>
+        <div class="flex h-screen bg-gray-100">
+          <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
+            <h1 class="text-center text-lg font-bold text-gray-500">내 정보 수정</h1>
+            <div class="space-y-4 mt-6">
+              <div class="w-full">
+                <h2>비밀번호 재설정</h2>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50" />
+              </div>
+              <div class="w-full">
+                <h2>이름</h2>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50" />
+              </div>
+              <div class="w-full">
+                <h2>핸드폰 번호</h2>
+                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
+              </div>
+            </div>
+            <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
+          </div>
+        </div>
+      </form>
+
     </div>
   );
 };
