@@ -3,6 +3,40 @@ import { Files } from "/imports/api/Files.js";
 import { CollectionRequest, CollectionEstimate } from "/imports/api/collections";
 import "/lib/utils.js";
 import { Accounts } from "meteor/accounts-base";
+import fetch from 'node-fetch';
+
+
+//애저 오픈 AI GPT호출
+Meteor.startup(() => {
+  const fetchGPTResponse = async (prompt) => {
+    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
+    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': `${apiKey}`,
+      },
+      body: JSON.stringify({
+        "messages": [
+          {
+            "role": "user",
+            "content": prompt,
+          }
+        ],
+        // 'max_tokens': 800,
+      }),
+    });
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+  };
+
+  Meteor.methods({
+    'openAI.query': async (prompt) => {
+      return fetchGPTResponse(prompt);
+    }
+  });
+});
 
 //user - 관리자
 Meteor.publish('users', function () {
@@ -137,7 +171,7 @@ Meteor.startup(() => {
       CollectionRequest.insert({
         user_id: user._id,
         user_name: user.profile.name,
-        move_date: [new Date('2025-10-01'), new Date('2024-12-31'), new Date('2025-02-15')].random(), //이사날짜 
+        move_date: [new Date('2025-10-01'), new Date('2024-12-31'), new Date('2025-02-15')].random(), //이사날짜
         start_address: ["서울시", "대구시", "부산시"].random(), //출발지
         arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
         house_size: [10, 20, 30].random(), //집 평수
