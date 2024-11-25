@@ -17,7 +17,6 @@ import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
-import DatePickerComponent from '../publicAPI/Calendar.jsx';
 import MypageNavbar from "./MypageNavbar.jsx";
 
 export const App = () => {

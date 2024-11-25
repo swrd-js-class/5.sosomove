@@ -14,7 +14,7 @@ export default () => {
 
     const user = Meteor.user();
     const businessType = user.profile.type || null;
-    const allRequests = CollectionRequest.find({}).fetch();
+    const allRequests = CollectionRequest.find({ submitted: { $ne: true } }).fetch();
 
     return { 
       user,
