@@ -5,13 +5,7 @@ import {
   CollectionEstimate,
 } from "/imports/api/collections";
 import "/lib/utils.js";
-import {
-  CollectionRequest,
-  CollectionEstimate,
-} from "/imports/api/collections";
-import "/lib/utils.js";
 
-//user - 관리자
 //user - 관리자
 Meteor.publish('users', function () {
   return Meteor.users.find();
@@ -63,10 +57,10 @@ Meteor.methods({
       throw new Meteor.Error('내용이 없습니다');
     }
 
-  CollectionEstimate.insert({
-    ...estimateData,
-    createdAt: new Date(),
-  });
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
   },
 });
 
@@ -309,5 +303,9 @@ Meteor.methods({
     }
 
     CollectionRequest.update(query, update);
+  },
+
+  insertRequest(insertData) {
+    CollectionRequest.insert(insertData);
   }
 });

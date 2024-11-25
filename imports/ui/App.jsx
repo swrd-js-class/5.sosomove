@@ -17,6 +17,7 @@ import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
+import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
 
 export const App = () => {
