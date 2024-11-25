@@ -8,7 +8,7 @@ import { Files } from "/imports/api/Files.js";
 export default () => {
 
   //페이징처리+'승인신청 중'인 사업자 리스트
-  const PageSize = 5;  //한 페이지당 갯수
+  const PageSize = 5;  //한 페이지당 갯수 조정
   const [currentPage, setCurrentPage] = useState(1);
 
   const UsersAll = useTracker(() => {
@@ -26,8 +26,7 @@ export default () => {
   const totalPages = Math.ceil(totalCount / PageSize);
 
 
-
-  //승인버튼 눌러서 가입 승인해 줌
+  //승인버튼 눌러서 가입 승인
   const SignupConfirm = (_id) => {
     Meteor.call('users.update', _id, true, (error, result) => {
       if (error) {
@@ -40,14 +39,14 @@ export default () => {
     UsersAll();
   };
 
-  const userId = Meteor.userId();
-  console.log(userId);
-
-
+  // 각 유저에 해당하는 파일을 가져오기
   const files = useTracker(() => {
     Meteor.subscribe('files');
-    return Files.find({ userId }).fetch();
-  });
+    return UsersAll.reduce((acc, user) => {
+      const userFiles = Files.find({ userId: user._id }).fetch();
+      return [...acc, ...userFiles];
+    }, []);
+  }, [UsersAll]);
   console.log(files);
 
 
@@ -88,22 +87,7 @@ export default () => {
 
       <div>
         <h1>사업자회원 승인여부 체크 목록</h1>
-        {/* 그냥 만들기 */}
-        {/* <div>
-          <p>사업자종류/사업자명/사업자등록번호/사업자등록증/승인여부</p>
-          {UsersAll.map((user) => (
-            <div key={user._id}>
-              <div>
-                {user.profile.type}/{user.username}/{user.profile.company.business_number}/{user.profile.company.business_certificate === null ? '없음' : '있음'}/
-                {user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}
-                <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  data-ripple-light="true">승인</button>
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-        <div class="max-w-[720px] mx-auto">
+        <div className="max-w-full mx-auto">
           <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
             <table class="w-full text-left table-auto min-w-max">
               <thead>
@@ -136,48 +120,51 @@ export default () => {
                 </tr>
               </thead>
               <tbody>
-                {UsersAll.map((user) => (
-                  <tr key={user._id} class="hover:bg-slate-50 border-b border-slate-200">
-                    <td class="p-4 py-5">
-                      <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
-                    </td>
-                    <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.username}</p>
-                    </td>
-                    <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
-                    </td>
+                {UsersAll.map((user) => {
+                  const userFiles = files.filter(file => file.userId === user._id);
+                  return (
+                    <tr key={user._id} class="hover:bg-slate-50 border-b border-slate-200">
+                      <td class="p-4 py-5">
+                        <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
+                      </td>
+                      <td class="p-4 py-5">
+                        <p class="text-sm text-slate-500">{user.username}</p>
+                      </td>
+                      <td class="p-4 py-5">
+                        <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
+                      </td>
 
-                    {/* 사업자등록증 파일 */}
-                    <td class="p-4 py-5">
-                      {files.map((file) => {
-                        return (
-                          <div key={file._id}>
-                            {file.name}/
-                            <button className="cursor-pointer bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold hover:bg-blue-700 transition duration-200"
-                              onClick={() => {
-                                Meteor.call('getFileLink', file._id, (err, link) => {
-                                  if (err) {
-                                    alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
-                                  } else {
-                                    window.open(link, '_blank');
-                                  }
-                                });
-                              }}
-                            >
-                              파일확인
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </td>
+                      {/* 사업자등록증 파일 보이게 */}
+                      <td class="p-4 py-5">
+                        {userFiles.map((file) => {
+                          return (
+                            <div key={file._id}>
+                              {file.name}/
+                              <button className="cursor-pointer bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold hover:bg-blue-700 transition duration-200"
+                                onClick={() => {
+                                  Meteor.call('getFileLink', file._id, (err, link) => {
+                                    if (err) {
+                                      alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
+                                    } else {
+                                      window.open(link, '_blank');
+                                    }
+                                  });
+                                }}
+                              >
+                                파일확인
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </td>
 
-                    <td class="p-4 py-5">
-                      <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        data-ripple-light="true">승인</button>
-                    </td>
-                  </tr>
-                ))}
+                      <td class="p-4 py-5">
+                        <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          data-ripple-light="true">승인</button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
 

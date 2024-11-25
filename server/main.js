@@ -5,13 +5,19 @@ import {
   CollectionEstimate,
 } from "/imports/api/collections";
 import "/lib/utils.js";
+import {
+  CollectionRequest,
+  CollectionEstimate,
+} from "/imports/api/collections";
+import "/lib/utils.js";
 
+//user - 관리자
 //user - 관리자
 Meteor.publish('users', function () {
   return Meteor.users.find();
 });
 //페이징처리
-Meteor.publish('users_paged', function (skip, limit) {
+Meteor.publish('users', function (skip, limit) {
   return Meteor.users.find({}, { skip, limit });
 });
 //file처리
@@ -28,6 +34,17 @@ Meteor.methods({
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
   }
 });
+
+//요청서 확인
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
+});
+
+//견적서 확인
+Meteor.publish('CollectionEstimate', function () {
+  return CollectionEstimate.find();
+});
+
 //가입승인
 Meteor.methods({
   'users.update'(_id, confirm) {
@@ -37,6 +54,20 @@ Meteor.methods({
       },
     });
   }
+});
+
+//견적서 생성
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+  CollectionEstimate.insert({
+    ...estimateData,
+    createdAt: new Date(),
+  });
+  },
 });
 
 Meteor.startup(() => {
@@ -79,16 +110,13 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "용달",
-          name: "김용달",
+          name: `김용달${i}`,
           phone: "010-222-2222",
           company:
           {
-            company_name: "배달해요",
-            company_phone: "010-333-3333",
             ceo_name: "김대표",
             address: "서울시 광진구 자양동1",
             business_number: "0100-1101-20",
-            call_number: null,
             confirm: false,
           },
 
@@ -105,16 +133,13 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "헬퍼",
-          name: "김헬퍼",
+          name: `김헬퍼${i}`,
           phone: "010-333-3333",
           company:
           {
-            company_name: "도와줘요",
-            company_phone: "010-555-2555",
             ceo_name: "김헬퍼",
             address: "서울시 광진구 자양동2",
             business_number: "0100-1101-30",
-            call_number: null,
             confirm: false,
           },
 
@@ -179,9 +204,9 @@ Meteor.startup(() => {
     const requests = CollectionRequest.find().fetch();
     const users = Meteor.users.find({ 'profile.type': '용달' }).fetch();
 
-    requests.forEach(function (request) {
-      users.forEach(function (estCaruser) {
-        // for (let i = 0; i < 5; i++) {
+    users.forEach(function (estCaruser) {
+      for (let i = 0; i < 5; i++) {
+        const request = requests.random();
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -193,8 +218,7 @@ Meteor.startup(() => {
           business_type: "용달",
           crateAt: new Date()
         });
-        // }
-      })
+      }
     })
   }
 

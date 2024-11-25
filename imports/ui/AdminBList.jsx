@@ -62,19 +62,7 @@ export default () => {
 
       <div>
         <h1>사업자회원 목록</h1>
-        {/* 그냥 만들기 */}
-        {/* <p>사업자종류/사업자명/사업자등록번호/사업자등록증/승인여부</p>
-          {UsersList.map((user) => (
-            <div key={user._id}>
-              <div>
-                {user.profile.type}/{user.username}/{user.profile.company.business_number}/{user.profile.company.business_certificate === null ? '없음' : '있음'}/
-                {user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}
-              </div>
-            </div>
-          ))} */}
-
-        {/* 테이블로 만들기 */}
-        <div class="max-w-[720px] mx-auto">
+        <div className="max-w-full mx-auto">
           <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
             <table class="w-full text-left table-auto min-w-max">
               <thead>
@@ -96,11 +84,6 @@ export default () => {
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
-                      사업자등록증
-                    </p>
-                  </th>
-                  <th class="p-4 border-b border-slate-200 bg-slate-50">
-                    <p class="text-sm font-normal leading-none text-slate-500">
                       승인여부
                     </p>
                   </th>
@@ -117,9 +100,6 @@ export default () => {
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
-                    </td>
-                    <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.profile.company.business_certificate === null ? '없음' : '있음'}</p>
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>

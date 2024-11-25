@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
-import { CollectionRequest, CollectionEstHelper } from '/imports/api/collections';
+import { CollectionRequest } from '/imports/api/collections';
 import { Link } from 'react-router-dom';
 // import BusinessMyPageNavBar from './BusinessMyPageNavBar';
 
@@ -11,30 +11,15 @@ export default () => {
     // 구독
     Meteor.subscribe('Users');
     Meteor.subscribe('CollectionRequest');
-    Meteor.subscribe('CollectionEstCar');
-    Meteor.subscribe('CollectionEstHelper');
 
     const user = Meteor.user();
     const businessType = user.profile.type || null;
-    const allRequests = CollectionRequest.find({}).fetch();
+    const allRequests = CollectionRequest.find({ submitted: { $ne: true } }).fetch();
 
-    let businessHelper = allRequests
-    if (businessType === '헬퍼') {
-      const allRequestsHelper = CollectionEstHelper.find({}).fetch();
-      businessHelper = allRequests.map((request) => {
-        const helperData = allRequestsHelper.find(
-          (helper) => helper.request_id === request._id);
-        return {
-          ...request,
-          helperData: helperData || null,
-        };
-      });
-    }
-
-    return {
+    return { 
       user,
-      businessType,
-      requests: businessType === '헬퍼' ? businessHelper : allRequests,
+      businessType, 
+      requests : allRequests,
     };
   });
 
@@ -49,16 +34,18 @@ export default () => {
         <ul>
           {requests.map((request) => (
             <li key={request._id}>
+              <p>{request.user_name}님의 이사 견적 요청</p>
               <p>이사 날짜: {new Date(request.move_date).toLocaleDateString()}</p>
               <p>출발지: {request.start_address}</p>
               <p>도착지: {request.arrive_address}</p>
+              <p>현재 집 평수: {request.house_size}</p>
               {businessType === '용달' && (
                 <p>인부 추가: {request.addworker ? '1명 추가' : '없음'}</p>
               )}
-              {businessType === '헬퍼' && request.helperData && (
+              {businessType === '헬퍼' && request && (
                 <>
-                <p>요청 시간대: {request.helperData.request_time_area}</p>
-                <p>요청 사항: {request.helperData.h_type}</p>
+                <p>요청 시간대: {request.reqHelper.request_time_area}</p>
+                <p>요청 사항: {request.reqHelper.h_type}</p>
                 </>
               )}
               <Link to={`/request-details/${request._id}`}>상세 보기</Link>
