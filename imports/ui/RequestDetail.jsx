@@ -228,13 +228,6 @@ export default () => {
                         checked = {carBusinessId === carestimate.business_id}
                         onChange={() => handleCarRadioChange(carestimate.business_id)}
                         />
-                      {/* <input
-                        type="checkbox"
-                        //checked={carBusinessId === carestimate.business_id && carestimate.isChecked}
-                        checked={carestimate.isChecked}
-                        onChange={() => toggleCheckbox(carestimate.business_id, "car")}
-                        //disabled={checkedItems.some((checked, i) => i !== index && checked)}
-                      /> */}
                     </td>
                     <td>{carestimate.business_id}</td>
                     <td>{carestimate.business_name}</td>
@@ -272,11 +265,6 @@ export default () => {
                         checked = {helBusinessId === helestimate.business_id}
                         onChange={() => handleHelRadioChange(helestimate.business_id)}
                         />
-                      {/* <input
-                        type="checkbox"
-                        checked={helestimate.isChecked}
-                        onChange={() => toggleCheckbox(helestimate.business_id, "help")}
-                      /> */}
                     </td>
                     <td>{helestimate.business_id}</td>
                     <td>{helestimate.business_name} </td>
