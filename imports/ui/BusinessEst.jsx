@@ -12,13 +12,14 @@ export default() => {
 
     const { estRequest, currentUser, businessType } = useTracker(() => {
         Meteor.subscribe('CollectionRequest');
-        const allData = CollectionRequest.find({
-            submitted: { $ne: true }}).fetch();
+        const allData = CollectionRequest.find({}).fetch();
         const user = Meteor.user()
         const businessType = user.profile.type || null;
 
         return { estRequest: allData, currentUser: user, businessType }
     },[]);
+
+    const currentRequest = estRequest.find(request => request._id === id);
 
     const handleEstimate = (e) => {
         setEstimate(e.target.value)
@@ -71,7 +72,7 @@ export default() => {
     return (
     <div>
         <h2>견적서 작성 페이지</h2>
-        <p>요청자 이름: {estRequest.user_name}</p>
+        <p>요청자 이름: {currentRequest.user_name}</p>
         <p>사업체명: {currentUser.profile.name}</p>
         <p>사업자 유형: {businessType}</p>
         <form onSubmit={handleSubmit}>

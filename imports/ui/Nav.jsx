@@ -78,6 +78,10 @@ export default ({ onNavClick }) => {
                 <li class="py-2 lg:py-0 ">
                   <Link to="/allrequest" >사업자 마이페이지</Link>
                 </li>
+
+                <li class="py-2 lg:py-0 ">
+                  <Link to="/businessAllEstimate" >사업자 견적서 목록 확인</Link>
+                </li>
                 <li>
                   <Link to="/admin" >관리자페이지</Link>
                 </li>
