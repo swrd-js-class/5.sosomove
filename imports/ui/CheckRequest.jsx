@@ -24,6 +24,7 @@ export default () => {
   //   ));
   //   console.log('******************' + user);
   // }
+  let i = 1;
 
   //일단 사용자 하나 db에서 빼오기
   const [user, setUser] = useState(null);
@@ -62,12 +63,12 @@ export default () => {
         <div>
           {requestList.map((request) => {
             return <div>
+              {i++}
               {request.createdAt.toStringYMD()}
               {request.user_name}
               {request.move_date.toStringYMD()}
               {request.start_address}
               {request.arrive_address}
-              {request.confirmYN}
               <Link to={`/requestdetail/${request._id}`}>
                 <button>상세보기</button>
               </Link>

@@ -59,8 +59,21 @@ Meteor.methods({
       return file.link();
     }
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
-  },
-  //가입승인
+  }
+});
+
+//요청서 확인
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
+});
+
+//견적서 확인
+Meteor.publish('CollectionEstimate', function () {
+  return CollectionEstimate.find();
+});
+
+//가입승인
+Meteor.methods({
   'users.update'(_id, confirm) {
     Meteor.users.update(_id, {
       $set: {
@@ -80,6 +93,34 @@ Meteor.methods({
   //관리자 정보수정(비밀번호)
   'adminchangepw'(newPassword) {
     Accounts.setPassword(this.userId, newPassword, { logout: false });
+  },
+});
+
+//견적서 생성
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
+  },
+});
+
+//견적서 생성
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
   },
 });
 
@@ -123,7 +164,7 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "용달",
-          name: "김용달",
+          name: `김용달${i}`,
           phone: "010-222-2222",
           company:
           {
@@ -146,7 +187,7 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "헬퍼",
-          name: "김헬퍼",
+          name: `김헬퍼${i}`,
           phone: "010-333-3333",
           company:
           {
@@ -215,12 +256,11 @@ Meteor.startup(() => {
   //견적서(용달 사업자 용)
   if (CollectionEstimate.find({ 'business_type': '용달' }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
-    const request = requests.random();
-
     const users = Meteor.users.find({ 'profile.type': '용달' }).fetch();
 
     users.forEach(function (estCaruser) {
       for (let i = 0; i < 5; i++) {
+        const request = requests.random();
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -239,12 +279,11 @@ Meteor.startup(() => {
   //견적서(헬퍼 사업자 용)
   if (CollectionEstimate.find({ 'business_type': "헬퍼" }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
-    const request = requests.random();
-
     const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
 
-    users.forEach(function (estCaruser) {
-      for (let i = 0; i < 5; i++) {
+    requests.forEach(function (request) {
+      users.forEach(function (estCaruser) {
+        //for (let i = 0; i < 5; i++) {
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -256,7 +295,77 @@ Meteor.startup(() => {
           business_type: "헬퍼",
           crateAt: new Date()
         });
-      }
+        //}
+      })
     })
   }
-});//끝
+});//더미데이터 끝
+
+//ksh. 
+Meteor.methods({
+
+  //테스트용 코드입니다.
+  loginAsTestUser() {
+    if (!this.userId) {
+      const testUser = Meteor.users.findOne({ 'profile.type': '관리자' });
+
+      if (testUser) {
+        return testUser.profile.name;
+      }
+    }
+    return null;
+  },
+
+  //견적요청서 리스트 조회
+  requestListCall() {
+    const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
+
+    if (requestList) {
+      return requestList;
+    }
+
+    return null;
+  },
+
+  //견적요청서 상세내역 조회
+  requestDetailCall({ param }) {
+
+    const requestDetail = CollectionRequest.find({ _id: param }).fetch();
+
+    if (requestDetail) {
+      return requestDetail;
+    }
+
+    return null;
+  },
+
+  //사업자 견적서 조회
+  estimateCall({ param, business_type }) {
+    const estimateList = CollectionEstimate.find({ 'request_id': param, 'business_type': business_type }).fetch();
+
+    if (estimateList) {
+      return estimateList;
+    }
+
+    return null;
+  },
+
+  updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
+    const query = {
+      '_id': requestId
+    }
+
+    const update = {
+      $set: {
+        'reqCar.car_confirm_id': car_businessId,
+        'reqHelper.hel_confirm_id': hel_businessId
+      }
+    }
+
+    CollectionRequest.update(query, update);
+  },
+
+  insertRequest(insertData) {
+    CollectionRequest.insert(insertData);
+  }
+});

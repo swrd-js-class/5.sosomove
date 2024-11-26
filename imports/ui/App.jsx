@@ -16,9 +16,10 @@ import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
 import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
+import BusinessAllEstimate from "./BusinessAllEstimate.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
-import DatePickerComponent from '../publicAPI/Calendar.jsx';
+import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
 
 export const App = () => {
@@ -38,10 +39,12 @@ export const App = () => {
           <Route path="/allrequest" element={<AllRequest />} />
           <Route path="/businessestimate/:id" element={<BusinessEst />} />
           <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />
+          <Route path="/businessAllEstimate" element={<BusinessAllEstimate />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
+          <Route path="/MatchingDetail" element={<MatchingDetail />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
