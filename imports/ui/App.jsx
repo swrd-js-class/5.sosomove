@@ -19,6 +19,7 @@ import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import BusinessAllEstimate from "./BusinessAllEstimate.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
+import RequestUpdate from "./RequestUpdate.jsx";
 import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
 
@@ -45,6 +46,7 @@ export const App = () => {
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
           <Route path="/MatchingDetail" element={<MatchingDetail />} />
+          <Route path="/requestUpdate/:id" element={<RequestUpdate />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

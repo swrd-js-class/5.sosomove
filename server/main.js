@@ -110,20 +110,6 @@ Meteor.methods({
   },
 });
 
-//견적서 생성
-Meteor.methods({
-  'estimate.insert'(estimateData) {
-    if (!this.userId) {
-      throw new Meteor.Error('내용이 없습니다');
-    }
-
-    CollectionEstimate.insert({
-      ...estimateData,
-      createdAt: new Date(),
-    });
-  },
-});
-
 Meteor.startup(() => {
 
   //관리자 생성

@@ -1,6 +1,7 @@
 //견적요청서 상세내역 조회
 import React, { useEffect, useState } from "react";
 import { Meteor } from "meteor/meteor";
+import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { CollectionEstConfirm } from "/imports/api/collections";
 import "/lib/utils.js";
@@ -50,67 +51,6 @@ export default () => {
       setEstimateHelList(result);
     });
   }, []);
-
-
-  // 체크박스 체크 시 호출되는 함수
-  // const handleCheckboxChange = (b_id, isChecked, type) => {
-  //   console.log(isChecked ? "Checked ID:" : "Unchecked ID:", b_id);
-  //   if (isChecked) {
-  //     if (type === "car") setCarBusinessId(b_id);
-  //     else if (type === "help") setHelBusinessId(b_id);
-  //     return;
-  //   } else {
-  //     if (type === "car") setCarBusinessId(null);
-  //     else if (type === "help") setHelBusinessId(null);
-  //     return;
-  //   }
-  // };
-
-  // 체크 상태 관리
-  // const toggleCheckbox = (id, type) => {
-
-  //   if (type === "car") {
-  //     setEstimateCarList((prevRows) => {
-  //       return prevRows.map((row) => {
-  //         if (row.business_id === id) {
-  //           return { ...row, isChecked: !row.isChecked };
-  //         } else {
-  //           return row;
-  //         }
-  //       }
-  //       )
-  //     }
-  //     );
-
-  //     const updatedRow = estimateCarList.find((row) => row.business_id === id);
-  //     if (updatedRow) {
-  //       handleCheckboxChange(id, !updatedRow.isChecked, type); // 현재 상태 반전 후 처리
-  //     }
-
-  //   }
-  //   else if (type === "help") {
-  //     setEstimateHelList((prevRows) => {
-  //       return prevRows.map((row) => {
-  //         if (row.business_id === id) {
-  //           return { ...row, isChecked: !row.isChecked };
-  //         } else {
-  //           return row;
-  //         }
-  //       }
-  //       )
-  //     }
-  //     );
-
-  //     const updatedRow = estimateHelList.find((row) => row.business_id === id);
-  //     if (updatedRow) {
-  //       handleCheckboxChange(id, !updatedRow.isChecked, type); // 현재 상태 반전 후 처리
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log("Updated businessId: ", businessId);
-  // }, [businessId]);
 
 
   //컨펌내역 확정
@@ -167,28 +107,34 @@ export default () => {
                 <tr />
                 <h3>용달 요청서</h3>
                 도착요청시간 : {detail.reqCar.req_arr_time}시<tr />
-                출발지-e/v : {detail.reqCar.str_addr_elv}<tr />
-                도착지-e/v : {detail.reqCar.arr_addr_elv}<tr />
-                사다리차 필요 여부<tr />
-                출발지 : {detail.reqCar.ladder_truck.start == true ? (
+                출발지-e/v : {detail.reqCar.str_addr_elv === true ? (
                   <input type='checkbox' checked />
                 ) : <input type='checkbox' />
                 }<tr />
-                도착지 {detail.reqCar.ladder_truck.arrive == true ? (
+                도착지-e/v : {detail.reqCar.arr_addr_elv === true ? (
+                  <input type='checkbox' checked />
+                ) : <input type='checkbox' />
+                }<tr />
+                사다리차 필요 여부<tr />
+                출발지 : {detail.reqCar.ladder_truck.start === true ? (
+                  <input type='checkbox' checked />
+                ) : <input type='checkbox' />
+                }<tr />
+                도착지 {detail.reqCar.ladder_truck.arrive === true ? (
                   <input type='checkbox' checked />
                 ) : <input type='checkbox' />
                 }<tr />
                 가전 {
-                  detail.reqCar.appliances.map((app) => {
-                    <button disabled="true">{app}</button>
-                  }
-                  )
+                  detail.reqCar.appliances.length > 0 ?
+                    detail.reqCar.appliances.map((app) => {
+                      return <button style={{ border: '1px solid black' }}>{app}</button>
+                    }) : <button />
                 }<tr />
                 가구 {
-                  detail.reqCar.furniture.map((furniture) => {
-                    <input type='text' readOnly>{furniture}</input>
-                  }
-                  )
+                  detail.reqCar.furniture.length > 0 ?
+                    detail.reqCar.furniture.map((furniture) => {
+                      return <button style={{ border: '1px solid black' }}>{furniture}</button>
+                    }) : <button />
                 }<tr />
                 <h3>도우미 요청서</h3>
                 요청시간대 : {detail.reqHelper.request_time_area}<tr />
@@ -278,7 +224,12 @@ export default () => {
             </tbody>
           </table>
         </div>
-        <button onClick={handleConfirm}>컨펌 확정</button>
+        <div><button onClick={handleConfirm}>컨펌 확정</button></div>
+        <div>
+          <Link to={`/requestUpdate/${id}`}>
+            <button>견적요청서 수정</button>
+          </Link>
+        </div>
       </div>
     </>
   );
