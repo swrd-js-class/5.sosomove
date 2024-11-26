@@ -72,7 +72,7 @@ export default ({ onNavClick }) => {
                   <Link to="/service" >서비스</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/request" >포장도우미</Link>
+                  <Link to="/request" >포장도우미AI</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
                   <Link to="/allrequest" >사업자 마이페이지(희원)</Link>
