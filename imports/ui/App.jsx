@@ -21,6 +21,7 @@ import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
 import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
+import BusinessMypageNavbar from "./BusinessMypageNavbar.jsx";
 
 export const App = () => {
   return (
@@ -36,6 +37,7 @@ export const App = () => {
           <Route path="/adminbcheck" element={<AdminBCheck />} />
           <Route path="/adminblist" element={<AdminBList />} />
           <Route path="/adminedit" element={<AdminEdit />} />
+          <Route path="/businessNavbar" element={<BusinessMypageNavbar />} />
           <Route path="/allrequest" element={<AllRequest />} />
           <Route path="/businessestimate/:id" element={<BusinessEst />} />
           <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />

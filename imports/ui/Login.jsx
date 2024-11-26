@@ -35,7 +35,7 @@ export default () => {
           alert('가입승인 중입니다')
           navigate('/');
         } else {
-          navigate('/allrequest'); //사업자 마이페이지로 이동
+          navigate('/businessNavbar'); //사업자 마이페이지로 이동
         }
       }
     });
