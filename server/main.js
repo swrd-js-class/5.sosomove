@@ -23,11 +23,12 @@ Meteor.startup(() => {
             "content": prompt,
           }
         ],
-        // 'max_tokens': 800,
+        'max_tokens': 800,
       }),
     });
 
     const data = await response.json();
+    console.log(data);
     return data.choices[0].message.content;
   };
 

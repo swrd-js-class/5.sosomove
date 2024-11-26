@@ -24,7 +24,7 @@ export default () => {
           <div class='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-lg shadow-xl'>
             <div class='max-w-md mx-auto space-y-6'>
               <div class="space-y-4">
-                <p class="text-lg font-medium text-center text-neutral-900">회원가입 정보 입력</p>
+                <p class="text-lg font-medium text-center text-neutral-900">회원가입 유형을 선택하세요</p>
                 <div class="relative " onClick={() => handleButtonClick('일반')}>
                   <label for="option1-checkbox" class="inline-flex items-center justify-between w-full p-5 bg-white border-2 rounded-lg cursor-pointer group border-neutral-200/70 text-neutral-600 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-100 peer-checked:border-blue-400 peer-checked:text-neutral-900 peer-checked:bg-blue-200/50">
                     <div class="flex items-center space-x-5">
