@@ -273,7 +273,7 @@ export default () => {
                         value={detailAddress}
                         placeholder="상세주소"
                         onChange={(e) => setDetailAddress(e.target.value)}
-                    /><br />
+                    />
 
                     <input
                         type="text"
