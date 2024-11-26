@@ -15,6 +15,7 @@ import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
 import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
+import BusinessAllEstimate from "./BusinessAllEstimate.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
 import MatchingDetail from "./MatchingDetail.jsx";
@@ -36,6 +37,7 @@ export const App = () => {
           <Route path="/allrequest" element={<AllRequest />} />
           <Route path="/businessestimate/:id" element={<BusinessEst />} />
           <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />
+          <Route path="/businessAllEstimate" element={<BusinessAllEstimate />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail/:id" element={<RequestDetail />} />

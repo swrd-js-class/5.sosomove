@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export default () => {
   const { id } = useParams();
 
-  const { request, businessType} = useTracker(() => {
+  const { request, businessType } = useTracker(() => {
     Meteor.subscribe('CollectionRequest');
 
     const user = Meteor.user();
@@ -35,10 +35,10 @@ export default () => {
       {businessType === '용달' && request && (
         <div>
           <p>도착 요청 시간: {request.reqCar.req_arr_time}시</p>
-          <p>출발지 엘리베이터 여부: {request.reqCar.str_addr_elv}</p>
-          <p>도착지 엘리베이터 여부: {request.reqCar.arr_addr_elv}</p>
-          <p>출발지 사다리차 여부: {request.reqCar.ladder_truck.start}</p>          
-          <p>도착지 사다리차 여부: {request.reqCar.ladder_truck.arrive}</p>
+          <p>출발지 엘리베이터 여부: {request.reqCar.str_addr_elv ? '있음' : '없음'}</p>
+          <p>도착지 엘리베이터 여부: {request.reqCar.arr_addr_elv ? '있음' : '없음'}</p>
+          <p>출발지 사다리차 여부: {request.reqCar.ladder_truck.start ? '있음' : '없음'}</p>          
+          <p>도착지 사다리차 여부: {request.reqCar.ladder_truck.arrive ? '있음' : '없음'}</p>
           <p>가전제품:</p> 
           <ul>{request.reqCar.appliances.map((item, index) => (
             <li key={index}>{item}</li>
