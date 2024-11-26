@@ -73,8 +73,9 @@ Meteor.publish('CollectionEstimate', function () {
   return CollectionEstimate.find();
 });
 
-//가입승인
+
 Meteor.methods({
+  //가입승인
   'users.update'(_id, confirm) {
     Meteor.users.update(_id, {
       $set: {
@@ -106,6 +107,12 @@ Meteor.methods({
   'userchangepw'(newPassword) {
     Accounts.setPassword(this.userId, newPassword, { logout: false });
   },
+  //회원탈퇴
+  'users.removeAccount'() {
+    const userId = this.userId;
+    Meteor.users.remove(userId);
+    return '회원탈퇴 성공';
+  }
 });
 
 //견적서 생성

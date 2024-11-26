@@ -23,6 +23,7 @@ export default () => {
     }
   }, []);
 
+  //사업자회원 정보 수정 버튼
   const handleSubmit = (e) => {
     e.preventDefault();
     Meteor.call("businessedit", { name, phone, ceo_name, address }, (err) => {
@@ -43,6 +44,23 @@ export default () => {
       });
     }
   };
+
+  //회원탈퇴 버튼
+  const deleteAccount = () => {
+    if (window.confirm('정말 탈퇴하시겠습니까?')) {
+      Meteor.call('users.removeAccount', (error, result) => {
+        if (error) {
+          alert('탈퇴 실패: ' + error.message);
+        } else {
+          alert('탈퇴 성공');
+          Meteor.logout(() => {
+            window.location.href = '/'; //첫페이지로 이동
+          });
+        }
+      });
+    }
+  }
+
 
   return (
 
@@ -89,10 +107,10 @@ export default () => {
       </div>
 
       {/* 수정할 내용 */}
-      <form onSubmit={handleSubmit}>
-        <div class="flex h-screen bg-gray-100">
-          <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
-            <h1 class="text-center text-lg font-bold text-gray-500">내 정보 수정</h1>
+      <div class="flex h-screen bg-gray-100">
+        <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
+          <h1 class="text-center text-lg font-bold text-gray-500">내 정보 수정</h1>
+          <form onSubmit={handleSubmit}>
 
             <div class="space-y-4 mt-6">
               <div class="w-full">
@@ -116,13 +134,11 @@ export default () => {
                 <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} class="px-4 py-2 bg-gray-50" />
               </div>
             </div>
-
-
-
             <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
-          </div>
+          </form>
+          <button onClick={deleteAccount} class="w-full mt-5 bg-red-600 text-white py-2 rounded-md font-semibold tracking-tight">탈퇴</button>
         </div>
-      </form>
+      </div>
 
     </div>
   );
