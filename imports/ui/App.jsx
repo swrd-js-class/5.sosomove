@@ -21,6 +21,8 @@ import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
 import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
+import UserEdit from "./UserEdit.jsx";
+import BusinessEdit from "./BusinessEdit.jsx";
 
 export const App = () => {
   return (
@@ -45,6 +47,11 @@ export const App = () => {
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
           <Route path="/MatchingDetail" element={<MatchingDetail />} />
+          <Route path="/useredit" element={<UserEdit />} />
+          <Route path="/businessedit" element={<BusinessEdit />} />
+
+
+
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

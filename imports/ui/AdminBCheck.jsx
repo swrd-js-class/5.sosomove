@@ -14,7 +14,7 @@ export default () => {
   const UsersAll = useTracker(() => {
     const skip = (currentPage - 1) * PageSize;
     const limit = PageSize;
-    Meteor.subscribe('users_paged', skip, limit);
+    Meteor.subscribe('users', skip, limit);
     return Meteor.users.find(
       {
         "profile.type": { $in: ["헬퍼", "용달"] },
@@ -138,7 +138,7 @@ export default () => {
                         <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
                       </td>
                       <td class="p-4 py-5">
-                        <p class="text-sm text-slate-500">{user.username}</p>
+                        <p class="text-sm text-slate-500">{user.profile.name}</p>
                       </td>
                       <td class="p-4 py-5">
                         <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>

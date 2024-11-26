@@ -87,6 +87,9 @@ export default ({ onNavClick }) => {
                 <li>
                   <Link to="/admin" >관리자페이지</Link>
                 </li>
+                <li>
+                  <Link to="/businessedit" >테스트용(효정)</Link>
+                </li>
               </ul>
             </nav>
           </div>

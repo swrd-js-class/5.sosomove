@@ -62,6 +62,7 @@ Meteor.methods({
   }
 });
 
+
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
@@ -81,8 +82,8 @@ Meteor.methods({
       },
     });
   },
-  //관리자 정보수정(이름, 핸드폰번호)
-  'adminedit'({ name, phone }) {
+  //일반회원+관리자 정보수정(이름, 핸드폰번호)
+  'useredit'({ name, phone }) {
     Meteor.users.update(this.userId, {
       $set: {
         'profile.name': name,
@@ -90,23 +91,20 @@ Meteor.methods({
       }
     })
   },
-  //관리자 정보수정(비밀번호)
-  'adminchangepw'(newPassword) {
-    Accounts.setPassword(this.userId, newPassword, { logout: false });
+  //사업자회원 정보수정(사업장명, 대표번호, 대표자명, 사업장주소 )
+  'businessedit'({ name, phone, ceo_name, address }) {
+    Meteor.users.update(this.userId, {
+      $set: {
+        'profile.name': name,
+        'profile.phone': phone,
+        'profile.company.ceo_name': ceo_name,
+        'profile.company.address': address,
+      }
+    })
   },
-});
-
-//견적서 생성
-Meteor.methods({
-  'estimate.insert'(estimateData) {
-    if (!this.userId) {
-      throw new Meteor.Error('내용이 없습니다');
-    }
-
-    CollectionEstimate.insert({
-      ...estimateData,
-      createdAt: new Date(),
-    });
+  //모든 회원 정보수정(비밀번호)
+  'userchangepw'(newPassword) {
+    Accounts.setPassword(this.userId, newPassword, { logout: false });
   },
 });
 
@@ -299,7 +297,7 @@ Meteor.startup(() => {
       })
     })
   }
-});//더미데이터 끝
+});/////////////////더미데이터 끝
 
 //ksh. 
 Meteor.methods({

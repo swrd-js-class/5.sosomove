@@ -3,24 +3,29 @@ import { Link } from "react-router-dom";
 import { Meteor } from 'meteor/meteor';
 
 
-//관리자 정보수정
+//사업자 정보수정
 export default () => {
 
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [ceo_name, setCeoName] = useState('');
+  const [address, setAddress] = useState('');
+
 
   useEffect(() => {
     const user = Meteor.user();
     if (user) {
       setName(user.profile.name);
       setPhone(user.profile.phone);
+      setCeoName(user.profile.company.ceo_name);
+      setAddress(user.profile.company.address);
     }
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Meteor.call("useredit", { name, phone }, (err) => {
+    Meteor.call("businessedit", { name, phone, ceo_name, address }, (err) => {
       if (err) {
         alert('Error: ' + err.message);
       } else {
@@ -56,7 +61,7 @@ export default () => {
                     <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
-                <Link to="/adminbcheck" >사업자회원 승인여부 체크</Link>
+                <Link to="/" >...</Link>
               </div>
             </li>
             <li>
@@ -66,7 +71,7 @@ export default () => {
                     <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
-                <Link to="/adminblist" >사업자회원 목록</Link>
+                <Link to="/" >...</Link>
               </div>
             </li>
             <li>
@@ -76,7 +81,7 @@ export default () => {
                     <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
-                <Link to="/adminedit" >내 정보 수정</Link>
+                <Link to="/businessedit" >내 정보 수정</Link>
               </div>
             </li>
           </ul>
@@ -88,20 +93,32 @@ export default () => {
         <div class="flex h-screen bg-gray-100">
           <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
             <h1 class="text-center text-lg font-bold text-gray-500">내 정보 수정</h1>
+
             <div class="space-y-4 mt-6">
               <div class="w-full">
                 <h2>비밀번호 재설정</h2>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50" />
               </div>
               <div class="w-full">
-                <h2>이름</h2>
+                <h2>사업장명</h2>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50" />
               </div>
               <div class="w-full">
-                <h2>핸드폰 번호</h2>
+                <h2>대표번호</h2>
                 <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
               </div>
+              <div class="w-full">
+                <h2>대표자명</h2>
+                <input type="text" value={ceo_name} onChange={(e) => setCeoName(e.target.value)} class="px-4 py-2 bg-gray-50" />
+              </div>
+              <div class="w-full">
+                <h2>사업장 주소</h2>
+                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} class="px-4 py-2 bg-gray-50" />
+              </div>
             </div>
+
+
+
             <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
           </div>
         </div>
