@@ -5,6 +5,7 @@ import {
   CollectionEstimate,
 } from "/imports/api/collections";
 import "/lib/utils.js";
+import { HandThumbDownIcon } from '@heroicons/react/16/solid';
 
 //user - 관리자
 Meteor.publish('users', function () {
@@ -62,6 +63,14 @@ Meteor.methods({
     createdAt: new Date(),
   });
   },
+
+  'estimate.delete'(estimateId) {
+    if (!this.userId) {
+      throw new Meteor.Error('삭제가 불가합니다');
+    }
+
+    CollectionEstimate.remove({ _id: estimateId })
+  }
 });
 
 Meteor.startup(() => {

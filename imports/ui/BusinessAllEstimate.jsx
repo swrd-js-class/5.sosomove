@@ -15,7 +15,7 @@ export default () => {
         const estimates = CollectionEstimate.find({ business_id: businessId }).fetch();
 
         const estimateinReq = estimates.map((estimate) => {
-            const request = CollectionRequest.findOne({ _id: estimate._id});
+            const request = CollectionRequest.findOne({ _id: estimate.request_id});
             return { ...estimate, request }
         })
         return {
@@ -28,7 +28,18 @@ export default () => {
         return <p>견적서를 찾을 수 없습니다.</p>
     }
 
-    console.log(estimateinReq.request)
+    const handleDelete = (estimateId) => {
+    Meteor.call('estimate.delete', estimateId, (err) => {
+        if (err) {
+            alert('삭제 중 오류가 발생했습니다: ' + err.reason);
+        } else {
+            alert('견적서가 삭제되었습니다.');
+        }
+    });
+};
+
+    
+
     return (
         <div>
             <h2>{user.profile.name}님이 제출한 견적서 전체 목록</h2>
@@ -44,6 +55,7 @@ export default () => {
                     )}
                         <p>상세 내용: {estimateReq.details}</p>
                         <p>금액: {estimateReq.amount}원</p>
+                        <button onClick={() => handleDelete(estimateReq._id)}>삭제</button>
                     </li>
                 ))}
             </ul>
