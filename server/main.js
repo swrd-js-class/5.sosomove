@@ -1,26 +1,58 @@
 import { Meteor } from 'meteor/meteor';
 import { Files } from "/imports/api/Files.js";
-import {
-  CollectionRequest,
-  CollectionEstimate,
-} from "/imports/api/collections";
+import { CollectionRequest, CollectionEstimate } from "/imports/api/collections";
 import "/lib/utils.js";
-import { HandThumbDownIcon } from '@heroicons/react/16/solid';
+import { Accounts } from "meteor/accounts-base";
+import fetch from 'node-fetch';
+
+
+//애저 오픈 AI GPT호출
+Meteor.startup(() => {
+  const fetchGPTResponse = async (prompt) => {
+    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
+    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': `${apiKey}`,
+      },
+      body: JSON.stringify({
+        "messages": [
+          {
+            "role": "user",
+            "content": prompt,
+          }
+        ],
+        // 'max_tokens': 800,
+      }),
+    });
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+  };
+
+  Meteor.methods({
+    'openAI.query': async (prompt) => {
+      return fetchGPTResponse(prompt);
+    }
+  });
+});
 
 //user - 관리자
 Meteor.publish('users', function () {
   return Meteor.users.find();
 });
 //페이징처리
-Meteor.publish('users_paged', function (skip, limit) {
+Meteor.publish('users', function (skip, limit) {
   return Meteor.users.find({}, { skip, limit });
 });
 //file처리
 Meteor.publish('files', function () {
   return Files.find().cursor;
 });
-//file-link처리
+
 Meteor.methods({
+  //file-link처리
   getFileLink(fileId) {
     const file = Files.findOne(fileId);
     if (file) {
@@ -48,7 +80,20 @@ Meteor.methods({
         'profile.company.confirm': confirm,
       },
     });
-  }
+  },
+  //관리자 정보수정(이름, 핸드폰번호)
+  'adminedit'({ name, phone }) {
+    Meteor.users.update(this.userId, {
+      $set: {
+        'profile.name': name,
+        'profile.phone': phone,
+      }
+    })
+  },
+  //관리자 정보수정(비밀번호)
+  'adminchangepw'(newPassword) {
+    Accounts.setPassword(this.userId, newPassword, { logout: false });
+  },
 });
 
 //견적서 생성
@@ -58,10 +103,24 @@ Meteor.methods({
       throw new Meteor.Error('내용이 없습니다');
     }
 
-  CollectionEstimate.insert({
-    ...estimateData,
-    createdAt: new Date(),
-  });
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
+  },
+});
+
+//견적서 생성
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
   },
 
   'estimate.delete'(estimateId) {
@@ -117,12 +176,9 @@ Meteor.startup(() => {
           phone: "010-222-2222",
           company:
           {
-            company_name: "배달해요",
-            company_phone: "010-333-3333",
             ceo_name: "김대표",
             address: "서울시 광진구 자양동1",
             business_number: "0100-1101-20",
-            call_number: null,
             confirm: false,
           },
 
@@ -143,12 +199,9 @@ Meteor.startup(() => {
           phone: "010-333-3333",
           company:
           {
-            company_name: "도와줘요",
-            company_phone: "010-555-2555",
             ceo_name: "김헬퍼",
             address: "서울시 광진구 자양동2",
             business_number: "0100-1101-30",
-            call_number: null,
             confirm: false,
           },
 
@@ -167,7 +220,7 @@ Meteor.startup(() => {
       CollectionRequest.insert({
         user_id: user._id,
         user_name: user.profile.name,
-        move_date: [new Date('2025-10-01'), new Date('2024-12-31'), new Date('2025-02-15')].random(), //이사날짜 
+        move_date: [new Date('2025-10-01'), new Date('2024-12-31'), new Date('2025-02-15')].random(), //이사날짜
         start_address: ["서울시", "대구시", "부산시"].random(), //출발지
         arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
         house_size: [10, 20, 30].random(), //집 평수
@@ -236,9 +289,9 @@ Meteor.startup(() => {
     const requests = CollectionRequest.find().fetch();
     const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
 
-    users.forEach(function (estCaruser) {
-      for (let i = 0; i < 5; i++) {
-        const request = requests.random();
+    requests.forEach(function (request) {
+      users.forEach(function (estCaruser) {
+        //for (let i = 0; i < 5; i++) {
 
         CollectionEstimate.insert({
           request_id: request._id,
@@ -250,7 +303,77 @@ Meteor.startup(() => {
           business_type: "헬퍼",
           crateAt: new Date()
         });
-      }
+        //}
+      })
     })
   }
-});//끝
+});//더미데이터 끝
+
+//ksh. 
+Meteor.methods({
+
+  //테스트용 코드입니다.
+  loginAsTestUser() {
+    if (!this.userId) {
+      const testUser = Meteor.users.findOne({ 'profile.type': '관리자' });
+
+      if (testUser) {
+        return testUser.profile.name;
+      }
+    }
+    return null;
+  },
+
+  //견적요청서 리스트 조회
+  requestListCall() {
+    const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
+
+    if (requestList) {
+      return requestList;
+    }
+
+    return null;
+  },
+
+  //견적요청서 상세내역 조회
+  requestDetailCall({ param }) {
+
+    const requestDetail = CollectionRequest.find({ _id: param }).fetch();
+
+    if (requestDetail) {
+      return requestDetail;
+    }
+
+    return null;
+  },
+
+  //사업자 견적서 조회
+  estimateCall({ param, business_type }) {
+    const estimateList = CollectionEstimate.find({ 'request_id': param, 'business_type': business_type }).fetch();
+
+    if (estimateList) {
+      return estimateList;
+    }
+
+    return null;
+  },
+
+  updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
+    const query = {
+      '_id': requestId
+    }
+
+    const update = {
+      $set: {
+        'reqCar.car_confirm_id': car_businessId,
+        'reqHelper.hel_confirm_id': hel_businessId
+      }
+    }
+
+    CollectionRequest.update(query, update);
+  },
+
+  insertRequest(insertData) {
+    CollectionRequest.insert(insertData);
+  }
+});

@@ -10,6 +10,7 @@ import Admin from "./Admin.jsx";
 import AdminNavbar from "./AdminNavbar.jsx";
 import AdminBCheck from "./AdminBCheck.jsx";
 import AdminBList from "./AdminBList.jsx";
+import AdminEdit from "./AdminEdit.jsx";
 import SignupDetail from "./SignupDetail.jsx";
 import NotFound from "./NotFound.jsx";
 import Checkrequest from "./CheckRequest.jsx";
@@ -18,6 +19,7 @@ import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import BusinessAllEstimate from "./BusinessAllEstimate.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
+import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
 
 export const App = () => {
@@ -33,6 +35,7 @@ export const App = () => {
           <Route path="/adminnavbar" element={<AdminNavbar />} />
           <Route path="/adminbcheck" element={<AdminBCheck />} />
           <Route path="/adminblist" element={<AdminBList />} />
+          <Route path="/adminedit" element={<AdminEdit />} />
           <Route path="/allrequest" element={<AllRequest />} />
           <Route path="/businessestimate/:id" element={<BusinessEst />} />
           <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />
@@ -41,6 +44,7 @@ export const App = () => {
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
+          <Route path="/MatchingDetail" element={<MatchingDetail />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
