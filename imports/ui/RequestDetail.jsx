@@ -1,13 +1,14 @@
 //견적요청서 상세내역 조회
 import React, { useEffect, useState } from "react";
 import { Meteor } from "meteor/meteor";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { CollectionEstConfirm } from "/imports/api/collections";
 import "/lib/utils.js";
 
 export default () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [reqDetail, setReqDetail] = useState([]);
@@ -77,6 +78,21 @@ export default () => {
       console.log("취소");
       return;
     }
+  }
+
+  //삭제
+  const handleRequestRemove = () => {
+    Meteor.call('removeRequest', { param: id }, (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      else {
+        alert("삭제되었습니다.");
+
+        navigate('/CheckRequest');
+      }
+    });
   }
 
   //car_radio
@@ -229,6 +245,9 @@ export default () => {
           <Link to={`/requestUpdate/${id}`}>
             <button>견적요청서 수정</button>
           </Link>
+        </div>
+        <div>
+          <button onClick={handleRequestRemove}>삭제</button>
         </div>
       </div>
     </>

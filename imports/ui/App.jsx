@@ -13,7 +13,7 @@ import AdminBList from "./AdminBList.jsx";
 import AdminEdit from "./AdminEdit.jsx";
 import SignupDetail from "./SignupDetail.jsx";
 import NotFound from "./NotFound.jsx";
-import Checkrequest from "./CheckRequest.jsx";
+import CheckRequest from "./CheckRequest.jsx";
 import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import BusinessAllEstimate from "./BusinessAllEstimate.jsx";
@@ -42,7 +42,7 @@ export const App = () => {
           <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />
           <Route path="/businessAllEstimate" element={<BusinessAllEstimate />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
-          <Route path="/checkrequest" element={<Checkrequest />} />
+          <Route path="/checkrequest" element={<CheckRequest />} />
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
           <Route path="/MatchingDetail" element={<MatchingDetail />} />

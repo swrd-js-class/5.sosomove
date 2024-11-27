@@ -22,7 +22,7 @@ export default () => {
       setUser(result);
     })
   } else {
-    Meteor.call('userSearch', { param: id }, (error, result) => {
+    Meteor.call('userSearch', { param: userId }, (error, result) => {
       setUser(result);
     })
   };

@@ -325,6 +325,23 @@ Meteor.methods({
     return null;
   },
 
+  //매칭내역 조회
+  requestMatchingListCall({ param }) {
+    const requestList = CollectionRequest.find({
+      'user_id': param,
+      $or: [
+        { 'reqCar.car_confirm_id': { $ne: null } },
+        { 'reqHelper.hel_confirm_id': { $ne: null } }
+      ]
+    }, { sort: { createAt: -1 } }).fetch();
+
+    if (requestList) {
+      return requestList;
+    }
+
+    return null;
+  },
+
   //견적요청서 상세내역 조회
   requestDetailCall({ param }) {
 
@@ -401,5 +418,26 @@ Meteor.methods({
     }
 
     CollectionRequest.update(query, update);
+  },
+
+  removeRequest({ param }) {
+    try {
+      const estremoveresult = CollectionEstimate.remove({ 'request_id': param });
+
+      if (estremoveresult === 0) {
+        throw new Error("CollectionEstimate 삭제 실패");
+      }
+
+      const reqremoveresult = CollectionRequest.remove({ '_id': param });
+
+      if (reqremoveresult === 0) {
+        throw new Error("CollectionRequest 삭제 실패");
+      }
+
+      console.log("두 컬렉션 삭제 성공");
+    } catch (error) {
+      console.error("컬렉션 삭제 중 오류 발생 : ", error);
+      throw new Meteor.Error('delete-failed', error.message);
+    }
   }
 });
