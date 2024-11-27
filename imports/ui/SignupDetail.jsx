@@ -118,7 +118,7 @@ export default () => {
 
   return (
     <>
-      <div class='flex items-center justify-center min-h-screen from-blue-100 via-blue-300 to-blue-500 bg-gradient-to-br'>
+      <div class='flex items-center justify-center min-h-screen from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br'>
 
         {userType === '일반' &&
           <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">

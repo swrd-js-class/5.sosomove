@@ -54,8 +54,8 @@ export default () => {
   return (
     <div>
       {showImage && (
-        <div class='flex items-center justify-center min-h-screen from-blue-100 via-blue-300 to-blue-500 bg-gradient-to-br'>
-          <div class="flex flex-col justify-center items-center bg-white">
+        <div class='flex items-center justify-center min-h-screen from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br'>
+          <div class="flex flex-col justify-center items-center bg-white rounded-lg">
             <div class="p-10 border-[1px] border-slate-200 rounded-md flex flex-col items-center space-y-3 flex-grow">
               <div class="py-2">
                 <p class="text-[32px] font-bold text-zinc-1000 dark:text-white">Login</p>

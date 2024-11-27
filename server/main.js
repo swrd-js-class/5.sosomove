@@ -28,7 +28,8 @@ Meteor.startup(() => {
     });
 
     const data = await response.json();
-    console.log(data);
+    //출력해보자!!!
+    // console.log(data);  
     return data.choices[0].message.content;
   };
 
