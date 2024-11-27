@@ -54,14 +54,14 @@ export default () => {
   return (
     <div>
       {showImage && (
-        <div class='flex items-center justify-center min-h-screen from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br'>
+        <div class='flex items-center justify-center min-h-screen bg-sky-200'>
           <div class="flex flex-col justify-center items-center bg-white rounded-lg">
             <div class="p-10 border-[1px] border-slate-200 rounded-md flex flex-col items-center space-y-3 flex-grow">
               <div class="py-2">
                 <p class="text-[32px] font-bold text-zinc-1000 dark:text-white">Login</p>
               </div>
               <input class="p-3 border-[1px] border-slate-500 rounded-sm w-80" ref={refEmail} type="email" placeholder="이메일을 입력해주세요" />
-              <div class="flex flex-col space-y-1">
+              <div class="flex flex-col space-y-1 pb-5">
                 <input class="p-3 border-[1px] border-slate-500 rounded-sm w-80" ref={refPassword} type="password" placeholder="비밀번호를 입력해주세요" />
                 {/* <div class="flex justify-center space-x-8">
                   <p class="font-bold text-[#0070ba]">아이디 찾기</p>

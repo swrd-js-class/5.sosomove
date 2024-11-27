@@ -20,7 +20,7 @@ export default () => {
   return (
     <>
       {showImage && (
-        <div class='flex items-center justify-center min-h-screen from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br'>
+        <div class='flex items-center justify-center min-h-screen bg-sky-200'>
           <div class='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-lg shadow-xl'>
             <div class='max-w-md mx-auto space-y-6'>
               <div class="space-y-4">

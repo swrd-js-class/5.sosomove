@@ -7,7 +7,7 @@ export default () => {
         <div class="container flex flex-col flex-wrap px-5 py-12 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
           <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
             <p class="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
-              소소이사
+              소소이사(주)
             </p>
             <div class="mt-4">
               <span class="inline-flex justify-center mt-2 sm:ml-auto sm:mt-0 sm:justify-start">

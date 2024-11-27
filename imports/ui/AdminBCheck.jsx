@@ -109,7 +109,12 @@ export default () => {
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
-                      사업자명
+                      사업장명
+                    </p>
+                  </th>
+                  <th class="p-4 border-b border-slate-200 bg-slate-50">
+                    <p class="text-sm font-normal leading-none text-slate-500">
+                      대표자명
                     </p>
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -120,6 +125,11 @@ export default () => {
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
                       사업자등록증
+                    </p>
+                  </th>
+                  <th class="p-4 border-b border-slate-200 bg-slate-50">
+                    <p class="text-sm font-normal leading-none text-slate-500">
+                      대표번호
                     </p>
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -139,6 +149,9 @@ export default () => {
                       </td>
                       <td class="p-4 py-5">
                         <p class="text-sm text-slate-500">{user.profile.name}</p>
+                      </td>
+                      <td class="p-4 py-5">
+                        <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
                       </td>
                       <td class="p-4 py-5">
                         <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
@@ -169,8 +182,12 @@ export default () => {
                       </td>
 
                       <td class="p-4 py-5">
-                        <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true">승인</button>
+                        <p class="text-sm text-slate-500">{user.profile.phone}</p>
+                      </td>
+                      <td class="p-4 py-5">
+                        <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">
+                          승인
+                        </button>
                       </td>
                     </tr>
                   );

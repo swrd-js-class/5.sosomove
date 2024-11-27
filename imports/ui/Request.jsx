@@ -45,8 +45,8 @@ export default () => {
 
 
       {/* css추가 */}
-      <div class="flex items-center justify-center px-5 py-5 min-h-screen from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br">
-        <div class="flex flex-col from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br rounded-lg ">
+      <div class="flex items-center justify-center px-5 py-5 min-h-screen bg-sky-200">
+        <div class="flex flex-col rounded-lg ">
           <div class="w-full max-w-xl px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 bg-white rounded-lg border">
             <p class="text-center">
               포장방법이 궁금하시면 아래에 물품을 입력 후 검색 버튼을 누르세요.<br />
@@ -62,12 +62,12 @@ export default () => {
             </form>
           </div>
 
-          <div class="w-full max-w-xl px-5 pt-5 pb-10 mx-auto text-gray-800 bg-white rounded-lg border">
+          <div class="w-full max-w-xl px-5 pt-5 pb-10 mx-auto text-gray-800 bg-white rounded-lg border ">
             <div class="w-full pt-1 pb-5 mx-auto -mt-16 text-center">
               <img alt="AI-bot" src="/AI.png" class="mx-auto object-cover rounded-full h-20 w-20 " />
             </div>
-            <div class="w-full mb-10">
-              <div class="h-3 text-3xl leading-tight text-left text-indigo-500">
+            <div class="w-full mb-10 min-h-56">
+              <div class="h-3 text-3xl leading-tight text-left text-indigo-500 ">
                 “
               </div>
               {response ? (

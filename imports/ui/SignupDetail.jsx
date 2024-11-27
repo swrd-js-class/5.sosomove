@@ -2,10 +2,14 @@ import React, { useState, useRef } from "react";
 import { Accounts } from 'meteor/accounts-base';
 import { useParams } from 'react-router-dom';
 import { Files } from "/imports/api/Files.js";
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 //회원가입
 export default () => {
+  const navigate = useNavigate();
 
   //일반회원과 사업자회원을 param으로 구별
   const { userType } = useParams();
@@ -107,8 +111,12 @@ export default () => {
         setError(err.reason);
       } else {
         setError('');
-        upload();
+        if (userType === '사업자') {
+          upload();
+        } else {
+        }
         alert('회원가입 되었습니다!');
+        navigate('/'); //회원가입 후 메인페이지 이동 왜 안되냐???ㅡㅡ
       }
     }
     );

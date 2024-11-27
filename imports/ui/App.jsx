@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Layout from './Layout';
 import Login from "./Login.jsx";
 import Service from "./Service.jsx";
 import Request from "./Request.jsx";
@@ -23,6 +22,8 @@ import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
 import UserEdit from "./UserEdit.jsx";
 import BusinessEdit from "./BusinessEdit.jsx";
+import Layout from "./Layout.jsx";
+
 
 export const App = () => {
   return (
