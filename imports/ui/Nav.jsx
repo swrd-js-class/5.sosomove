@@ -75,14 +75,7 @@ export default ({ onNavClick }) => {
                   <Link to="/request" >포장도우미AI</Link>
                 </li>
                 <li class="py-2 lg:py-0 ">
-                  <Link to="/businessNavbar" >사업자 마이페이지(희원)</Link>
-                </li>
-                <li class="py-2 lg:py-0 ">
                   <Link to="/checkrequest" >일반 마이페이지(송희)</Link>
-                </li>
-
-                <li class="py-2 lg:py-0 ">
-                  <Link to="/businessAllEstimate" >사업자 견적서 목록 확인</Link>
                 </li>
                 <li>
                   <Link to="/admin" >관리자페이지</Link>
