@@ -25,29 +25,10 @@ export default () => {
   };
 
   return (
-    <div>
-      {/* <div>
-        <p>포장방법이 궁금하시면 아래에 물품을 입력 후 검색 버튼을 누르세요.</p>
-        <p>도우미봇이 당신의 이사를 위한 유용한 팁을 드립니다.</p><br />
-        <form onSubmit={handleSubmit}>
-          <input type="text" ref={item} placeholder="물품을 입력하세요" />
-          <button type="submit" disabled={loading}>
-            {loading ? '로딩 중...' : '검색'}
-          </button>
-        </form>
-      </div>
-      {response && (
-        <div>
-          <h2>답변:</h2>
-          <p>{response}</p>
-        </div>
-      )} */}
-
-
-      {/* css추가 */}
-      <div class="flex items-center justify-center px-5 py-5 min-h-screen bg-sky-200">
-        <div class="flex flex-col rounded-lg ">
-          <div class="w-full max-w-xl px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 bg-white rounded-lg border">
+    <>
+      <div class="flex items-center justify-center min-h-screen bg-sky-200">
+        <div class="flex flex-col rounded-lg w-[1000px]">
+          <div class="w-full px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 bg-white rounded-lg border">
             <p class="text-center">
               포장방법이 궁금하시면 아래에 물품을 입력 후 검색 버튼을 누르세요.<br />
               포장도우미AI가 당신의 이사를 위한 '유용한 팁'을 드립니다.
@@ -62,7 +43,7 @@ export default () => {
             </form>
           </div>
 
-          <div class="w-full max-w-xl px-5 pt-5 pb-10 mx-auto text-gray-800 bg-white rounded-lg border ">
+          <div class="w-full px-5 pt-5 pb-10 mx-auto text-gray-800 bg-white rounded-lg border ">
             <div class="w-full pt-1 pb-5 mx-auto -mt-16 text-center">
               <img alt="AI-bot" src="/AI.png" class="mx-auto object-cover rounded-full h-20 w-20 " />
             </div>
@@ -71,7 +52,7 @@ export default () => {
                 “
               </div>
               {response ? (
-                <p class="px-5 text-base text-center text-gray-600 dark:text-gray-100">
+                <p class="px-5 text-base text-gray-600 dark:text-gray-100" style={{ whiteSpace: 'pre-line' }}>
                   {response}
                 </p>
               ) : (
@@ -93,8 +74,8 @@ export default () => {
             </div>
           </div>
         </div>
-
       </div>
-    </div>
+
+    </>
   );
 };
