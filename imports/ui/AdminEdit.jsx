@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { Meteor } from 'meteor/meteor';
 
-
 //관리자 정보수정
 export default () => {
 

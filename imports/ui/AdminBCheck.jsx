@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
-import { Link } from "react-router-dom";
 import { Files } from "/imports/api/Files.js";
+import { Link } from "react-router-dom";
 
-
-
+//사업자회원 승인여부 체크
 export default () => {
 
   //페이징처리+'승인신청 중'인 사업자 리스트
   const PageSize = 5;  //한 페이지당 갯수 조정
   const [currentPage, setCurrentPage] = useState(1);
-
   const UsersAll = useTracker(() => {
     const skip = (currentPage - 1) * PageSize;
     const limit = PageSize;
@@ -24,7 +22,6 @@ export default () => {
   }, [currentPage]);
   const totalCount = Meteor.users.find({ "profile.type": { $in: ["헬퍼", "용달"] }, "profile.company.confirm": false }).count();
   const totalPages = Math.ceil(totalCount / PageSize);
-
 
   //승인버튼 눌러서 가입 승인
   const SignupConfirm = (_id) => {
@@ -49,10 +46,7 @@ export default () => {
   }, [UsersAll]);
   console.log(files);
 
-
-
   return (
-
     // 사이드바
     <div class="flex">
       <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-[calc(100vh-4rem)] w-full max-w-[20rem] p-4  border">
@@ -94,6 +88,7 @@ export default () => {
           </ul>
         </nav>
       </div>
+
 
       <div>
         <h1>사업자회원 승인여부 체크 목록</h1>
@@ -210,9 +205,9 @@ export default () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
+
     </div>
   );
 };

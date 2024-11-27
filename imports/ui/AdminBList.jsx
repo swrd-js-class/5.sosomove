@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from "react-router-dom";
 
-
+//사업자회원 목록
 export default () => {
 
   //페이징처리+모든 사업자 리스트

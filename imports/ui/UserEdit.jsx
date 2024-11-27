@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { Meteor } from 'meteor/meteor';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 //일반회원 정보수정
@@ -9,6 +12,7 @@ export default () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = Meteor.user();
@@ -28,7 +32,6 @@ export default () => {
         alert("회원정보가 수정되었습니다")
       }
     });
-
     if (password) {
       Meteor.call("userchangepw", password, (err) => {
         if (err) {
@@ -49,7 +52,7 @@ export default () => {
         } else {
           alert('탈퇴 성공');
           Meteor.logout(() => {
-            window.location.href = '/'; //첫페이지로 이동
+            navigate('/');
           });
         }
       });
@@ -93,7 +96,7 @@ export default () => {
                     <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
-                <Link to="/useredit" >내 정보 수정</Link>
+                <Link to="/useredit" >내 정보 관리</Link>
               </div>
             </li>
           </ul>
@@ -119,12 +122,11 @@ export default () => {
                 <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
               </div>
             </div>
-            <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
+            <button type="submit" class="w-full mt-5 bg-indigo-500 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
           </form>
-          <button onClick={deleteAccount} class="w-full mt-5 bg-red-600 text-white py-2 rounded-md font-semibold tracking-tight">탈퇴</button>
+          <button onClick={deleteAccount} class="w-full mt-5 bg-red-500 text-white py-2 rounded-md font-semibold tracking-tight">탈퇴</button>
         </div>
       </div>
-
 
     </div>
   );

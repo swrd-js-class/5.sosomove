@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Login.jsx";
 import Service from "./Service.jsx";
-import Request from "./Request.jsx";
+import Gpt from "./Gpt.jsx";
 import Signup from "./Signup.jsx";
 import BusinessEst from "./BusinessEst.jsx";
 import Admin from "./Admin.jsx";
@@ -26,16 +26,17 @@ import Layout from "./Layout.jsx";
 
 
 export const App = () => {
+
   return (
-    < Router >
+    <Router>
       <Routes>
         <Route path="/" element={<Layout />} >
           <Route path="/login" element={<Login />} />
           <Route path="/service" element={<Service />} />
-          <Route path="/request" element={<Request />} />
+          <Route path="/gpt" element={<Gpt />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/adminnavbar" element={<AdminNavbar />} />
+          <Route path="/adminnavbar" element={<AdminNavbar />} /> */
           <Route path="/adminbcheck" element={<AdminBCheck />} />
           <Route path="/adminblist" element={<AdminBList />} />
           <Route path="/adminedit" element={<AdminEdit />} />
@@ -50,6 +51,10 @@ export const App = () => {
           <Route path="/MatchingDetail" element={<MatchingDetail />} />
           <Route path="/useredit" element={<UserEdit />} />
           <Route path="/businessedit" element={<BusinessEdit />} />
+          <Route path="/MypageNavbar" element={<MypageNavbar />} />
+
+
+
 
 
 
