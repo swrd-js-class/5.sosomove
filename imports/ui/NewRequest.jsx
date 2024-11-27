@@ -188,48 +188,55 @@ export default () => {
 
     //견적서 제출
     const handleSubmit = () => {
-        const jsonRequestData = {
-            user_id: userId,
-            user_name: proposer,
-            move_date: selectedDate,
-            start_address: startAddress + ' ' + detailStartAddress,
-            arrive_address: arrAddress + ' ' + detailArrAddress,
-            house_size: s_house_size,
-            addworker: addWorker,
-            reqCar: {
-                req_arr_time: carSelectedTime,
-                str_addr_elv: sAddrEv,
-                arr_addr_elv: aAddrEv,
-                ladder_truck: {
-                    start: sAddr_ladder,
-                    arrive: aAddr_ladder
-                },
-                appliances: appliances,
-                furniture: furnitures,
-                detail: carContent,
-                car_confirm_id: null
-            },
-            reqHelper: {
-                request_time_area: selectedTimeArea,
-                h_type: selHelpOption,
-                h_req_arr_time: selectedTime,
-                s_house_size: s_house_size,
-                a_house_size: a_house_size,
-                hel_confirm_id: null
-            },
-            createdAt: new Date()
-        }
+        const isconfirm = window.confirm("선택된 업체를 저장하시겠습니까?");
 
-        //db insert
-        Meteor.call('insertRequest', jsonRequestData, (err, result) => {
-            if (err) {
-                console.log(err);
-                return;
+        if (isconfirm) {
+            const jsonRequestData = {
+                user_id: userId,
+                user_name: proposer,
+                move_date: selectedDate,
+                start_address: startAddress + ' ' + detailStartAddress,
+                arrive_address: arrAddress + ' ' + detailArrAddress,
+                house_size: s_house_size,
+                addworker: addWorker,
+                reqCar: {
+                    req_arr_time: carSelectedTime,
+                    str_addr_elv: sAddrEv,
+                    arr_addr_elv: aAddrEv,
+                    ladder_truck: {
+                        start: sAddr_ladder,
+                        arrive: aAddr_ladder
+                    },
+                    appliances: appliances,
+                    furniture: furnitures,
+                    detail: carContent,
+                    car_confirm_id: null
+                },
+                reqHelper: {
+                    request_time_area: selectedTimeArea,
+                    h_type: selHelpOption,
+                    h_req_arr_time: selectedTime,
+                    s_house_size: s_house_size,
+                    a_house_size: a_house_size,
+                    hel_confirm_id: null
+                },
+                createdAt: new Date()
             }
 
-            console.log("insert success!!");
-            alert("견적 요청서가 저장되었습니다.");
-        })
+            //db insert
+            Meteor.call('insertRequest', jsonRequestData, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+
+                console.log("insert success!!");
+                alert("견적 요청서가 저장되었습니다.");
+            })
+        } else {
+            console.log("취소");
+            return;
+        }
     }
 
 

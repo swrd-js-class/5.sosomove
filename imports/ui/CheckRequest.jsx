@@ -8,22 +8,8 @@ import { CollectionRequest } from "/imports/api/collections";
 import "/lib/utils.js";
 
 export default () => {
-  //const handleCar = Meteor.subscribe('CollectionEstCar');
 
-  // const user = useTracker(() => Meteor.user());
-  // const isLoading = useTracker(() => !Meteor.loggingIn() && !user);
 
-  // //로딩 중일때 로딩메세지 표시
-  // if (isLoading) return <p>Loding....</p>
-
-  // if (!user) return <p>No user logged in</p>
-
-  // if (Meteor.userId()) {
-  //   setUser(useTracker(() =>
-  //     Meteor.users.findOne({ "profile.type": "일반" })
-  //   ));
-  //   console.log('******************' + user);
-  // }
   let i = 1;
 
   //일단 사용자 하나 db에서 빼오기
@@ -33,6 +19,10 @@ export default () => {
   //테스트용 유저 생성, 테스트 끝난 후 반드시 주석처리!!
   if (!Meteor.userId()) {
     Meteor.call('loginAsTestUser', (error, result) => {
+      setUser(result);
+    })
+  } else {
+    Meteor.call('userSearch', { param: id }, (error, result) => {
       setUser(result);
     })
   };

@@ -302,6 +302,18 @@ Meteor.methods({
     return null;
   },
 
+  //사용자 조회
+  userSearch({ param }) {
+    if (!this.userId) {
+      const user = Meteor.users.findOne({ '_id': param });
+
+      if (user) {
+        return user.profile.name;
+      }
+    }
+    return null;
+  },
+
   //견적요청서 리스트 조회
   requestListCall() {
     const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
@@ -351,7 +363,43 @@ Meteor.methods({
     CollectionRequest.update(query, update);
   },
 
+  //개인-신규 견적요청서 저장
   insertRequest(insertData) {
     CollectionRequest.insert(insertData);
+  },
+
+  //개인-견적요청서 수정
+  updateRequest(requestId, updateData) {
+    const query = {
+      '_id': requestId
+    }
+
+    const {
+      user_name,
+      move_date,
+      start_address,
+      arrive_address,
+      house_size,
+      addworker,
+      reqCar,
+      reqHelper,
+      createAt
+    } = updateData
+
+    const update = {
+      $set: {
+        user_name,
+        move_date,
+        start_address,
+        arrive_address,
+        house_size,
+        addworker,
+        reqCar,
+        reqHelper,
+        createAt
+      }
+    }
+
+    CollectionRequest.update(query, update);
   }
 });

@@ -2,16 +2,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "/lib/utils.js";
 
 export default () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const userId = Meteor.userId(); //현재 로그인한 사용자의 userId 조회
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [proposer, setProposer] = useState(''); //신청자
   const [addWorker, setAddWorker] = useState(false); //용달 추가인력
+  const [moveDate, setMoveDate] = useState(''); //이사날짜
+  const [moveDateData, setMoveDateData] = useState('');
   const [activeTab, setActiveTab] = useState('car');
   const [selectedTime, setSelectedTime] = useState(''); //도착요청시간-헬퍼
   const [carSelectedTime, setCarSelectedTime] = useState(''); //도착요청시간-용달
@@ -31,14 +35,13 @@ export default () => {
   const [isChecked, setIsChecked] = useState(false);
   const carTextareaRef = useRef();
 
+
   //주소찾기
   const [startPostcode, setStartPostcode] = useState('');
   const [startAddress, setStartAddress] = useState('');
-  const [detailStartAddress, setDetailStartAddress] = useState('');
 
   const [arrPostcode, setArrPostcode] = useState('');
   const [arrAddress, setArrAddress] = useState('');
-  const [detailArrAddress, setDetailArrAddress] = useState('');
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [reqDetail, setReqDetail] = useState([]);
@@ -75,7 +78,14 @@ export default () => {
     return () => {
       document.body.removeChild(script);
     };
+
+
   }, []);
+
+  useEffect(() => {
+    //조회된 데이터 초기 set
+    dataSet();
+  }, [reqDetail])
 
   // 우편번호 찾기 실행 함수
   const handlePostcodeSearch = (type) => {
@@ -106,10 +116,14 @@ export default () => {
 
   //조회한 초기 데이터 각 항목에 set
   const dataSet = () => {
+
     reqDetail.map((data) => {
+
       setProposer(data.user_name); //신청자명
       setStartAddress(data.start_address);//출발지-주소
       setArrAddress(data.arrive_address);//도착지-주소
+      setMoveDate(data.move_date.toStringYMD()); //이사날짜
+      setMoveDateData(data.move_date);
       setAddWorker(data.addworker);//추가용달인원 true/false
       //용달 내용
       setAppliances(data.reqCar.appliances); //가전
@@ -215,48 +229,58 @@ export default () => {
 
   //견적서 제출
   const handleSubmit = () => {
-    const jsonRequestData = {
-      user_id: userId,
-      user_name: proposer,
-      move_date: selectedDate,
-      start_address: startAddress,
-      arrive_address: arrAddress,
-      house_size: s_house_size,
-      addworker: addWorker,
-      reqCar: {
-        req_arr_time: carSelectedTime,
-        str_addr_elv: sAddrEv,
-        arr_addr_elv: aAddrEv,
-        ladder_truck: {
-          start: sAddr_ladder,
-          arrive: aAddr_ladder
-        },
-        appliances: appliances,
-        furniture: furnitures,
-        detail: carContent,
-        car_confirm_id: null
-      },
-      reqHelper: {
-        request_time_area: selectedTimeArea,
-        h_type: selHelpOption,
-        h_req_arr_time: selectedTime,
-        s_house_size: s_house_size,
-        a_house_size: a_house_size,
-        hel_confirm_id: null
-      },
-      createdAt: new Date()
-    }
+    const isconfirm = window.confirm("저장하시겠습니까?");
 
-    //db insert
-    Meteor.call('insertRequest', jsonRequestData, (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
+    if (isconfirm) {
+
+      const jsonRequestData = {
+        user_name: proposer,
+        move_date: selectedDate !== null ? selectedDate : moveDateData,
+        start_address: startAddress,
+        arrive_address: arrAddress,
+        house_size: s_house_size,
+        addworker: addWorker,
+        reqCar: {
+          req_arr_time: carSelectedTime,
+          str_addr_elv: sAddrEv,
+          arr_addr_elv: aAddrEv,
+          ladder_truck: {
+            start: sAddr_ladder,
+            arrive: aAddr_ladder
+          },
+          appliances: appliances,
+          furniture: furnitures,
+          detail: carContent,
+          car_confirm_id: null
+        },
+        reqHelper: {
+          request_time_area: selectedTimeArea,
+          h_type: selHelpOption,
+          h_req_arr_time: selectedTime,
+          s_house_size: s_house_size,
+          a_house_size: a_house_size,
+          hel_confirm_id: null
+        },
+        createdAt: new Date()
       }
 
-      console.log("insert success!!");
-      alert("견적 요청서가 저장되었습니다.");
-    })
+      //db update
+      Meteor.call('updateRequest', id, jsonRequestData, (err, result) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+
+        console.log("update success!!");
+        alert("견적 요청서가 저장되었습니다.");
+
+        //상세페이지로 페이지 이동
+        navigate(`/RequestDetail/${id}`);
+      })
+    } else {
+      console.log("취소");
+      return;
+    }
   }
 
   return (
@@ -310,7 +334,7 @@ export default () => {
           /><br />
         </div>
         <div>
-          날짜 :
+          날짜 : {moveDate}
           <DatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
@@ -560,7 +584,7 @@ export default () => {
           )}
         </div>
         <div>
-          <button onClick={handleSubmit}>견적요청서 제출</button>
+          <button onClick={handleSubmit}>견적요청서 수정</button>
         </div>
       </div>
     </>
