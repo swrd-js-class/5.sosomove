@@ -10,7 +10,7 @@ import fetch from 'node-fetch';
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
     const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview`, {
+    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
