@@ -31,7 +31,7 @@ export default () => {
   const [requestList, setRequestList] = useState([]);
 
   useEffect(() => {
-    Meteor.call('requestListCall', (err, result) => {
+    Meteor.call('requestListCall', { param: userId }, (err, result) => {
       if (err) {
         console.log(err);
         return;

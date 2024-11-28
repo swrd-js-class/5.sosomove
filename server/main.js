@@ -315,8 +315,8 @@ Meteor.methods({
   },
 
   //견적요청서 리스트 조회
-  requestListCall() {
-    const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
+  requestListCall(param) {
+    const requestList = CollectionRequest.find({ '_id': param }, { sort: { createAt: -1 } }).fetch();
 
     if (requestList) {
       return requestList;
