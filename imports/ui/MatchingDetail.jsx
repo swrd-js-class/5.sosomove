@@ -97,11 +97,11 @@ export default () => {
 
   const handleConfrimCancle = () => {
 
-    if (setDelReqConfirmBizId.length > 0) {
+    if (delReqConfirmBizId.length > 0) {
       const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
 
       if (isconfirm) {
-        setDelReqConfirmBizId.map((delInfo) => {
+        delReqConfirmBizId.map((delInfo) => {
           Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type }, (err, result) => {
             if (err) {
               console.log(err);
@@ -111,6 +111,9 @@ export default () => {
 
           alert("매칭이 해제 되었습니다.");
         })
+
+        //새로고침 해야해!!!
+
       } else {
         console.log("취소");
         return;
