@@ -32,7 +32,7 @@ export default () => {
 
   if (businessType === "일반" || businessType === "관리자") {
     return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  } 
+  }
 
   const filterRequest = requests.filter((request) => 
   request.start_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, '')) || 
