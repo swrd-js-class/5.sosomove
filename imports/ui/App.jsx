@@ -24,7 +24,7 @@ import UserEdit from "./UserEdit.jsx";
 import BusinessEdit from "./BusinessEdit.jsx";
 import Layout from "./Layout.jsx";
 import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
-
+import Business from "./Business.jsx";
 
 export const App = () => {
 
@@ -36,28 +36,32 @@ export const App = () => {
           <Route path="/service" element={<Service />} />
           <Route path="/gpt" element={<Gpt />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/adminnavbar" element={<AdminNavbar />} /> */
-          <Route path="/adminbcheck" element={<AdminBCheck />} />
-          <Route path="/adminblist" element={<AdminBList />} />
-          <Route path="/adminedit" element={<AdminEdit />} />
           <Route path="/businessNavbar" element={<BusinessMypageNavbar />} />
-          <Route path="/allrequest" element={<AllRequest />} />
-          <Route path="/businessestimate/:id" element={<BusinessEst />} />
-          <Route path="/request-details/:id" element={<BusinessAllRequestDetails />} />
-          <Route path="/businessAllEstimate" element={<BusinessAllEstimate />} />
           <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/checkrequest" element={<Checkrequest />} />
           <Route path="/requestdetail/:id" element={<RequestDetail />} />
           <Route path="/NewRequest" element={<NewRequest />} />
           <Route path="/MatchingDetail" element={<MatchingDetail />} />
           <Route path="/useredit" element={<UserEdit />} />
-          <Route path="/businessedit" element={<BusinessEdit />} />
           <Route path="/MypageNavbar" element={<MypageNavbar />} />
 
 
+          {/* 효정 */}
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
+            <Route path="/admin/adminblist" element={<AdminBList />} />
+            <Route path="/admin/adminedit" element={<AdminEdit />} />
+          </Route>
 
-
+          {/* 희원 */}
+          <Route path="/business" element={<Business />}>
+            <Route path="/business/allrequest" element={<AllRequest />} />
+            <Route path="/business/businessAllEstimate" element={<BusinessAllEstimate />} />
+            <Route path="/business/businessestimate/:id" element={<BusinessEst />} />
+            <Route path="/business/request-details/:id" element={<BusinessAllRequestDetails />} />
+            <Route path="/business/businessedit" element={<BusinessEdit />} />
+          </Route>
 
 
           <Route path="*" element={<NotFound />} />

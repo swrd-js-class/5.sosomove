@@ -25,12 +25,12 @@ export default () => {
 
     const submitRequestIds = CollectionEstimate.find({ business_id: businessId }).map(estimate => estimate.request_id);
 
-    const allRequests = CollectionRequest.find({ _id: { $nin: submitRequestIds }}).fetch();
+    const allRequests = CollectionRequest.find({ _id: { $nin: submitRequestIds } }).fetch();
 
-    return { 
+    return {
       user,
-      businessType, 
-      requests : allRequests,
+      businessType,
+      requests: allRequests,
     };
   }, []);
 
@@ -47,14 +47,20 @@ export default () => {
     return <p>해당 페이지에 접근할 수 없습니다.</p>;
   }
 
-  return (
-    <>
-      <div>
-        <BusinessMypageNavbar />
-      </div>
 
+  const filterRequest = requests.filter((request) =>
+    request.start_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, '')) ||
+    request.arrive_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, ''))
+  ).sort((a, b) => new Date(a.move_date) - new Date(b.move_date));
+
+  return (
+      <>
+        <div>
+          <BusinessMypageNavbar />
+        </div>
+    <div>
       <div className="max-w-full mx-auto">
-      <h1>{user.profile.name}님 환영합니다!</h1>
+        <h1>{user.profile.name}님 환영합니다!</h1>
         <h2>{businessType} 요청서 목록</h2>
 
         {/* 지역 선택 필터 */}
@@ -100,7 +106,7 @@ export default () => {
                     <p>요청 사항: {request.reqHelper.h_type}</p>
                   </>
                 )}
-                <Link to={`/request-details/${request._id}`}>상세 보기</Link>
+                <Link to={`/business/request-details/${request._id}`}>상세 보기</Link>
               </li>
               ) : null
             ))}
@@ -110,6 +116,7 @@ export default () => {
         )}
         <Link to="businessNavbar" className="mt-10 inline-block">뒤로 가기</Link>
       </div>
+    </div>
     </>
   );
 };

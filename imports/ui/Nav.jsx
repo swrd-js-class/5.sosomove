@@ -61,6 +61,9 @@ export default ({ onNavClick }) => {
                 <Link to="/checkrequest" >마이페이지(송희)</Link>
               </li>
               <li class="py-2 lg:py-0 ">
+                <Link to="/business" >마이페이지(희원)</Link>
+              </li>
+              <li class="py-2 lg:py-0 ">
                 <Link to="/admin" >관리자페이지</Link>
               </li>
             </ul>
