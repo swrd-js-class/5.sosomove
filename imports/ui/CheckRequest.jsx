@@ -1,10 +1,8 @@
 //견적서확인 페이지
 import React, { useEffect, useRef, useState } from "react";
-import { useTracker } from "meteor/react-meteor-data";
 import { Meteor } from "meteor/meteor";
 import { Link } from 'react-router-dom';
 import MypageNavbar from "./MypageNavbar.jsx";
-import { CollectionRequest } from "/imports/api/collections";
 import "/lib/utils.js";
 
 export default () => {
