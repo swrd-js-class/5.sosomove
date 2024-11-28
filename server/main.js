@@ -118,9 +118,7 @@ Meteor.methods({
   }
 });
 
-=======
 //견적서 입력 및 삭제
->>>>>>> main
 Meteor.methods({
   'estimate.insert'(estimateData) {
     if (!this.userId) {
