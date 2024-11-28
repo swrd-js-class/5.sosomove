@@ -23,6 +23,7 @@ import MypageNavbar from "./MypageNavbar.jsx";
 import UserEdit from "./UserEdit.jsx";
 import BusinessEdit from "./BusinessEdit.jsx";
 import Layout from "./Layout.jsx";
+import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 
 
 export const App = () => {
