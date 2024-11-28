@@ -118,14 +118,14 @@ Meteor.methods({
   }
 });
 
-  'estimate.delete'(estimateId) {
-    if (!this.userId) {
-      throw new Meteor.Error('삭제가 불가합니다');
-    }
+//   'estimate.delete'(estimateId) {
+//     if (!this.userId) {
+//       throw new Meteor.Error('삭제가 불가합니다');
+//     }
 
-    CollectionEstimate.remove({ _id: estimateId })
-  }
-});
+//     CollectionEstimate.remove({ _id: estimateId })
+//   }
+// });
 
 Meteor.startup(() => {
 
