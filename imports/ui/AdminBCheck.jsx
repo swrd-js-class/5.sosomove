@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
-import { Link } from "react-router-dom";
 import { Files } from "/imports/api/Files.js";
+import { Link } from "react-router-dom";
 
-
-
+//사업자회원 승인여부 체크
 export default () => {
 
   //페이징처리+'승인신청 중'인 사업자 리스트
   const PageSize = 5;  //한 페이지당 갯수 조정
   const [currentPage, setCurrentPage] = useState(1);
-
   const UsersAll = useTracker(() => {
     const skip = (currentPage - 1) * PageSize;
     const limit = PageSize;
-    Meteor.subscribe('users_paged', skip, limit);
+    Meteor.subscribe('users', skip, limit);
     return Meteor.users.find(
       {
         "profile.type": { $in: ["헬퍼", "용달"] },
@@ -24,7 +22,6 @@ export default () => {
   }, [currentPage]);
   const totalCount = Meteor.users.find({ "profile.type": { $in: ["헬퍼", "용달"] }, "profile.company.confirm": false }).count();
   const totalPages = Math.ceil(totalCount / PageSize);
-
 
   //승인버튼 눌러서 가입 승인
   const SignupConfirm = (_id) => {
@@ -49,10 +46,7 @@ export default () => {
   }, [UsersAll]);
   console.log(files);
 
-
-
   return (
-
     // 사이드바
     <div class="flex">
       <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-[calc(100vh-4rem)] w-full max-w-[20rem] p-4  border">
@@ -95,6 +89,7 @@ export default () => {
         </nav>
       </div>
 
+
       <div>
         <h1>사업자회원 승인여부 체크 목록</h1>
         <div className="max-w-full mx-auto">
@@ -109,7 +104,12 @@ export default () => {
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
-                      사업자명
+                      사업장명
+                    </p>
+                  </th>
+                  <th class="p-4 border-b border-slate-200 bg-slate-50">
+                    <p class="text-sm font-normal leading-none text-slate-500">
+                      대표자명
                     </p>
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -120,6 +120,11 @@ export default () => {
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
                       사업자등록증
+                    </p>
+                  </th>
+                  <th class="p-4 border-b border-slate-200 bg-slate-50">
+                    <p class="text-sm font-normal leading-none text-slate-500">
+                      대표번호
                     </p>
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -138,7 +143,10 @@ export default () => {
                         <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
                       </td>
                       <td class="p-4 py-5">
-                        <p class="text-sm text-slate-500">{user.username}</p>
+                        <p class="text-sm text-slate-500">{user.profile.name}</p>
+                      </td>
+                      <td class="p-4 py-5">
+                        <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
                       </td>
                       <td class="p-4 py-5">
                         <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
@@ -169,8 +177,12 @@ export default () => {
                       </td>
 
                       <td class="p-4 py-5">
-                        <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true">승인</button>
+                        <p class="text-sm text-slate-500">{user.profile.phone}</p>
+                      </td>
+                      <td class="p-4 py-5">
+                        <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">
+                          승인
+                        </button>
                       </td>
                     </tr>
                   );
@@ -193,9 +205,9 @@ export default () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
+
     </div>
   );
 };

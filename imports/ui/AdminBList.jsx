@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from "react-router-dom";
 
-
+//사업자회원 목록
 export default () => {
 
   //페이징처리+모든 사업자 리스트
@@ -12,7 +12,7 @@ export default () => {
   const UsersList = useTracker(() => {
     const skip = (currentPage - 1) * PageSize;
     const limit = PageSize;
-    Meteor.subscribe('users_paged', skip, limit);
+    Meteor.subscribe('users', skip, limit);
     return Meteor.users.find(
       {
         "profile.type": { $in: ["헬퍼", "용달"] },
@@ -84,12 +84,22 @@ export default () => {
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
-                      사업자명
+                      사업장명
+                    </p>
+                  </th>
+                  <th class="p-4 border-b border-slate-200 bg-slate-50">
+                    <p class="text-sm font-normal leading-none text-slate-500">
+                      대표자명
                     </p>
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
                     <p class="text-sm font-normal leading-none text-slate-500">
                       사업자등록번호
+                    </p>
+                  </th>
+                  <th class="p-4 border-b border-slate-200 bg-slate-50">
+                    <p class="text-sm font-normal leading-none text-slate-500">
+                      대표번호
                     </p>
                   </th>
                   <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -106,10 +116,16 @@ export default () => {
                       <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
                     </td>
                     <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.username}</p>
+                      <p class="text-sm text-slate-500">{user.profile.name}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.phone}</p>
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>
