@@ -36,11 +36,11 @@ export const App = () => {
           <Route path="/service" element={<Service />} />
           <Route path="/gpt" element={<Gpt />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/admin" element={<Admin />} />
+          {/* <Route path="/admin" element={<Admin />} /> */}
           <Route path="/adminnavbar" element={<AdminNavbar />} /> */
-          <Route path="/adminbcheck" element={<AdminBCheck />} />
-          <Route path="/adminblist" element={<AdminBList />} />
-          <Route path="/adminedit" element={<AdminEdit />} />
+          {/* <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
+          <Route path="/admin/adminblist" element={<AdminBList />} />
+          <Route path="/admin/adminedit" element={<AdminEdit />} /> */}
           <Route path="/businessNavbar" element={<BusinessMypageNavbar />} />
           <Route path="/allrequest" element={<AllRequest />} />
           <Route path="/businessestimate/:id" element={<BusinessEst />} />
@@ -55,6 +55,13 @@ export const App = () => {
           <Route path="/businessedit" element={<BusinessEdit />} />
           <Route path="/MypageNavbar" element={<MypageNavbar />} />
 
+
+
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
+            <Route path="/admin/adminblist" element={<AdminBList />} />
+            <Route path="/admin/adminedit" element={<AdminEdit />} />
+          </Route>
 
 
 
