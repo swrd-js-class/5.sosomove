@@ -304,19 +304,17 @@ Meteor.methods({
 
   //사용자 조회
   userSearch({ param }) {
-    if (!this.userId) {
-      const user = Meteor.users.findOne({ '_id': param });
 
-      if (user) {
-        return user.profile.name;
-      }
+    const user = Meteor.users.findOne({ '_id': param });
+
+    if (user) {
+      return user.profile.name;
     }
-    return null;
   },
 
   //견적요청서 리스트 조회
-  requestListCall(param) {
-    const requestList = CollectionRequest.find({ '_id': param }, { sort: { createAt: -1 } }).fetch();
+  requestListCall({ param }) {
+    const requestList = CollectionRequest.find({ 'user_id': param }, { sort: { createAt: -1 } }).fetch();
 
     if (requestList) {
       return requestList;
@@ -439,5 +437,31 @@ Meteor.methods({
       console.error("컬렉션 삭제 중 오류 발생 : ", error);
       throw new Meteor.Error('delete-failed', error.message);
     }
+  },
+
+  //사업자정보 조회
+  bizInfoSearch({ userId }) {
+    const userInfo = Meteor.users.findOne({ '_id': userId });
+
+    if (userInfo) {
+      return userInfo;
+    }
+  },
+
+  //매칭-해제
+  updateRequestConfirmBizId({ requestId, type }) {
+    const query = {
+      '_id': requestId
+    }
+
+    const update = {};
+
+    if (type === '용달') {
+      update.$set = { 'reqCar.car_confirm_id': null };
+    } else if (type === '헬퍼') {
+      update.$set = { 'reqHelper.hel_confirm_id': null };
+    }
+
+    CollectionRequest.update(query, update);
   }
 });

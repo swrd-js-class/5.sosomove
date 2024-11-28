@@ -2,9 +2,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from "react-router-dom";
 import "/lib/utils.js";
 
 export default () => {
+    const userId = Meteor.userId(); //현재 로그인한 사용자의 userId 조회
+    const navigate = useNavigate();
+
     const [selectedDate, setSelectedDate] = useState(null);
     const [proposer, setProposer] = useState(''); //신청자
     const [sAddr, setSAddr] = useState(''); //출발지
@@ -28,8 +32,6 @@ export default () => {
     const [aAddr_ladder, setAAddr_ladder] = useState(false); //도착지 사다리차 여부
     const [isChecked, setIsChecked] = useState(false);
     const carTextareaRef = useRef();
-
-    const userId = Meteor.userId(); //현재 로그인한 사용자의 userId 조회
 
     //주소찾기
     const [startPostcode, setStartPostcode] = useState('');
@@ -232,6 +234,8 @@ export default () => {
 
                 console.log("insert success!!");
                 alert("견적 요청서가 저장되었습니다.");
+
+                navigate('/checkrequest');
             })
         } else {
             console.log("취소");

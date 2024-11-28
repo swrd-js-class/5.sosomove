@@ -11,19 +11,23 @@ export default () => {
   let i = 1;
 
   //일단 사용자 하나 db에서 빼오기
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const userId = Meteor.userId();
 
   //테스트용 유저 생성, 테스트 끝난 후 반드시 주석처리!!
-  if (!Meteor.userId()) {
-    Meteor.call('loginAsTestUser', (error, result) => {
-      setUser(result);
-    })
-  } else {
-    Meteor.call('userSearch', { param: userId }, (error, result) => {
-      setUser(result);
-    })
-  };
+  // if (!Meteor.userId()) {
+  //   Meteor.call('loginAsTestUser', (error, result) => {
+  //     setUser(result);
+  //   })
+
+  Meteor.call('userSearch', { param: userId }, (err, result) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    setUser(result);
+  })
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [requestList, setRequestList] = useState([]);

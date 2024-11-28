@@ -7,10 +7,8 @@ import "/lib/utils.js";
 export default () => {
   const userId = Meteor.userId(); //현재 로그인한 사용자의 userId 조회
   const [matchingList, setMatchingList] = useState([]);
-
-  console.log("userId : " + userId);
-
-  const [newCompileDate, setNewCompileData] = useState([]); // 최종 수정된 데이터(id, 출발지, 도착지, 용달업체 이름, 용달업체 연락처, 헬퍼업체 이름, 헬퍼업체 연락처)
+  const [bizInfoList, setBizInfoList] = useState([]);
+  const [delReqConfirmBizId, setDelReqConfirmBizId] = useState([]); //매칭취소 리스트
 
   //userid로 모든 request 내역을 끌고온다. list로 보여주면서 matching된 내역을 보여준다.
   //matching되지 않은 request내역은 보여주지 않는다.
@@ -26,8 +24,6 @@ export default () => {
       }
       setMatchingList(result);
     });
-
-    console.log("시작은 했다아아아아");
   }, []);
 
   //matchingList가 변하면 사업자 정보 조회
@@ -37,79 +33,126 @@ export default () => {
       matchingList.map((matching) => {
         console.log("map 시작");
 
-        const [bizIdList, setBizIdList] = useState([]);
-        const [bizInfo, setBizInfo] = useState([]);
-        const [compileInfo, setCompileInfo] = useState({});
+        let bizIdList = [];
+        let bizInfo = [];
 
         if (matching.reqCar.car_confirm_id !== null) {
-          setBizIdList([...bizIdList, matching.reqCar.car_confirm_id]);
+          bizIdList = [...bizIdList, matching.reqCar.car_confirm_id];
         }
         if (matching.reqHelper.hel_confirm_id !== null) {
-          setBizIdList([...bizIdList, matching.reqHelper.hel_confirm_id]);
+          bizIdList = [...bizIdList, matching.reqHelper.hel_confirm_id];
         }
 
-        for (let i = 0; i < bizIdList.length; i++) {
-          Meteor.call('bizInfoSearch', { param: bizId[i] }, (err, result) => {
+        // for (let i = 0; i < bizIdList.length; i++) {
+        bizIdList.forEach((bizId) => {
+          Meteor.call('bizInfoSearch', { userId: bizId }, (err, result) => {
             if (err) {
               console.log(err);
               return;
             }
-            setBizInfo([...bizInfo, result]);
+
+            const data = {
+              requestId: matching._id,
+              start: matching.start_address,
+              arrive: matching.arrive_address,
+              type: result.profile.type,
+              name: result.profile.name,
+              phone: result.profile.phone,
+              bizId: bizId
+            };
+
+            bizInfo = [...bizInfo, data];
+
+            if (bizIdList.length === bizInfo.length) {
+              setBizInfoList([...bizInfoList, ...bizInfo]);
+            }
           });
-        }
-
-        const str = { requesId: matching._id, start: matching.start_address, arrive: matching.arrive_address, };
-        setCompileInfo(str);
-
-        for (let j = 0; j < bizInfo.length; j++) {
-          if (bizInfo[j].profile.type === '용달') {
-            const car = {
-              type: '용달',
-              bizName: bizInfo[j].profile.name,
-              phone: bizInfo[j].profile.phone
-            }
-
-            setCompileInfo(prevState => ({
-              ...prevState, // 이전 상태를 복사
-              car // 객체 추가
-            }));
-          }
-          else if (bizInfo[j].profile.type === '헬퍼') {
-            const helper = {
-              type: '헬퍼',
-              bizName: bizInfo[j].profile.name,
-              phone: bizInfo[j].profile.phone
-            }
-
-            setCompileInfo(prevState => ({
-              ...prevState, // 이전 상태를 복사
-              helper // 객체 추가
-            }));
-          }
-        }
-
-        setNewCompileData([...newCompileDate, compileInfo]);
-      })
+        });
+      });
     }
   }, [matchingList]);
+
+  // useEffect(() => {
+  //   bizInfoList.map((biz, index) => {
+  //     console.log("사업자정보리스트 : " + index);
+  //     console.log("사업자정보 조회 후 리스트 : " + biz.requestId);
+  //   });
+  // }, [bizInfoList]);
+
+  //체크박스 체크 시
+  const handleCheckBiz = (requestId, type) => {
+    const delBizData = { requestId: requestId, type: type };
+
+    setDelReqConfirmBizId((prevSelectedBizId) => {
+
+      const existingIndex = prevSelectedBizId.findIndex((item) => item.requestId === requestId);
+
+      if (existingIndex !== -1) {
+        return prevSelectedBizId.filter((item) => item.requestId !== requestId)
+      } else {
+        return [...prevSelectedBizId, delBizData];
+      }
+    });
+  }
+
+  const handleConfrimCancle = () => {
+
+    if (setDelReqConfirmBizId.length > 0) {
+      const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
+
+      if (isconfirm) {
+        setDelReqConfirmBizId.map((delInfo) => {
+          Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type }, (err, result) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+          });
+
+          alert("매칭이 해제 되었습니다.");
+        })
+      } else {
+        console.log("취소");
+        return;
+      }
+    }
+  }
 
   return (
     <>
       <div>
         <table>
           <thead>
+            <th>선택</th>
             <th>No.</th>
+            <th>업체타입</th>
             <th>출발지</th>
             <th>도착지</th>
-            <th>용달업체</th>
-            <th>용달업체 연락처</th>
-            <th>헬퍼업체</th>
-            <th>헬퍼업체 연락처</th>
+            <th>업체명</th>
+            <th>연락처</th>
           </thead>
           <tbody>
-
+            {bizInfoList.map((bizInfo, index) => (
+              <tr key={bizInfo.requestId} >
+                <td>
+                  <input
+                    type="checkbox"
+                    onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type)}
+                  ></input>
+                </td>
+                <td>{index}</td>
+                <td>{bizInfo.type}</td>
+                <td>{bizInfo.start}</td>
+                <td>{bizInfo.arrive}</td>
+                <td>{bizInfo.name}</td>
+                <td>{bizInfo.phone}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
+      </div>
+      <div>
+        <button onClick={handleConfrimCancle} >매칭 취소</button>
       </div>
     </>
   );
