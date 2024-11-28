@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
-import { Link } from "react-router-dom";
 
 //사업자회원 목록
 export default () => {

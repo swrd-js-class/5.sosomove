@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useTracker } from 'meteor/react-meteor-data';
 import { Files } from "/imports/api/Files.js";
-import { Link } from "react-router-dom";
 
 //사업자회원 승인여부 체크
 export default () => {
