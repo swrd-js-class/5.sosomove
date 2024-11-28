@@ -10,7 +10,7 @@ import fetch from 'node-fetch';
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
     const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2024-08-01-preview`, {
+    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,12 +23,15 @@ Meteor.startup(() => {
             "content": prompt,
           }
         ],
-        // 'max_tokens': 800,
+        'max_tokens': 800,
       }),
     });
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    //안되면 출력해보자!!!
+    // console.log(data);  
+    const rawText = data.choices[0].message.content;
+    return rawText;
   };
 
   Meteor.methods({
@@ -62,6 +65,7 @@ Meteor.methods({
   }
 });
 
+
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
@@ -72,8 +76,9 @@ Meteor.publish('CollectionEstimate', function () {
   return CollectionEstimate.find();
 });
 
-//가입승인
+
 Meteor.methods({
+  //가입승인
   'users.update'(_id, confirm) {
     Meteor.users.update(_id, {
       $set: {
@@ -81,8 +86,8 @@ Meteor.methods({
       },
     });
   },
-  //관리자 정보수정(이름, 핸드폰번호)
-  'adminedit'({ name, phone }) {
+  //일반회원+관리자 정보수정(이름, 핸드폰번호)
+  'useredit'({ name, phone }) {
     Meteor.users.update(this.userId, {
       $set: {
         'profile.name': name,
@@ -90,24 +95,28 @@ Meteor.methods({
       }
     })
   },
-  //관리자 정보수정(비밀번호)
-  'adminchangepw'(newPassword) {
+  //사업자회원 정보수정(사업장명, 대표번호, 대표자명, 사업장주소 )
+  'businessedit'({ name, phone, ceo_name, address }) {
+    Meteor.users.update(this.userId, {
+      $set: {
+        'profile.name': name,
+        'profile.phone': phone,
+        'profile.company.ceo_name': ceo_name,
+        'profile.company.address': address,
+      }
+    })
+  },
+  //모든 회원 정보수정(비밀번호)
+  'userchangepw'(newPassword) {
     Accounts.setPassword(this.userId, newPassword, { logout: false });
   },
+  //회원탈퇴
+  'users.removeAccount'() {
+    const userId = this.userId;
+    Meteor.users.remove(userId);
+    return '회원탈퇴 성공';
+  }
 });
-
-//견적서 생성
-Meteor.methods({
-  'estimate.insert'(estimateData) {
-    if (!this.userId) {
-      throw new Meteor.Error('내용이 없습니다');
-    }
-
-    CollectionEstimate.insert({
-      ...estimateData,
-      createdAt: new Date(),
-    });
-  },
 
   'estimate.delete'(estimateId) {
     if (!this.userId) {
@@ -293,7 +302,7 @@ Meteor.startup(() => {
       })
     })
   }
-});//더미데이터 끝
+});/////////////////더미데이터 끝
 
 //ksh. 
 Meteor.methods({
