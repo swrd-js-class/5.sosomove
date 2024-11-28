@@ -3,11 +3,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
 import { CollectionRequest, CollectionEstimate } from '/imports/api/collections';
 import { Link } from 'react-router-dom';
-import BusinessMypageNavbar from "./BusinessMypageNavbar.jsx";
 
 
 export default () => {
-  const [ search, setSearch ] = useState("");
+  const [search, setSearch] = useState("");
 
   const { user, businessType, requests } = useTracker(() => {
     // 구독
@@ -21,31 +20,28 @@ export default () => {
 
     const submitRequestIds = CollectionEstimate.find({ business_id: businessId }).map(estimate => estimate.request_id);
 
-    const allRequests = CollectionRequest.find({ _id: { $nin: submitRequestIds }}).fetch();
+    const allRequests = CollectionRequest.find({ _id: { $nin: submitRequestIds } }).fetch();
 
-    return { 
+    return {
       user,
-      businessType, 
-      requests : allRequests,
+      businessType,
+      requests: allRequests,
     };
   }, []);
 
   if (businessType === "일반" || businessType === "관리자") {
     return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  } 
+  }
 
-  const filterRequest = requests.filter((request) => 
-  request.start_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, '')) || 
-  request.arrive_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, ''))
-  ).sort((a,b) => new Date(a.move_date) - new Date(b.move_date));
+  const filterRequest = requests.filter((request) =>
+    request.start_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, '')) ||
+    request.arrive_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, ''))
+  ).sort((a, b) => new Date(a.move_date) - new Date(b.move_date));
 
   return (
-    <>
-      <div>
-        <BusinessMypageNavbar />
-      </div>
+    <div>
       <div className="max-w-full mx-auto">
-      <h1>{user.profile.name}님 환영합니다!</h1>
+        <h1>{user.profile.name}님 환영합니다!</h1>
         <h2>{businessType} 요청서 목록</h2>
         <input
           type="text"
@@ -72,7 +68,7 @@ export default () => {
                     <p>요청 사항: {request.reqHelper.h_type}</p>
                   </>
                 )}
-                <Link to={`/request-details/${request._id}`}>상세 보기</Link>
+                <Link to={`/business/request-details/${request._id}`}>상세 보기</Link>
               </li>
             ))}
           </ul>
@@ -81,6 +77,6 @@ export default () => {
         )}
         <Link to="businessNavbar" className="mt-10 inline-block">뒤로 가기</Link>
       </div>
-    </>
+    </div>
   );
 };
