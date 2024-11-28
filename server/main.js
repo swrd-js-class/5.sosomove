@@ -118,6 +118,19 @@ Meteor.methods({
   }
 });
 
+//
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
+  },
+
   'estimate.delete'(estimateId) {
     if (!this.userId) {
       throw new Meteor.Error('삭제가 불가합니다');
@@ -372,3 +385,5 @@ Meteor.methods({
     CollectionRequest.insert(insertData);
   }
 });
+
+
