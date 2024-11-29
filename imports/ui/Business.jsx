@@ -1,15 +1,14 @@
 import React from "react";
 import { Outlet } from 'react-router-dom';
-import AdminNavbar from "./AdminNavbar.jsx";
+import BusinessMypageNavbar from "./BusinessMypageNavbar.jsx";
 
 
-
-//관리자페이지
+//마이페이지-사업자
 export default () => {
 
   return (
     <div class="flex flex-row">
-      <AdminNavbar />
+      <BusinessMypageNavbar />
       <main>
         <Outlet />
       </main>

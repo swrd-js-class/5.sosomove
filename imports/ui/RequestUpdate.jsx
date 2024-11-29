@@ -275,7 +275,8 @@ export default () => {
         alert("견적 요청서가 저장되었습니다.");
 
         //상세페이지로 페이지 이동
-        navigate(`/RequestDetail/${id}`);
+        //navigate(`/RequestDetail/${id}`);
+        navigate(`/mypage/requestdetail/${id}`);
       })
     } else {
       console.log("취소");

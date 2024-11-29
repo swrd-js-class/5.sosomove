@@ -37,13 +37,13 @@ export default () => {
           <p>도착 요청 시간: {request.reqCar.req_arr_time}시</p>
           <p>출발지 엘리베이터 여부: {request.reqCar.str_addr_elv ? '있음' : '없음'}</p>
           <p>도착지 엘리베이터 여부: {request.reqCar.arr_addr_elv ? '있음' : '없음'}</p>
-          <p>출발지 사다리차 여부: {request.reqCar.ladder_truck.start ? '있음' : '없음'}</p>          
+          <p>출발지 사다리차 여부: {request.reqCar.ladder_truck.start ? '있음' : '없음'}</p>
           <p>도착지 사다리차 여부: {request.reqCar.ladder_truck.arrive ? '있음' : '없음'}</p>
-          <p>가전제품:</p> 
+          <p>가전제품:</p>
           <ul>{request.reqCar.appliances.map((item, index) => (
             <li key={index}>{item}</li>
           ))}</ul>
-          <p>가구:</p> 
+          <p>가구:</p>
           <ul>{request.reqCar.furniture.map((i, index) => (
             <li key={index}>{i}</li>
           ))}</ul>
@@ -60,9 +60,9 @@ export default () => {
           <p>도착지 평수: {request.reqHelper.s_house_size}평</p>
         </div>
       )}
-    <div>
-    <Link to={`/businessestimate/${id}`}>견적서 작성</Link>
-    </div>
+      <div>
+        <Link to={`/business/businessestimate/${id}`}>견적서 작성</Link>
+      </div>
     </div>
   );
 };

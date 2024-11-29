@@ -235,7 +235,9 @@ export default () => {
                 console.log("insert success!!");
                 alert("견적 요청서가 저장되었습니다.");
 
-                navigate('/checkrequest');
+                // navigate('/checkrequest');
+                //리스트 화면으로 돌아가기
+                navigate('/mypage/checkrequest');
             })
         } else {
             console.log("취소");

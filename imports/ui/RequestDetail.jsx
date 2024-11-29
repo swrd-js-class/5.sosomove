@@ -74,7 +74,8 @@ export default () => {
           alert("저장되었습니다.");
 
           //list 화면으로 이동
-          navigate('/CheckRequest');
+          //navigate('/CheckRequest');
+          navigate('/mypage/checkrequest');
         });
       }
     } else {
@@ -93,7 +94,8 @@ export default () => {
       else {
         alert("삭제되었습니다.");
 
-        navigate('/CheckRequest');
+        //navigate('/CheckRequest');
+        navigate('/mypage/checkrequest');
       }
     });
   }
@@ -245,7 +247,7 @@ export default () => {
         </div>
         <div><button onClick={handleConfirm}>컨펌 확정</button></div>
         <div>
-          <Link to={`/requestUpdate/${id}`}>
+          <Link to={`/mypage/requestupdate/${id}`}>
             <button>견적요청서 수정</button>
           </Link>
         </div>
