@@ -62,7 +62,16 @@ Meteor.methods({
       return file.link();
     }
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
-  }
+  },
+  //전체회원 검색
+  'users.search'(query) {
+    return Meteor.users.find({ 'profile.name': { $regex: query, $options: 'i' } }).fetch();
+  },
+  //관리자-회원 삭제
+  'userdelete'(userId) {
+    const targetUser = Meteor.users.findOne(userId);
+    return Meteor.users.remove(targetUser._id);
+  },
 });
 
 

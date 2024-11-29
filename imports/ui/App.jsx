@@ -26,6 +26,7 @@ import Layout from "./Layout.jsx";
 import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 import Business from "./Business.jsx";
 import Mypage from "./Mypage.jsx";
+import AdminAllList from "./AdminAllList.jsx";
 
 export const App = () => {
 
@@ -47,6 +48,7 @@ export const App = () => {
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
             <Route path="/admin/adminblist" element={<AdminBList />} />
+            <Route path="/admin/adminalllist" element={<AdminAllList />} />
             <Route path="/admin/adminedit" element={<AdminEdit />} />
           </Route>
 

@@ -83,7 +83,7 @@ export default () => {
                     <p class="text-sm text-slate-500">{user.profile.phone}</p>
                   </td>
                   <td class="p-4 py-5">
-                    <p class="text-sm text-slate-500">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>
+                    <p class="text-sm text-red-500 font-bold">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>
                   </td>
                 </tr>
               ))}
