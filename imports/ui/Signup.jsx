@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
 //회원가입 유형
 export default () => {
 
   const navigate = useNavigate();
+
+  // 로그인된 사용자가 있을 경우, 회원가입 페이지 접근을 막고 다른 페이지로 리디렉션
+  useEffect(() => {
+    if (Meteor.user()) {
+      alert('이미 회원가입이 완료된 계정입니다')
+      navigate('/');
+    }
+  }, [navigate]);
+
   //회원유형별 가입하는 버튼
   const handleButtonClick = (e) => {
     if (e === '일반') {
