@@ -43,7 +43,7 @@ export default () => {
       <div class="flex bg-gray-100">
         <form onSubmit={handleSubmit}>
           <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
-            <h1 class="text-center text-lg font-bold text-gray-500">내 정보 수정</h1>
+            <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
             <div class="space-y-4 mt-6">
               <div class="w-full">
                 <h2>비밀번호 재설정</h2>

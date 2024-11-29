@@ -64,7 +64,7 @@ export default () => {
     <div>
       <div class="flex h-screen bg-gray-100">
         <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
-          <h1 class="text-center text-lg font-bold text-gray-500">내 정보 수정</h1>
+          <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
           <form onSubmit={handleSubmit}>
             <div class="space-y-4 mt-6">
               <div class="w-full">

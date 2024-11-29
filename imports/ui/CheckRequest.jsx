@@ -53,7 +53,6 @@ export default () => {
 
   return (
     <>
-      <MypageNavbar />
       <div>
         <img src="/user_img.jpg" alt="user image" class="user_img" />
         <h4>{user}님</h4>
@@ -69,7 +68,7 @@ export default () => {
               {request.move_date.toStringYMD()}
               {request.start_address}
               {request.arrive_address}
-              <Link to={`/requestdetail/${request._id}`}>
+              <Link to={`/mypage/requestdetail/${request._id}`}>
                 <button>상세보기</button>
               </Link>
             </div>
@@ -77,7 +76,7 @@ export default () => {
         </div>
       </div>
       <div>
-        <Link to={'/newRequest'} ><button>새 견적 요청</button></Link>
+        <Link to={'/mypage/newRequest'} ><button>새 견적 요청</button></Link>
       </div>
 
     </>

@@ -25,6 +25,7 @@ import BusinessEdit from "./BusinessEdit.jsx";
 import Layout from "./Layout.jsx";
 import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 import Business from "./Business.jsx";
+import Mypage from "./Mypage.jsx";
 
 export const App = () => {
 
@@ -36,14 +37,9 @@ export const App = () => {
           <Route path="/service" element={<Service />} />
           <Route path="/gpt" element={<Gpt />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/signupdetail/:userType" element={<SignupDetail />} />
           <Route path="/adminnavbar" element={<AdminNavbar />} /> */
           <Route path="/businessNavbar" element={<BusinessMypageNavbar />} />
-          <Route path="/signupdetail/:userType" element={<SignupDetail />} />
-          <Route path="/checkrequest" element={<Checkrequest />} />
-          <Route path="/requestdetail/:id" element={<RequestDetail />} />
-          <Route path="/NewRequest" element={<NewRequest />} />
-          <Route path="/MatchingDetail" element={<MatchingDetail />} />
-          <Route path="/useredit" element={<UserEdit />} />
           <Route path="/MypageNavbar" element={<MypageNavbar />} />
 
 
@@ -61,6 +57,15 @@ export const App = () => {
             <Route path="/business/businessestimate/:id" element={<BusinessEst />} />
             <Route path="/business/request-details/:id" element={<BusinessAllRequestDetails />} />
             <Route path="/business/businessedit" element={<BusinessEdit />} />
+          </Route>
+
+          {/* 송희 */}
+          <Route path="/mypage" element={<Mypage />}>
+            <Route path="/mypage/newrequest" element={<NewRequest />} />
+            <Route path="/mypage/requestdetail/:id" element={<RequestDetail />} />
+            <Route path="/mypage/checkrequest" element={<Checkrequest />} />
+            <Route path="/mypage/matchingdetail" element={<MatchingDetail />} />
+            <Route path="/mypage/useredit" element={<UserEdit />} />
           </Route>
 
 
