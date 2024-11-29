@@ -1,0 +1,1 @@
+$env:MONGO_URL="mongodb+srv://ssong1001:songhe!0@cluster0.gwbeq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; npm start

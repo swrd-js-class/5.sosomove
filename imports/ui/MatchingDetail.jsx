@@ -149,39 +149,77 @@ export default () => {
 
   return (
     <>
-      <div>
-        <table>
-          <thead>
-            <th>선택</th>
-            <th>No.</th>
-            <th>업체타입</th>
-            <th>출발지</th>
-            <th>도착지</th>
-            <th>업체명</th>
-            <th>연락처</th>
-          </thead>
-          <tbody>
-            {bizInfoList.map((bizInfo, index) => (
-              <tr key={bizInfo.requestId} >
-                <td>
-                  <input
-                    type="checkbox"
-                    onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type)}
-                  ></input>
-                </td>
-                <td>{index + 1}</td>
-                <td>{bizInfo.type}</td>
-                <td>{bizInfo.start}</td>
-                <td>{bizInfo.arrive}</td>
-                <td>{bizInfo.name}</td>
-                <td>{bizInfo.phone}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <button onClick={handleConfrimCancle} >매칭 취소</button>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="sm:flex sm:items-center">
+          <div className="sm:flex-auto">
+            <h1 className="text-base font-semibold text-gray-900">매칭 목록</h1>
+          </div>
+        </div>
+        <div className="mt-8 flow-root">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div className="overflow-hidden shadow ring-1 ring-black/5 sm:rounded-lg relative">
+                <table className="min-w-full divide-y divide-gray-300">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                        선택
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        No.
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        업체타입
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        출발지
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        도착지
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        업체명
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        연락처
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {bizInfoList.map((bizInfo, index) => (
+                      <tr key={bizInfo.requestId} >
+                        <td>
+                          <input
+                            type="checkbox"
+                            onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type)}
+                          ></input>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{index + 1}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.type}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.start}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.arrive}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.name}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.phone}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                <button
+                  type="button"
+                  onClick={handleConfrimCancle}
+                  className="absolute bottom-0 right-0 mb-4 mr-4 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  매칭 취소
+                </button>
+              </div>
+              {/* <div>
+                <button onClick={handleConfrimCancle} >매칭 취소</button>
+              </div> */}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
