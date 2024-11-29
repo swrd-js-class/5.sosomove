@@ -72,6 +72,9 @@ export default () => {
           }
           console.log("update Success!!");
           alert("저장되었습니다.");
+
+          //list 화면으로 이동
+          navigate('/CheckRequest');
         });
       }
     } else {

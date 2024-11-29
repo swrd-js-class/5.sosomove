@@ -325,13 +325,15 @@ Meteor.methods({
 
   //매칭내역 조회
   requestMatchingListCall({ param }) {
-    const requestList = CollectionRequest.find({
-      'user_id': param,
-      $or: [
-        { 'reqCar.car_confirm_id': { $ne: null } },
-        { 'reqHelper.hel_confirm_id': { $ne: null } }
-      ]
-    }, { sort: { createAt: -1 } }).fetch();
+    const requestList = CollectionRequest.find(
+      {
+        'user_id': param,
+        $or: [
+          { 'reqCar.car_confirm_id': { $ne: null } },
+          { 'reqHelper.hel_confirm_id': { $ne: null } }
+        ]
+      },
+      { sort: { createdAt: -1 } }).fetch();
 
     if (requestList) {
       return requestList;

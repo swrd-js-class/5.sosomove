@@ -28,56 +28,64 @@ export default () => {
 
   //matchingList가 변하면 사업자 정보 조회
   useEffect(() => {
-    console.log("matchingList 시작: " + matchingList.length);
+
     if (matchingList.length > 0) {
-      matchingList.map((matching) => {
-        console.log("map 시작");
+      let bizInfo = [];
 
-        let bizIdList = [];
-        let bizInfo = [];
+      const fetchBizInfo = async () => {
 
-        if (matching.reqCar.car_confirm_id !== null) {
-          bizIdList = [...bizIdList, matching.reqCar.car_confirm_id];
-        }
-        if (matching.reqHelper.hel_confirm_id !== null) {
-          bizIdList = [...bizIdList, matching.reqHelper.hel_confirm_id];
-        }
+        const promises = matchingList.map(async (matching, index) => {
+          console.log("map 시작");
 
-        // for (let i = 0; i < bizIdList.length; i++) {
-        bizIdList.forEach((bizId) => {
-          Meteor.call('bizInfoSearch', { userId: bizId }, (err, result) => {
-            if (err) {
-              console.log(err);
-              return;
-            }
+          let bizIdList = [];
 
-            const data = {
-              requestId: matching._id,
-              start: matching.start_address,
-              arrive: matching.arrive_address,
-              type: result.profile.type,
-              name: result.profile.name,
-              phone: result.profile.phone,
-              bizId: bizId
-            };
+          if (matching.reqCar.car_confirm_id !== null) {
+            bizIdList = [...bizIdList, matching.reqCar.car_confirm_id];
+          }
+          if (matching.reqHelper.hel_confirm_id !== null) {
+            bizIdList = [...bizIdList, matching.reqHelper.hel_confirm_id];
+          }
 
-            bizInfo = [...bizInfo, data];
+          const bizPromises = bizIdList.map((bizId) =>
+            new Promise((resolve, reject) => {
+              Meteor.call('bizInfoSearch', { userId: bizId }, (err, result) => {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
 
-            if (bizIdList.length === bizInfo.length) {
-              setBizInfoList([...bizInfoList, ...bizInfo]);
-            }
-          });
+                const data = {
+                  requestId: matching._id,
+                  start: matching.start_address,
+                  arrive: matching.arrive_address,
+                  type: result.profile.type,
+                  name: result.profile.name,
+                  phone: result.profile.phone,
+                  bizId: bizId
+                };
+
+                bizInfo = [...bizInfo, data];
+                resolve();
+              });
+            })
+          );
+
+          //모든 bizId에 대한 요청이 완료되면 bizPromises배열을 기다림
+          await Promise.all(bizPromises);
         });
-      });
+
+        //matchingList에 대한 모든 처리 후 bizInfo를 업데이트
+        await Promise.all(promises);
+
+        //모든 비동기 작업이 완료된 후에 setBizInfoList를 호출
+        setBizInfoList((prevBizInfoList) => [...prevBizInfoList, ...bizInfo]);
+
+      };
+
+      fetchBizInfo();
     }
   }, [matchingList]);
 
-  // useEffect(() => {
-  //   bizInfoList.map((biz, index) => {
-  //     console.log("사업자정보리스트 : " + index);
-  //     console.log("사업자정보 조회 후 리스트 : " + biz.requestId);
-  //   });
-  // }, [bizInfoList]);
 
   //체크박스 체크 시
   const handleCheckBiz = (requestId, type) => {
@@ -95,31 +103,49 @@ export default () => {
     });
   }
 
-  const handleConfrimCancle = () => {
+  // useEffect(() => {
+  const handleConfrimCancle = async () => {
 
     if (delReqConfirmBizId.length > 0) {
       const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
 
       if (isconfirm) {
-        delReqConfirmBizId.map((delInfo) => {
-          Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type }, (err, result) => {
-            if (err) {
-              console.log(err);
-              return;
-            }
+        const promises = delReqConfirmBizId.map((delInfo) => {
+          return new Promise((resolve, reject) => {
+            Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type }, (err, result) => {
+              if (err) {
+                console.log(err);
+                reject(err);
+              } else {
+                resolve();
+              }
+            });
+          });
+        });
+
+        //모든 비동기 작업이 완료될 때까지 기다림
+        try {
+          await Promise.all(promises);
+
+          //매칭 해제 후 상태 업데이트
+          setBizInfoList((prevBizInfo) => {
+            return prevBizInfo.filter((bizInfo) => {
+              return !delReqConfirmBizId.some((delInfo) => delInfo.requestId === bizInfo.requestId && delInfo.type === bizInfo.type);
+            });
           });
 
           alert("매칭이 해제 되었습니다.");
-        })
-
-        //새로고침 해야해!!!
-
+        } catch (err) {
+          console.log("비동기 처리 중 오류 발생 : " + err);
+        }
       } else {
         console.log("취소");
         return;
       }
     }
-  }
+  };
+  // handleConfrimCancle();
+  // }, [delReqConfirmBizId]);
 
   return (
     <>
@@ -143,7 +169,7 @@ export default () => {
                     onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type)}
                   ></input>
                 </td>
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td>{bizInfo.type}</td>
                 <td>{bizInfo.start}</td>
                 <td>{bizInfo.arrive}</td>
