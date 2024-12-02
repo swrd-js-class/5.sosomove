@@ -63,7 +63,7 @@ export default () => {
 
     <div>
       <div class="flex h-screen bg-gray-100">
-        <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
+        <div class="bg-white bg-clip-border py-6 px-10 max-w-lg border h-[100vh] w-full max-w-[20rem]">
           <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
           <form onSubmit={handleSubmit}>
             <div class="space-y-4 mt-6">

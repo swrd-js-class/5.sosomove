@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 export default () => {
-
   return (
     <div >
-      <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-[calc(100vh-4rem)] w-full max-w-[20rem] p-4  border">
+      <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-[100vh] w-full max-w-[20rem] p-4  border">
         <div class="mb-2 p-4">
           <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">마이페이지(사업자)</h5>
         </div>
