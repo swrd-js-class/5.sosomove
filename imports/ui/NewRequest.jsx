@@ -247,8 +247,8 @@ export default () => {
 
 
     return (
-        <>
-            <div style={{ float: 'left' }}>
+        <div>
+            <div>
                 <img src="https://dev.rz-codes.com/static/logo-275e932fd817cc84d99d91f7519a9a22.svg"
                     width="50"
                     height="50"
@@ -325,7 +325,7 @@ export default () => {
                 용달 인부 추가 여부&nbsp;
                 <input type="checkbox" name="addWorker" onChange={() => handleAddworkerChange(isChecked)} />
             </div>
-            <div style={{ float: 'right' }} >
+            <div>
                 <h2>이사물품 입력</h2>
                 <div>
                     <button
@@ -567,6 +567,6 @@ export default () => {
                 </div>
             </div>
 
-        </>
+        </div>
     );
 }
