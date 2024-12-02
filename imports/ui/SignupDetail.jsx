@@ -116,12 +116,12 @@ export default () => {
   };
 
   return (
-    <div class='flex items-center justify-center min-h-screen from-sky-100 via-sky-300 to-sky-500 bg-gradient-to-br'>
+    <div class='flex items-center justify-center min-h-screen bg-sky-200 bg-gradient-to-br'>
       {userType === '일반' &&
         <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
           <form onSubmit={handleSignup} >
             <div class="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl relative z-10">
-              <p class="w-full text-4xl font-medium text-center leading-snug font-serif">일반회원</p>
+              <p class="w-full text-4xl font-medium text-center leading-snug font-sans">일반회원</p>
               <div class="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
                 <div class="relative">
                   <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
@@ -162,7 +162,7 @@ export default () => {
         <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
           <form onSubmit={handleSignup} >
             <div class="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl relative z-10">
-              <p class="w-full text-4xl font-medium text-center leading-snug font-serif">사업자</p>
+              <p class="w-full text-4xl font-medium text-center leading-snug font-sans">사업자회원</p>
               <div class="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
                 <div class="relative">
                   <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600

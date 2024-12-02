@@ -37,7 +37,7 @@ export default () => {
               <div class="flex items-center space-x-2">
                 <input type="text" ref={item} class="rounded-lg border appearance-none border border-gray-300 w-50 py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="물품을 입력하세요" />
                 <button type="submit" disabled={loading} class="px-3 py-1 bg-green-600 text-white rounded-lg text-lg shadow-md hover:from-green-500 hover:to-green-700 disabled:opacity-50 disabled:bg-green-300 transition-all duration-200">
-                  {loading ? '로딩 중...' : '검색'}
+                  검색
                 </button>
               </div>
             </form>
@@ -57,7 +57,16 @@ export default () => {
                 </p>
               ) : (
                 <p class="px-5 text-base text-center text-gray-600 dark:text-gray-100">
-                  ...
+                  {loading ? (
+                    <div>
+                      <div className="flex justify-center items-center pb-5">
+                        <div className="border-t-4 border-blue-500 border-solid rounded-full w-10 h-10 animate-spin"></div>
+                      </div>
+                      <span className="text-gray-600">생성 중..</span>
+                    </div>
+                  ) : (
+                    <span className="text-gray-600">대기 중..</span>
+                  )}
                 </p>
               )}
               <div class="h-3 -mt-3 text-3xl leading-tight text-right text-indigo-500">
@@ -74,7 +83,7 @@ export default () => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
 
     </>
   );
