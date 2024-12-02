@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Nav from "./Nav.jsx";
 import Footer from './Footer.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 export default () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const [showImage, setShowImage] = useState(true);
   const handleNavClick = () => {
     setShowImage(false);
@@ -21,6 +23,8 @@ export default () => {
   useEffect(() => {
     if (location.pathname === '/') {
       setShowImage(true);  // 레이아웃 페이지로 돌아왔을 때만 이미지 표시
+    } else {
+      setShowImage(false);
     }
   }, [location.pathname]);
 
