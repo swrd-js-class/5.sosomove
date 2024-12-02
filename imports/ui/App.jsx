@@ -28,6 +28,7 @@ import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 import Business from "./Business.jsx";
 import Mypage from "./Mypage.jsx";
 import AdminAllList from "./AdminAllList.jsx";
+import Ttt from "./Ttt.jsx";
 
 export const App = () => {
 
@@ -43,6 +44,8 @@ export const App = () => {
           <Route path="/adminnavbar" element={<AdminNavbar />} /> */
           <Route path="/businessNavbar" element={<BusinessMypageNavbar />} />
           <Route path="/MypageNavbar" element={<MypageNavbar />} />
+          <Route path="/ttt" element={<Ttt />} />
+
 
 
           {/* 효정 */}

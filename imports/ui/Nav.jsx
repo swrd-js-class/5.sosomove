@@ -66,6 +66,10 @@ export default ({ onNavClick }) => {
               <li class="py-2 lg:py-0 ">
                 <Link to="/admin" >관리자페이지</Link>
               </li>
+              <li class="py-2 lg:py-0 ">
+                <Link to="/ttt" >테스트용(효정)</Link>
+              </li>
+
             </ul>
           </nav>
         </div>

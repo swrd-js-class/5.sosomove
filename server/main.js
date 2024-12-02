@@ -4,6 +4,74 @@ import { CollectionRequest, CollectionEstimate } from "/imports/api/collections"
 import "/lib/utils.js";
 import { Accounts } from "meteor/accounts-base";
 import fetch from 'node-fetch';
+import axios from 'axios';
+
+//이미지분석 객체 탐지 테스트용
+const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
+const endpoint = 'https://shj-cv.cognitiveservices.azure.com';
+
+// 이미지 객체 탐지 함수
+const analyzeImage = async (imageUrl) => {
+  try {
+    const response = await axios.post(
+      `${endpoint}/vision/v3.2/analyze`,
+      { url: imageUrl },
+      {
+        headers: {
+          'Ocp-Apim-Subscription-Key': subscriptionKey,
+          'Content-Type': 'application/json',
+        },
+        params: {
+          visualFeatures: 'Objects',
+        },
+      }
+    );
+
+    const objects = response.data.objects;
+    // 각 객체의 정보 추출 (예시)
+    const objectDetails = objects.map(object => ({
+      name: object.object,
+      // confidence: object.confidence,
+      location: object.rectangle
+    }));
+
+    console.log('Extracted Object Details:', objectDetails);
+    console.log(objectDetails);
+
+    return objectDetails;
+
+  } catch (error) {
+    console.error('Error analyzing image:', error);
+    throw error;
+  }
+};
+
+// Meteor method로 expose
+Meteor.methods({
+  'azure.analyzeImage': async (imageUrl) => {
+    return await analyzeImage(imageUrl);
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //애저 오픈 AI GPT호출
