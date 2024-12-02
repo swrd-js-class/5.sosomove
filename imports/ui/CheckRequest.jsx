@@ -47,26 +47,26 @@ export default () => {
             <div className="mt-8 flow-root">
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                  <div className="overflow-hidden shadow ring-1 ring-black/5 sm:rounded-lg">
+                  <div className="overflow-hidden shadow ring-1 ring-black/5 sm:rounded-lg w-full">
                     <table className="min-w-full divide-y divide-gray-300">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                          <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6 w-15">
                             No.
                           </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                             작성일
                           </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                             신청자
                           </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                             이삿날
                           </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                             출발지
                           </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                             도착지
                           </th>
                           <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -77,12 +77,12 @@ export default () => {
                       <tbody className="divide-y divide-gray-200 bg-white">
                         {requestList.map((request) => (
                           <tr key={request._id} >
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{i++}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.createdAt.toStringYMD()}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.user_name}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.move_date.toStringYMD()}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.start_address}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.arrive_address}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{i++}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.createdAt.toStringYMD()}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.user_name}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.move_date.toStringYMD()}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.start_address}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.arrive_address}</td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                               <Link to={`/mypage/requestdetail/${request._id}`}
                                 className="text-indigo-600 hover:text-indigo-900">

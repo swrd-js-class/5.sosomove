@@ -158,62 +158,64 @@ export default () => {
         <div className="mt-8 flow-root">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black/5 sm:rounded-lg relative">
+              <div className="overflow-hidden shadow ring-1 ring-black/5 sm:rounded-lg relative w-full">
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                      <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6 w-15">
                         선택
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-15">
                         No.
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         업체타입
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         출발지
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         도착지
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         업체명
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         연락처
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {bizInfoList.map((bizInfo, index) => (
-                      <tr key={bizInfo.requestId} >
-                        <td>
+                      <tr key={bizInfo.requestId}>
+                        <td className="text-center px-3 py-4">
                           <input
                             type="checkbox"
                             onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type)}
-                          ></input>
+                          />
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{index + 1}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.type}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.start}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.arrive}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.name}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{bizInfo.phone}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{index + 1}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.type}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.start}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.arrive}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.name}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.phone}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+
+              <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex justify-end">
                 <button
                   type="button"
                   onClick={handleConfrimCancle}
-                  className="absolute bottom-0 right-0 mb-4 mr-4 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   매칭 취소
                 </button>
               </div>
+
               {/* <div>
                 <button onClick={handleConfrimCancle} >매칭 취소</button>
               </div> */}
