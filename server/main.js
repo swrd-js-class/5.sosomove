@@ -140,7 +140,6 @@ Meteor.methods({
   }
 });
 
-
 Meteor.startup(() => {
 
   //관리자 생성

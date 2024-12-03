@@ -64,7 +64,7 @@ export default() => {
                 setEstimate('');
                 setEstimateMoney('');
 
-                navigate('/allrequest');
+                navigate('/business/allrequest');
             }
         });
     };
