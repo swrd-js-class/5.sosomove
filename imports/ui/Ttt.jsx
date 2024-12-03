@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 //이미지분석 객체 탐지 테스트용
 export default () => {
   const [imageUrl, setImageUrl] = useState('');
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState('');
 
   const handleAnalyze = async () => {
     try {
@@ -26,7 +26,7 @@ export default () => {
 
   return (
     <div>
-      <h1>Azure Computer Vision with Meteor and React</h1>
+      <h1>애저 컴퓨터 비전</h1>
       <input type="text" placeholder="URL 입력" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
       <button onClick={handleAnalyze}>이미지분석</button>
 

@@ -26,18 +26,14 @@ const analyzeImage = async (imageUrl) => {
         },
       }
     );
-
+    //객체 추출해서 파싱
     const objects = response.data.objects;
-    // 각 객체의 정보 추출 (예시)
     const objectDetails = objects.map(object => ({
-      name: object.object,
-      // confidence: object.confidence,
-      location: object.rectangle
+      객체: object.object,
+      좌표: object.rectangle
     }));
 
-    console.log('Extracted Object Details:', objectDetails);
-    console.log(objectDetails);
-
+    console.log(objectDetails); //출력해보자!!!
     return objectDetails;
 
   } catch (error) {
@@ -46,7 +42,6 @@ const analyzeImage = async (imageUrl) => {
   }
 };
 
-// Meteor method로 expose
 Meteor.methods({
   'azure.analyzeImage': async (imageUrl) => {
     return await analyzeImage(imageUrl);
