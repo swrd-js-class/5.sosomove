@@ -65,28 +65,36 @@ export default () => {
               </tr>
             </thead>
             <tbody>
-              {UsersList.map((user) => (
-                <tr key={user._id} class="hover:bg-slate-50 border-b border-slate-200">
-                  <td class="p-4 py-5">
-                    <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
-                  </td>
-                  <td class="p-4 py-5">
-                    <p class="text-sm text-slate-500">{user.profile.name}</p>
-                  </td>
-                  <td class="p-4 py-5">
-                    <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
-                  </td>
-                  <td class="p-4 py-5">
-                    <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
-                  </td>
-                  <td class="p-4 py-5">
-                    <p class="text-sm text-slate-500">{user.profile.phone}</p>
-                  </td>
-                  <td class="p-4 py-5">
-                    <p class="text-sm text-slate-500">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>
+              {UsersList.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="text-center p-4 py-5 text-gray-500">
+                    결과가 없습니다.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                UsersList.map((user) => (
+                  <tr key={user._id} class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-4 py-5">
+                      <p class="block font-semibold text-sm text-slate-800">{user.profile.type}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.name}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.phone}</p>
+                    </td>
+                    <td class="p-4 py-5">
+                      <p class="text-sm text-red-500 font-bold">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
 

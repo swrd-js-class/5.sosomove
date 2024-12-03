@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 export default () => {
+  const [user, setUser] = useState('');
+  const userId = Meteor.userId();
+
+  Meteor.call('userSearch', { param: userId }, (err, result) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    setUser(result);
+  })
+
   return (
     <div>
       <div class="relative flex flex-col bg-clip-border bg-white text-gray-700 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 border">
+        <div>
+          <img src="/user_img.jpg" alt="user image" class="user_img" />
+          <h5 class="font-semibold leading-snug text-gray-900">{user} 님</h5>
+        </div>
         <div class="mb-2 p-4">
           <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">마이페이지(일반회원)</h5>
         </div>

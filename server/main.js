@@ -62,22 +62,20 @@ Meteor.methods({
       return file.link();
     }
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
-  }
-});
-
-
-//요청서 확인
-Meteor.publish('CollectionRequest', function () {
-  return CollectionRequest.find();
-});
-
-//견적서 확인
-Meteor.publish('CollectionEstimate', function () {
-  return CollectionEstimate.find();
-});
-
-
-Meteor.methods({
+  },
+  //전체회원 검색
+  'users.list'() {
+    return Meteor.users.find().fetch();
+  },
+  //전체회원 중 서치하고 싶은 회원 검색
+  'users.search'(query) {
+    return Meteor.users.find({ 'profile.name': { $regex: query, $options: 'i' } }).fetch();
+  },
+  //관리자-회원 삭제
+  'userdelete'(userId) {
+    const targetUser = Meteor.users.findOne(userId);
+    return Meteor.users.remove(targetUser._id);
+  },
   //가입승인
   'users.update'(_id, confirm) {
     Meteor.users.update(_id, {
@@ -118,6 +116,18 @@ Meteor.methods({
   }
 });
 
+///////////////////////////////////////여기까지 효정
+
+//요청서 확인
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
+});
+
+//견적서 확인
+Meteor.publish('CollectionEstimate', function () {
+  return CollectionEstimate.find();
+});
+
 //견적서 입력 및 삭제
 Meteor.methods({
   'estimate.insert'(estimateData) {
@@ -140,8 +150,11 @@ Meteor.methods({
   }
 });
 
+<<<<<<< HEAD
+=======
+///////////////////////더미데이터////////////////////////
+>>>>>>> main
 Meteor.startup(() => {
-
   //관리자 생성
   if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
     Accounts.createUser({
@@ -150,12 +163,11 @@ Meteor.startup(() => {
       profile: {
         type: "관리자",
         name: "관리자",
-        phone: "1",
+        phone: "010-0000-0000",
         company: null,
       },
     });
   }
-
   //일반회원 생성
   if (Meteor.users.find({ 'profile.type': "일반" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
@@ -164,14 +176,13 @@ Meteor.startup(() => {
         password: "1111",
         profile: {
           type: "일반",
-          name: "김사용",
-          phone: "010-111-1111",
+          name: `김철수${i}`,
+          phone: "010-1111-1111",
           company: null,
         }
       });
     }
   }
-
   //용달사업자 생성
   if (Meteor.users.find({ 'profile.type': "용달" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
@@ -181,7 +192,7 @@ Meteor.startup(() => {
         profile: {
           type: "용달",
           name: `김용달${i}`,
-          phone: "010-222-2222",
+          phone: "010-2222-2222",
           company:
           {
             ceo_name: "김대표",
@@ -189,12 +200,10 @@ Meteor.startup(() => {
             business_number: "0100-1101-20",
             confirm: false,
           },
-
         },
       });
     }
   }
-
   //헬퍼사업자 생성
   if (Meteor.users.find({ 'profile.type': "헬퍼" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
@@ -204,7 +213,7 @@ Meteor.startup(() => {
         profile: {
           type: "헬퍼",
           name: `김헬퍼${i}`,
-          phone: "010-333-3333",
+          phone: "010-3333-3333",
           company:
           {
             ceo_name: "김헬퍼",
@@ -217,14 +226,10 @@ Meteor.startup(() => {
       });
     }
   }
-
   //Request Collection 생성
   if (CollectionRequest.find().count() === 0) {
-
     const users = Meteor.users.find({ 'profile.type': '일반' }).fetch();
-
     users.forEach(function (user) {
-
       CollectionRequest.insert({
         user_id: user._id,
         user_name: user.profile.name,
@@ -268,16 +273,13 @@ Meteor.startup(() => {
       });
     })
   }
-
   //견적서(용달 사업자 용)
   if (CollectionEstimate.find({ 'business_type': '용달' }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
     const users = Meteor.users.find({ 'profile.type': '용달' }).fetch();
-
     users.forEach(function (estCaruser) {
       for (let i = 0; i < 5; i++) {
         const request = requests.random();
-
         CollectionEstimate.insert({
           request_id: request._id,
           business_id: estCaruser._id,
@@ -291,16 +293,13 @@ Meteor.startup(() => {
       }
     })
   }
-
   //견적서(헬퍼 사업자 용)
   if (CollectionEstimate.find({ 'business_type': "헬퍼" }).count() === 0) {
     const requests = CollectionRequest.find().fetch();
     const users = Meteor.users.find({ "profile.type": "헬퍼" }).fetch();
-
     requests.forEach(function (request) {
       users.forEach(function (estCaruser) {
         //for (let i = 0; i < 5; i++) {
-
         CollectionEstimate.insert({
           request_id: request._id,
           business_id: estCaruser._id,
@@ -315,7 +314,8 @@ Meteor.startup(() => {
       })
     })
   }
-});/////////////////더미데이터 끝
+});
+/////////////////더미데이터 끝///////////////////////
 
 //ksh. 
 Meteor.methods({
@@ -332,9 +332,38 @@ Meteor.methods({
     return null;
   },
 
+  //사용자 조회
+  userSearch({ param }) {
+
+    const user = Meteor.users.findOne({ '_id': param });
+
+    if (user) {
+      return user.profile.name;
+    }
+  },
+
   //견적요청서 리스트 조회
-  requestListCall() {
-    const requestList = CollectionRequest.find({}, { sort: { createAt: -1 } }).fetch();
+  requestListCall({ param }) {
+    const requestList = CollectionRequest.find({ 'user_id': param }, { sort: { createdAt: -1 } }).fetch();
+
+    if (requestList) {
+      return requestList;
+    }
+
+    return null;
+  },
+
+  //매칭내역 조회
+  requestMatchingListCall({ param }) {
+    const requestList = CollectionRequest.find(
+      {
+        'user_id': param,
+        $or: [
+          { 'reqCar.car_confirm_id': { $ne: null } },
+          { 'reqHelper.hel_confirm_id': { $ne: null } }
+        ]
+      },
+      { sort: { createdAt: -1 } }).fetch();
 
     if (requestList) {
       return requestList;
@@ -381,8 +410,91 @@ Meteor.methods({
     CollectionRequest.update(query, update);
   },
 
+  //개인-신규 견적요청서 저장
   insertRequest(insertData) {
     CollectionRequest.insert(insertData);
+  },
+
+  //개인-견적요청서 수정
+  updateRequest(requestId, updateData) {
+    const query = {
+      '_id': requestId
+    }
+
+    const {
+      user_name,
+      move_date,
+      start_address,
+      arrive_address,
+      house_size,
+      addworker,
+      reqCar,
+      reqHelper,
+      createdAt
+    } = updateData
+
+    const update = {
+      $set: {
+        user_name,
+        move_date,
+        start_address,
+        arrive_address,
+        house_size,
+        addworker,
+        reqCar,
+        reqHelper,
+        createdAt
+      }
+    }
+
+    CollectionRequest.update(query, update);
+  },
+
+  removeRequest({ param }) {
+    try {
+      const estremoveresult = CollectionEstimate.remove({ 'request_id': param });
+
+      if (estremoveresult === 0) {
+        throw new Error("CollectionEstimate 삭제 실패");
+      }
+
+      const reqremoveresult = CollectionRequest.remove({ '_id': param });
+
+      if (reqremoveresult === 0) {
+        throw new Error("CollectionRequest 삭제 실패");
+      }
+
+      console.log("두 컬렉션 삭제 성공");
+    } catch (error) {
+      console.error("컬렉션 삭제 중 오류 발생 : ", error);
+      throw new Meteor.Error('delete-failed', error.message);
+    }
+  },
+
+  //사업자정보 조회
+  bizInfoSearch({ userId }) {
+    const userInfo = Meteor.users.findOne({ '_id': userId });
+
+    if (userInfo) {
+      return userInfo;
+    }
+  },
+
+  //매칭-해제
+  updateRequestConfirmBizId({ requestId, type }) {
+    const query = {
+      '_id': requestId
+    }
+
+    const update = {};
+
+    if (type === '용달') {
+      update.$set = { 'reqCar.car_confirm_id': null };
+    } else if (type === '헬퍼') {
+      update.$set = { 'reqHelper.hel_confirm_id': null };
+    }
+
+    CollectionRequest.update(query, update);
   }
 });
 

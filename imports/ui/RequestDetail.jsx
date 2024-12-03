@@ -1,12 +1,14 @@
 //견적요청서 상세내역 조회
 import React, { useEffect, useState } from "react";
 import { Meteor } from "meteor/meteor";
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { CollectionEstConfirm } from "/imports/api/collections";
 import "/lib/utils.js";
 
 export default () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [reqDetail, setReqDetail] = useState([]);
@@ -52,67 +54,6 @@ export default () => {
   }, []);
 
 
-  // 체크박스 체크 시 호출되는 함수
-  // const handleCheckboxChange = (b_id, isChecked, type) => {
-  //   console.log(isChecked ? "Checked ID:" : "Unchecked ID:", b_id);
-  //   if (isChecked) {
-  //     if (type === "car") setCarBusinessId(b_id);
-  //     else if (type === "help") setHelBusinessId(b_id);
-  //     return;
-  //   } else {
-  //     if (type === "car") setCarBusinessId(null);
-  //     else if (type === "help") setHelBusinessId(null);
-  //     return;
-  //   }
-  // };
-
-  // 체크 상태 관리
-  // const toggleCheckbox = (id, type) => {
-
-  //   if (type === "car") {
-  //     setEstimateCarList((prevRows) => {
-  //       return prevRows.map((row) => {
-  //         if (row.business_id === id) {
-  //           return { ...row, isChecked: !row.isChecked };
-  //         } else {
-  //           return row;
-  //         }
-  //       }
-  //       )
-  //     }
-  //     );
-
-  //     const updatedRow = estimateCarList.find((row) => row.business_id === id);
-  //     if (updatedRow) {
-  //       handleCheckboxChange(id, !updatedRow.isChecked, type); // 현재 상태 반전 후 처리
-  //     }
-
-  //   }
-  //   else if (type === "help") {
-  //     setEstimateHelList((prevRows) => {
-  //       return prevRows.map((row) => {
-  //         if (row.business_id === id) {
-  //           return { ...row, isChecked: !row.isChecked };
-  //         } else {
-  //           return row;
-  //         }
-  //       }
-  //       )
-  //     }
-  //     );
-
-  //     const updatedRow = estimateHelList.find((row) => row.business_id === id);
-  //     if (updatedRow) {
-  //       handleCheckboxChange(id, !updatedRow.isChecked, type); // 현재 상태 반전 후 처리
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log("Updated businessId: ", businessId);
-  // }, [businessId]);
-
-
   //컨펌내역 확정
   const handleConfirm = () => {
 
@@ -131,12 +72,32 @@ export default () => {
           }
           console.log("update Success!!");
           alert("저장되었습니다.");
+
+          //list 화면으로 이동
+          //navigate('/CheckRequest');
+          navigate('/mypage/checkrequest');
         });
       }
     } else {
       console.log("취소");
       return;
     }
+  }
+
+  //삭제
+  const handleRequestRemove = () => {
+    Meteor.call('removeRequest', { param: id }, (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      else {
+        alert("삭제되었습니다.");
+
+        //navigate('/CheckRequest');
+        navigate('/mypage/checkrequest');
+      }
+    });
   }
 
   //car_radio
@@ -155,130 +116,258 @@ export default () => {
       <div>
         <div>
           {/*내 견적 요청서 조회*/}
+          <div className="px-4 sm:px-0">
+            <h3 className="ml-4 text-xl leading-7 font-semibold text-gray-900">견적 요청서 확인</h3>
+          </div>
           {reqDetail.map((detail) => {
             return (
-              <div>
-                <h3>견적 요청서</h3>
-                {detail.move_date.toStringYMD()}
-                {detail.start_address}
-                {detail.arrive_address}
-                {detail.house_size}
-                {detail.addworker}
-                <tr />
-                <h3>용달 요청서</h3>
-                도착요청시간 : {detail.reqCar.req_arr_time}시<tr />
-                출발지-e/v : {detail.reqCar.str_addr_elv}<tr />
-                도착지-e/v : {detail.reqCar.arr_addr_elv}<tr />
-                사다리차 필요 여부<tr />
-                출발지 : {detail.reqCar.ladder_truck.start == true ? (
-                  <input type='checkbox' checked />
-                ) : <input type='checkbox' />
-                }<tr />
-                도착지 {detail.reqCar.ladder_truck.arrive == true ? (
-                  <input type='checkbox' checked />
-                ) : <input type='checkbox' />
-                }<tr />
-                가전 {
-                  detail.reqCar.appliances.map((app) => {
-                    <button disabled="true">{app}</button>
-                  }
-                  )
-                }<tr />
-                가구 {
-                  detail.reqCar.furniture.map((furniture) => {
-                    <input type='text' readOnly>{furniture}</input>
-                  }
-                  )
-                }<tr />
-                <h3>도우미 요청서</h3>
-                요청시간대 : {detail.reqHelper.request_time_area}<tr />
-                요청사항 : {detail.reqHelper.h_type}<tr />
-                도착요청시간 : {detail.reqHelper.h_req_arr_time}<tr />
-                평-출발 : {detail.reqHelper.s_house_size}<tr />
-                평-도착 : {detail.reqHelper.a_house_size}<tr />
+              <div className="mt-6 border-t border-gray-100">
+                <dl className="divide-y divide-gray-100">
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">이사 날짜</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.move_date.toStringYMD()}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발 주소</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.start_address}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도착 주소</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.arrive_address}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">평 수</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.house_size}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">추가 용달 인원</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.addworker === true ? '필요' : '필요하지 않음'}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">용달차 도착요청시간</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.req_arr_time}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발지 E/V</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.str_addr_elv === true ? '있음' : '없음'}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도착지 E/V</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.arr_addr_elv === true ? '있음' : '없음'}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발지 사다리차</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.ladder_truck.start === true ? '필요' : '필요하지 않음'}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도착지 사다리차</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.ladder_truck.arrive === true ? '필요' : '필요하지 않음'}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">가전</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {
+                        detail.reqCar.appliances.length > 0 ?
+                          detail.reqCar.appliances.map((app) => {
+                            return (
+                              <span
+                                key={app}
+                                className="inline-block mr-2 mb-2 px-3 py-1 text-sm text-gray-700 bg-gray-200 border border-gray-300 rounded"
+                              >
+                                {app}
+                              </span>
+                            );
+                          }) : <span className="hidden" />
+                      }
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">가구</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {
+                        detail.reqCar.furniture.length > 0 ?
+                          detail.reqCar.furniture.map((furniture) => {
+                            return (
+                              <span
+                                key={furniture}
+                                className="inline-block mr-2 mb-2 px-3 py-1 text-sm text-gray-700 bg-gray-200 border border-gray-300 rounded"
+                              >
+                                {furniture}
+                              </span>
+                            );
+                          }) : <span className="hidden" />
+                      }
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도우미 요청시간대</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.request_time_area}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도우미 도착 요청시간</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.h_req_arr_time}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도우미 요청사항</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.h_type}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발지-평 수</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.s_house_size}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도착지-평 수</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.a_house_size}</dd>
+                  </div>
+                </dl>
               </div>
             )
           })}
         </div>
-      </div>
-      <div>
-        <h2>받은 견적서</h2>
-        <h3>용달 업체</h3>
-        <div>
-          <table border="1" style={{ width: "100%", textAlign: "left" }}>
-            <thead>
-              <tr>
-                <th>선택</th>
-                <th>사업자번호</th>
-                <th>업체명</th>
-                <th>연락처</th>
-                <th>가격</th>
-                <th>상세내역</th>
-              </tr>
-            </thead>
-            <tbody>
-              {estimateCarList.map((carestimate, index) => {
-                return (
-                  <tr key={carestimate.business_id}>
-                    <td>
-                      <input
-                        type="radio"
-                        name="carRadio"
-                        value={carestimate.business_id}
-                        checked={carBusinessId === carestimate.business_id}
-                        onChange={() => handleCarRadioChange(carestimate.business_id)}
-                      />
-                    </td>
-                    <td>{carestimate.business_id}</td>
-                    <td>{carestimate.business_name}</td>
-                    <td>{carestimate.business_contact}</td>
-                    <td>{carestimate.amount}</td>
-                    <td>{carestimate.details}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-        <h3>도우미 업체</h3>
-        <div>
-          <table border="1" style={{ width: "100%", textAlign: "left" }}>
-            <thead>
-              <tr>
-                <th>선택</th>
-                <th>사업자번호</th>
-                <th>업체명</th>
-                <th>연락처</th>
-                <th>가격</th>
-                <th>상세내역</th>
-              </tr>
-            </thead>
-            <tbody>
-              {estimateHelList.map((helestimate) => {
-                return (
-                  <tr key={helestimate.business_id}>
-                    <td>
-                      <input
-                        type="radio"
-                        name="helRadio"
-                        value={helestimate.business_id}
-                        checked={helBusinessId === helestimate.business_id}
-                        onChange={() => handleHelRadioChange(helestimate.business_id)}
-                      />
-                    </td>
-                    <td>{helestimate.business_id}</td>
-                    <td>{helestimate.business_name} </td>
-                    <td>{helestimate.business_contact}</td>
-                    <td>{helestimate.amount}</td>
-                    <td>{helestimate.details}</td>
-                  </tr>
 
-                )
-              })}
-            </tbody>
-          </table>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+              <h1 className="text-base font-semibold text-gray-900">받은 견적서</h1>
+              <p className="mt-2 text-sm text-gray-700">
+                용달 업체
+              </p>
+            </div>
+          </div>
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="overflow-hidden overflow-auto shadow ring-1 ring-black/5 sm:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-300 min-h-[100px]">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      선택
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                      사업자번호
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                      업체명
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                      연락처
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                      견적가격
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                      상세내역
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {estimateCarList.map((carestimate, index) => {
+                    return (
+                      <tr key={carestimate.business_id}>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                          <input
+                            type="radio"
+                            name="carRadio"
+                            value={carestimate.business_id}
+                            checked={carBusinessId === carestimate.business_id}
+                            onChange={() => handleCarRadioChange(carestimate.business_id)}
+                          />
+                        </td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.business_id}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.business_name}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.business_contact}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.amount}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.details}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+              {/* <h1 className="text-base font-semibold text-gray-900">받은 견적서</h1> */}
+              <p className="mt-2 text-sm text-gray-700">
+                도우미 업체
+              </p>
+            </div>
+          </div>
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="overflow-hidden overflow-auto shadow ring-1 ring-black/5 sm:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-300 min-h-[100px]">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      선택
+                    </th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      사업자번호
+                    </th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      업체명
+                    </th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      연락처
+                    </th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      견적가격
+                    </th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                      상세내역
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {estimateHelList.map((helestimate) => {
+                    return (
+                      <tr key={helestimate.business_id}>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                          <input
+                            type="radio"
+                            name="helRadio"
+                            value={helestimate.business_id}
+                            checked={helBusinessId === helestimate.business_id}
+                            onChange={() => handleHelRadioChange(helestimate.business_id)}
+                          />
+                        </td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.business_id}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.business_name} </td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.business_contact}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.amount}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.details}</td>
+                      </tr>
+
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="rounded-md bg-indigo-50 px-2.5 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
+              컨펌 확정
+            </button>
+          </div>
         </div>
-        <button onClick={handleConfirm}>컨펌 확정</button>
+        <div className="flex justify-center gap-2 px-2">
+          <Link to={`/mypage/requestupdate/${id}`}>
+            <button
+              type="button"
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              견적요청서 수정
+            </button>
+          </Link>
+          <button
+            type="button"
+            className="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleRequestRemove}>
+            삭제
+          </button>
+        </div>
       </div>
     </>
   );

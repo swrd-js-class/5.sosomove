@@ -41,9 +41,9 @@ export default () => {
 
     <div>
       <div class="flex bg-gray-100">
-        <form onSubmit={handleSubmit}>
-          <div class="bg-white bg-clip-border py-6 px-10 max-w-lg shadow-md border">
-            <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
+        <div class="bg-white bg-clip-border py-6 px-10 max-w-lg border h-[100vh] w-full max-w-[20rem]">
+          <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
+          <form onSubmit={handleSubmit}>
             <div class="space-y-4 mt-6">
               <div class="w-full">
                 <h2>비밀번호 재설정</h2>
@@ -59,8 +59,8 @@ export default () => {
               </div>
             </div>
             <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

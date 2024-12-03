@@ -12,12 +12,13 @@ import AdminBList from "./AdminBList.jsx";
 import AdminEdit from "./AdminEdit.jsx";
 import SignupDetail from "./SignupDetail.jsx";
 import NotFound from "./NotFound.jsx";
-import Checkrequest from "./CheckRequest.jsx";
+import CheckRequest from "./CheckRequest.jsx";
 import AllRequest from "./AllRequest.jsx";
 import BusinessAllRequestDetails from "./BusinessAllRequestDetails.jsx";
 import BusinessAllEstimate from "./BusinessAllEstimate.jsx";
 import RequestDetail from "./RequestDetail.jsx";
 import NewRequest from "./NewRequest.jsx";
+import RequestUpdate from "./RequestUpdate.jsx";
 import MatchingDetail from "./MatchingDetail.jsx";
 import MypageNavbar from "./MypageNavbar.jsx";
 import UserEdit from "./UserEdit.jsx";
@@ -26,6 +27,7 @@ import Layout from "./Layout.jsx";
 import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 import Business from "./Business.jsx";
 import Mypage from "./Mypage.jsx";
+import AdminAllList from "./AdminAllList.jsx";
 
 export const App = () => {
 
@@ -48,6 +50,7 @@ export const App = () => {
             <Route index element={<Navigate to="/admin/adminbcheck" />} />
             <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
             <Route path="/admin/adminblist" element={<AdminBList />} />
+            <Route path="/admin/adminalllist" element={<AdminAllList />} />
             <Route path="/admin/adminedit" element={<AdminEdit />} />
           </Route>
 
@@ -66,7 +69,8 @@ export const App = () => {
             <Route index element={<Navigate to="/mypage/requestdetail/:id" />} />
             <Route path="/mypage/newrequest" element={<NewRequest />} />
             <Route path="/mypage/requestdetail/:id" element={<RequestDetail />} />
-            <Route path="/mypage/checkrequest" element={<Checkrequest />} />
+            <Route path="/mypage/checkrequest" element={<CheckRequest />} />
+            <Route path="/mypage/requestupdate/:id" element={<RequestUpdate />} />
             <Route path="/mypage/matchingdetail" element={<MatchingDetail />} />
             <Route path="/mypage/useredit" element={<UserEdit />} />
           </Route>
