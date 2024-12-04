@@ -4,65 +4,59 @@ import { CollectionRequest, CollectionEstimate } from "/imports/api/collections"
 import "/lib/utils.js";
 import { Accounts } from "meteor/accounts-base";
 import fetch from 'node-fetch';
-import axios from 'axios';
+import { WebApp } from 'meteor/webapp';
+import multer from 'multer';
+
 
 //이미지분석 객체 탐지 테스트용
 const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
-const endpoint = 'https://shj-cv.cognitiveservices.azure.com';
+const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
 
-// 이미지 객체 탐지 함수
-const analyzeImage = async (imageUrl) => {
-  try {
-    const response = await axios.post(
-      `${endpoint}/vision/v3.2/analyze`,
-      { url: imageUrl },
-      {
-        headers: {
-          'Ocp-Apim-Subscription-Key': subscriptionKey,
-          'Content-Type': 'application/json',
-        },
-        params: {
-          visualFeatures: 'Objects',
-        },
+const upload = multer();
+
+WebApp.connectHandlers.use('/ttt', (req, res, next) => {
+  if (req.method === 'POST') {
+    upload.single('image')(req, res, async (err) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('File upload failed');
+        return;
       }
-    );
-    //객체 추출해서 파싱
-    const objects = response.data.objects;
-    const objectDetails = objects.map(object => ({
-      객체: object.object,
-      좌표: object.rectangle
-    }));
+      console.log('Received file:', req.file);
+      try {
+        // Azure API 호출
+        const azureRes = await fetch(endpoint + '?visualFeatures=Objects', {
+          method: 'POST',
+          headers: {
+            'Ocp-Apim-Subscription-Key': subscriptionKey,
+            'Content-Type': 'application/octet-stream',
+          },
+          body: req.file.buffer,
+        });
+        const data = await azureRes.json();
+        // console.log(data);
 
-    console.log(objectDetails); //출력해보자!!!
-    return objectDetails;
+        //응답 받은 데이터 파싱
+        const objects = data.objects;
+        const objectsDetails = objects.map(object => ({
+          객체: object.object,
+          좌표: object.rectangle
+        }));
+        // console.log(objectsDetails);
 
-  } catch (error) {
-    console.error('Error analyzing image:', error);
-    throw error;
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(objectsDetails));  // Azure API 결과 반환
+
+      } catch (err) {
+        res.writeHead(500);
+        res.end('Error: ' + err.message);
+      }
+    });
+  } else {
+    res.writeHead(405, { 'Content-Type': 'text/plain' });
+    res.end('Method Not Allowed');
   }
-};
-
-Meteor.methods({
-  'azure.analyzeImage': async (imageUrl) => {
-    return await analyzeImage(imageUrl);
-  },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
