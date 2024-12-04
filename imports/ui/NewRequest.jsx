@@ -1,5 +1,33 @@
 //새 견적서 요청
-import React, { useEffect, useState, useRef } from "react";
+import {
+    Dialog,
+    DialogBackdrop,
+    DialogPanel,
+    Popover,
+    PopoverButton,
+    PopoverGroup,
+    PopoverPanel,
+    Radio,
+    RadioGroup,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels,
+} from '@headlessui/react'
+import {
+    Bars3Icon,
+    CurrencyDollarIcon,
+    GlobeAmericasIcon,
+    MagnifyingGlassIcon,
+    ShoppingBagIcon,
+    UserIcon,
+    XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { StarIcon } from '@heroicons/react/20/solid'
+
+
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DatePicker from 'react-datepicker';
@@ -34,7 +62,7 @@ export default () => {
     const [aAddr_ladder, setAAddr_ladder] = useState(false); //도착지 사다리차 여부
     const [isChecked, setIsChecked] = useState(false);
     const carTextareaRef = useRef();
-    const startHouseSize = useRef(0);
+    const [startHouseSize, setStartHouseSize] = useState(0); //출발지 집 평형
 
     //주소찾기
     const [startPostcode, setStartPostcode] = useState('');
@@ -49,6 +77,46 @@ export default () => {
     const today = new Date();
     const oneWeekLater = new Date();
     oneWeekLater.setDate(today.getDate() + 7);
+
+    //가전, 가구 목록
+    const items = {
+        appliances: [
+            { name: '냉장고', index: 'a' },
+            { name: '김치냉장고', index: 'b' },
+            { name: '세탁기', index: 'c' },
+            { name: '건조기', index: 'd' },
+            { name: 'TV모니터', index: 'e' },
+            { name: '에어컨', index: 'f' },
+            { name: '의류관리기', index: 'g' },
+            { name: '안마의자', index: 'h' },
+            { name: '전자레인지', index: 'i' },
+            { name: '가스레인지', index: 'j' },
+            { name: '인덕션', index: 'k' },
+            { name: '공기청정기', index: 'l' },
+            { name: '청소기', index: 'm' },
+            { name: '정수기', index: 'n' },
+            { name: '비데', index: 'o' },
+            { name: 'PC데스크탑', index: 'p' },
+        ],
+        furnitures: [
+            { name: '침대메트리스', index: 'q' },
+            { name: '침대프레임', index: 'r' },
+            { name: '책상', index: 's' },
+            { name: '의자', index: 't' },
+            { name: '소파', index: 'u' },
+            { name: '테이블', index: 'v' },
+            { name: '수납장', index: 'w' },
+            { name: '서랍장', index: 'x' },
+            { name: '책장', index: 'y' },
+            { name: '옷장', index: 'z' },
+            { name: '화장대', index: 'aa' },
+            { name: '헹거', index: 'bb' },
+        ]
+    };
+
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
 
     useEffect(() => {
 
@@ -194,6 +262,11 @@ export default () => {
     const handleEvChange = (type) => {
         if (type === 'str') setSAddrEv((prev) => !prev);
         else if (type === 'arr') setAAddrEv((prev) => !prev);
+    }
+
+    //출발지 집 평형
+    const handleStartHouseSize = (e) => {
+        setStartHouseSize(e.target.value);
     }
 
     //날짜 검증
@@ -380,13 +453,14 @@ export default () => {
                 </div>
                 <p className="relative pl-6">
                     <span className="absolute left-0 top-0 text-red-500">*</span>출발지 평형(전용 면적) :&nbsp;</p>
-                <input type="number" ref={startHouseSize} />
+                <input type="number" value={startHouseSize} onChange={handleStartHouseSize} />
                 용달 인부 추가 여부&nbsp;
                 <input type="checkbox" name="addWorker" onChange={() => handleAddworkerChange(isChecked)} />
             </div>
             <div style={{ float: 'right' }} >
                 <p className="relative pl-6">
-                    <span className="absolute left-0 top-0 text-red-500">*</span><h2>이사물품 입력</h2></p>
+                    <span className="absolute left-0 top-0 text-red-500">*</span><h2>이사물품 입력</h2>
+                </p>
                 <div>
                     <button
                         onClick={() => handleTabClick('car')}
@@ -406,49 +480,92 @@ export default () => {
                         <div>
                             <p>물품선택</p>
                             <div>
-                                <p>가전</p>
+                                <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
+                                    <legend className="font-bold text-lg mb-2">가전 제품</legend>
+                                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                                        {items.appliances.map((apll) => (
+                                            <label for={apll.index} className="mb-2">
+                                                <input type="checkbox"
+                                                    className={classNames(
+                                                        'cursor-pointer focus:outline-none', // 기본 상태 스타일
+                                                        'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
+                                                        'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
+                                                    )}
+                                                    id={apll.index} value={apll.name} onChange={(e) => toggleCheckboxAppli(apll.name, e.target.checked)} style={{ display: 'none' }} />
+                                                <span
+                                                    className={classNames(
+                                                        'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50', // 기본 스타일
+                                                        'peer-checked:border-transparent peer-checked:bg-gray-400 peer-checked:text-white', // 체크된 상태에서 스타일 변경
+                                                        'peer-focus:ring-2 peer-focus:ring-indigo-500 peer-focus:ring-offset-2' // 포커스 스타일
+                                                    )}
+                                                >{apll.name}</span>
+                                            </label>
+                                        ))}
 
-                                <label for="a">냉장고&nbsp; <input type="checkbox" id="a" value='냉장고' onChange={(e) => toggleCheckboxAppli('냉장고', e.target.checked)} /></label> &nbsp;
-                                <label for="b">김치냉장고&nbsp; <input type="checkbox" id="b" value='김치냉장고' onChange={(e) => toggleCheckboxAppli('김치냉장고', e.target.checked)} /></label>&nbsp;
-                                <label for="c">세탁기&nbsp; <input type="checkbox" id="c" value='세탁기' onChange={(e) => toggleCheckboxAppli('세탁기', e.target.checked)} /></label>&nbsp;
-                                <label for="d">건조기&nbsp; <input type="checkbox" id="d" value='건조기' onChange={(e) => toggleCheckboxAppli('건조기', e.target.checked)} /></label>&nbsp;
+                                        {/* 
+                                        <label for="b" className="mb-2">김치냉장고&nbsp; <input type="checkbox" id="b" value='김치냉장고' onChange={(e) => toggleCheckboxAppli('김치냉장고', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="c" className="mb-2">세탁기&nbsp; <input type="checkbox" id="c" value='세탁기' onChange={(e) => toggleCheckboxAppli('세탁기', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="d" className="mb-2">건조기&nbsp; <input type="checkbox" id="d" value='건조기' onChange={(e) => toggleCheckboxAppli('건조기', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
 
-                                <label for="e">TV모니터&nbsp; <input type="checkbox" id="e" value='TV모니터' onChange={(e) => toggleCheckboxAppli('TV모니터', e.target.checked)} /></label>&nbsp;
-                                <label for="f">에어컨&nbsp; <input type="checkbox" id="f" value='에어컨' onChange={(e) => toggleCheckboxAppli('에어컨', e.target.checked)} /></label>&nbsp;
-                                <label for="g">의류관리기&nbsp; <input type="checkbox" id="g" value='의류관리기' onChange={(e) => toggleCheckboxAppli('의류관리기', e.target.checked)} /></label>&nbsp;
-                                <label for="h">안마의자&nbsp; <input type="checkbox" id="h" value='안마의자' onChange={(e) => toggleCheckboxAppli('안마의자', e.target.checked)} /></label>&nbsp;
+                                        <label for="e" className="mb-2">TV모니터&nbsp; <input type="checkbox" id="e" value='TV모니터' onChange={(e) => toggleCheckboxAppli('TV모니터', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="f" className="mb-2">에어컨&nbsp; <input type="checkbox" id="f" value='에어컨' onChange={(e) => toggleCheckboxAppli('에어컨', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="g" className="mb-2">의류관리기&nbsp; <input type="checkbox" id="g" value='의류관리기' onChange={(e) => toggleCheckboxAppli('의류관리기', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="h" className="mb-2">안마의자&nbsp; <input type="checkbox" id="h" value='안마의자' onChange={(e) => toggleCheckboxAppli('안마의자', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
 
-                                <label for="i">전자레인지&nbsp; <input type="checkbox" id="i" value='전자레인지' onChange={(e) => toggleCheckboxAppli('전자레인지', e.target.checked)} /></label>&nbsp;
-                                <label for="j">가스레인지&nbsp; <input type="checkbox" id="j" value='가스레인지' onChange={(e) => toggleCheckboxAppli('가스레인지', e.target.checked)} /></label>&nbsp;
-                                <label for="k">인덕션&nbsp; <input type="checkbox" id="k" value='인덕션' onChange={(e) => toggleCheckboxAppli('인덕션', e.target.checked)} /></label>&nbsp;
-                                <label for="l">공기청정기&nbsp; <input type="checkbox" id="l" value='공기청정기' onChange={(e) => toggleCheckboxAppli('공기청정기', e.target.checked)} /></label>&nbsp;
+                                        <label for="i" className="mb-2">전자레인지&nbsp; <input type="checkbox" id="i" value='전자레인지' onChange={(e) => toggleCheckboxAppli('전자레인지', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="j" className="mb-2">가스레인지&nbsp; <input type="checkbox" id="j" value='가스레인지' onChange={(e) => toggleCheckboxAppli('가스레인지', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="k" className="mb-2">인덕션&nbsp; <input type="checkbox" id="k" value='인덕션' onChange={(e) => toggleCheckboxAppli('인덕션', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="l" className="mb-2">공기청정기&nbsp; <input type="checkbox" id="l" value='공기청정기' onChange={(e) => toggleCheckboxAppli('공기청정기', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
 
-                                <label for="m">청소기&nbsp; <input type="checkbox" id="m" value='청소기' onChange={(e) => toggleCheckboxAppli('청소기', e.target.checked)} /></label>&nbsp;
-                                <label for="n">정수기&nbsp; <input type="checkbox" id="n" value='정수기' onChange={(e) => toggleCheckboxAppli('정수기', e.target.checked)} /></label>&nbsp;
-                                <label for="o">비데&nbsp; <input type="checkbox" id="o" value='비데' onChange={(e) => toggleCheckboxAppli('비데', e.target.checked)} /></label>&nbsp;
-                                <label for="p">PC데스크탑&nbsp; <input type="checkbox" id="p" value='PC데스크탑' onChange={(e) => toggleCheckboxAppli('PC데스크탑', e.target.checked)} /></label>&nbsp;
-
-
-                                <p>선택된 가전 제품: {appliances.join(', ')}</p>
+                                        <label for="m" className="mb-2">청소기&nbsp; <input type="checkbox" id="m" value='청소기' onChange={(e) => toggleCheckboxAppli('청소기', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="n" className="mb-2">정수기&nbsp; <input type="checkbox" id="n" value='정수기' onChange={(e) => toggleCheckboxAppli('정수기', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="o" className="mb-2">비데&nbsp; <input type="checkbox" id="o" value='비데' onChange={(e) => toggleCheckboxAppli('비데', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                        <label for="p" className="mb-2">PC데스크탑&nbsp; <input type="checkbox" id="p" value='PC데스크탑' onChange={(e) => toggleCheckboxAppli('PC데스크탑', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp; */}
+                                    </div>
+                                </fieldset>
+                                {/* <p>선택된 가전 제품: {appliances.join(', ')}</p> */}
                             </div>
+
                             <div>
-                                <p>가구</p>
-                                <label for="q">침대메트리스&nbsp; <input type="checkbox" id="q" value='침대메트리스' onChange={(e) => toggleCheckboxFurni('침대메트리스', e.target.checked)} /></label>&nbsp;
-                                <label for="r">침대프레임&nbsp; <input type="checkbox" id="r" value='침대프레임' onChange={(e) => toggleCheckboxFurni('침대프레임', e.target.checked)} /></label>&nbsp;
-                                <label for="s">책상&nbsp; <input type="checkbox" id="s" value='책상' onChange={(e) => toggleCheckboxFurni('책상', e.target.checked)} /></label>&nbsp;
-                                <label for="t">의자&nbsp; <input type="checkbox" id="t" value='의자' onChange={(e) => toggleCheckboxFurni('의자', e.target.checked)} /></label>&nbsp;
+                                <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
+                                    <legend className="font-bold text-lg mb-2">가구</legend>
+                                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                                        {items.furnitures.map((furniture) => (
+                                            <label for={furniture.index} className="mb-2">
+                                                <input type="checkbox"
+                                                    className={classNames(
+                                                        'cursor-pointer focus:outline-none', // 기본 상태 스타일
+                                                        'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
+                                                        'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
+                                                    )}
+                                                    id={furniture.index} value={furniture.name} onChange={(e) => toggleCheckboxFurni(furniture.name, e.target.checked)} style={{ display: 'none' }} />
+                                                <span
+                                                    className={classNames(
+                                                        'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50', // 기본 스타일
+                                                        'peer-checked:border-transparent peer-checked:bg-gray-400 peer-checked:text-white', // 체크된 상태에서 스타일 변경
+                                                        'peer-focus:ring-2 peer-focus:ring-indigo-500 peer-focus:ring-offset-2' // 포커스 스타일
+                                                    )}
+                                                >{furniture.name}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </fieldset>
+                                {/* <label for="q">침대메트리스&nbsp; <input type="checkbox" id="q" value='침대메트리스' onChange={(e) => toggleCheckboxFurni('침대메트리스', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="r">침대프레임&nbsp; <input type="checkbox" id="r" value='침대프레임' onChange={(e) => toggleCheckboxFurni('침대프레임', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="s">책상&nbsp; <input type="checkbox" id="s" value='책상' onChange={(e) => toggleCheckboxFurni('책상', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="t">의자&nbsp; <input type="checkbox" id="t" value='의자' onChange={(e) => toggleCheckboxFurni('의자', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
 
-                                <label for="u">소파&nbsp; <input type="checkbox" id="u" value='소파' onChange={(e) => toggleCheckboxFurni('소파', e.target.checked)} /></label>&nbsp;
-                                <label for="v">테이블&nbsp; <input type="checkbox" id="v" value='테이블' onChange={(e) => toggleCheckboxFurni('테이블', e.target.checked)} /></label>&nbsp;
-                                <label for="w">수납장&nbsp; <input type="checkbox" id="w" value='수납장' onChange={(e) => toggleCheckboxFurni('수납장', e.target.checked)} /></label>&nbsp;
-                                <label for="x">서랍장&nbsp; <input type="checkbox" id="x" value='서랍장' onChange={(e) => toggleCheckboxFurni('서랍장', e.target.checked)} /></label>&nbsp;
+                                <label for="u">소파&nbsp; <input type="checkbox" id="u" value='소파' onChange={(e) => toggleCheckboxFurni('소파', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="v">테이블&nbsp; <input type="checkbox" id="v" value='테이블' onChange={(e) => toggleCheckboxFurni('테이블', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="w">수납장&nbsp; <input type="checkbox" id="w" value='수납장' onChange={(e) => toggleCheckboxFurni('수납장', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="x">서랍장&nbsp; <input type="checkbox" id="x" value='서랍장' onChange={(e) => toggleCheckboxFurni('서랍장', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
 
-                                <label for="y">책장&nbsp; <input type="checkbox" id="y" value='책장' onChange={(e) => toggleCheckboxFurni('책장', e.target.checked)} /></label>&nbsp;
-                                <label for="z">옷장&nbsp; <input type="checkbox" id="z" value='옷장' onChange={(e) => toggleCheckboxFurni('옷장', e.target.checked)} /></label>&nbsp;
-                                <label for="aa">화장대&nbsp; <input type="checkbox" id="aa" value='화장대' onChange={(e) => toggleCheckboxFurni('화장대', e.target.checked)} /></label>&nbsp;
-                                <label for="bb">행거&nbsp; <input type="checkbox" id="bb" value='행거' onChange={(e) => toggleCheckboxFurni('행거', e.target.checked)} /></label>&nbsp;
-
-                                <p>선택된 가구 목록: {furnitures.join(', ')}</p>
+                                <label for="y">책장&nbsp; <input type="checkbox" id="y" value='책장' onChange={(e) => toggleCheckboxFurni('책장', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="z">옷장&nbsp; <input type="checkbox" id="z" value='옷장' onChange={(e) => toggleCheckboxFurni('옷장', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="aa">화장대&nbsp; <input type="checkbox" id="aa" value='화장대' onChange={(e) => toggleCheckboxFurni('화장대', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+                                <label for="bb">행거&nbsp; <input type="checkbox" id="bb" value='행거' onChange={(e) => toggleCheckboxFurni('행거', e.target.checked)} style={{ display: 'none' }} /></label>&nbsp;
+*/}
+                                {/* <p>선택된 가구 목록: {furnitures.join(', ')}</p> */}
                             </div>
                             <div>
                                 <p className="relative pl-6">

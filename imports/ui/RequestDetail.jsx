@@ -54,12 +54,12 @@ export default () => {
   }, []);
 
 
-  //컨펌내역 확정
+  //매칭내역 확정
   const handleConfirm = () => {
+    //용달 업체를 선택해야만(확정되어 있어야만) 매칭 확정될 수 있음
+    if (carBusinessId !== null) {
 
-    if (carBusinessId !== null || helBusinessId !== null) {
-
-      const isconfirm = window.confirm("선택된 업체를 매칭 컨펌 하시겠습니까?");
+      const isconfirm = window.confirm("선택된 업체를 매칭 확정 하시겠습니까?");
 
       if (isconfirm) {
         //최종 사업자선택 컨펌
@@ -93,9 +93,12 @@ export default () => {
 
         //list 화면으로 이동
         navigate('/mypage/checkrequest');
+      } else {
+        console.log("취소");
+        return;
       }
     } else {
-      console.log("취소");
+      alert("용달업체를 선택해야만 매칭이 가능합니다.");
       return;
     }
   }
@@ -374,7 +377,7 @@ export default () => {
               type="button"
               onClick={handleConfirm}
               className="rounded-md bg-indigo-50 px-2.5 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-              컨펌 확정
+              매칭 확정
             </button>
           </div>
         </div>
