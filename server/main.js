@@ -38,11 +38,14 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
 
         //응답 받은 데이터 파싱
         const objects = data.objects;
-        const objectsDetails = objects.map(object => ({
-          객체: object.object,
-          좌표: object.rectangle
-        }));
-        // console.log(objectsDetails);
+        const meta = data.metadata;
+        const objectsDetails =
+          objects.map(object => ({
+            물건: object.object,
+            좌표: object.rectangle,
+            사진크기: meta
+          }));
+        console.log(objectsDetails);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(objectsDetails));  // Azure API 결과 반환
