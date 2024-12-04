@@ -41,17 +41,13 @@ export default () => {
     const startInArea = request.start_address.includes(selectedArea) && request.start_address.includes(selectedSubArea);
     const arriveInArea = request.arrive_address.includes(selectedArea) && request.arrive_address.includes(selectedSubArea);
     return startInArea || arriveInArea;
-  });
-
-  if (businessType === "일반" || businessType === "관리자") {
-    return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  }
-
-
-  const filterRequest = requests.filter((request) =>
-    request.start_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, '')) ||
-    request.arrive_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, ''))
-  ).sort((a, b) => new Date(a.move_date) - new Date(b.move_date));
+  }).filter((request) => {
+    if (businessType === "헬퍼") {
+      return request.reqHelper.request_time_area !== "" || request.reqHelper.h_type === true;
+    }
+    return true;
+  })
+  .sort((a, b) => new Date(a.move_date) - new Date(b.move_date));
 
   return (
 <div className="px-4 sm:px-6 lg:px-8">

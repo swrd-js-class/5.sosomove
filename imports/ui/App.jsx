@@ -26,6 +26,7 @@ import BusinessEdit from "./BusinessEdit.jsx";
 import Layout from "./Layout.jsx";
 import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 import Business from "./Business.jsx";
+import BusinessMatching from "./BusinessMatching.jsx";
 import Mypage from "./Mypage.jsx";
 import AdminAllList from "./AdminAllList.jsx";
 
@@ -62,11 +63,12 @@ export const App = () => {
             <Route path="/business/businessestimate/:id" element={<BusinessEst />} />
             <Route path="/business/request-details/:id" element={<BusinessAllRequestDetails />} />
             <Route path="/business/businessedit" element={<BusinessEdit />} />
+            <Route path="/business/businessMatching" element={<BusinessMatching />} />
           </Route>
 
           {/* 송희 */}
           <Route path="/mypage" element={<Mypage />}>
-            <Route index element={<Navigate to="/mypage/requestdetail/:id" />} />
+            <Route index element={<Navigate to="/mypage/checkrequest" />} />
             <Route path="/mypage/newrequest" element={<NewRequest />} />
             <Route path="/mypage/requestdetail/:id" element={<RequestDetail />} />
             <Route path="/mypage/checkrequest" element={<CheckRequest />} />

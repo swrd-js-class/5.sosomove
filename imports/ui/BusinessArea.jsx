@@ -1,6 +1,6 @@
 export const area = [
     {
-      name: "서울특별시",
+      name: "서울",
       subArea: [
         "강남구",
         "강동구",
@@ -30,7 +30,7 @@ export const area = [
       ],
     },
     {
-      name: "경기도",
+      name: "경기",
       subArea: [
         "고양시",
         "과천시",
@@ -66,7 +66,7 @@ export const area = [
       ],
     },
     {
-      name: "인천광역시",
+      name: "인천",
       subArea: [
         "계양구",
         "미추홀구",
@@ -81,11 +81,17 @@ export const area = [
       ],
     },
     {
-      name: "대전광역시",
-      subArea: ["대덕구", "동구", "서구", "유성구", "중구"],
+      name: "대전",
+      subArea: [
+        "대덕구", 
+        "동구", 
+        "서구", 
+        "유성구", 
+        "중구"
+      ],
     },
     {
-      name: "대구광역시",
+      name: "대구",
       subArea: [
         "남구",
         "달서구",
@@ -98,7 +104,7 @@ export const area = [
       ],
     },
     {
-      name: "부산광역시",
+      name: "부산",
       subArea: [
         "강서구",
         "금정구",
@@ -119,15 +125,15 @@ export const area = [
       ],
     },
     {
-      name: "울산광역시",
+      name: "울산",
       subArea: ["남구", "동구", "북구", "중구", "울주군"],
     },
     {
-      name: "광주광역시",
+      name: "광주",
       subArea: ["광산구", "남구", "동구", "북구", "서구"],
     },
     {
-      name: "강원도",
+      name: "강원",
       subArea: [
         "강릉시",
         "동해시",
@@ -150,7 +156,7 @@ export const area = [
       ],
     },
     {
-      name: "충청북도",
+      name: "충북",
       subArea: [
         "제천시",
         "청주시",
@@ -168,7 +174,7 @@ export const area = [
     },
   
     {
-      name: "충청남도",
+      name: "충남",
       subArea: [
         "계룡시",
         "공주시",
@@ -190,7 +196,7 @@ export const area = [
     },
   
     {
-      name: "경상북도",
+      name: "경북",
       subArea: [
         "경산시",
         "경주시",
@@ -218,7 +224,7 @@ export const area = [
       ],
     },
     {
-      name: "경상남도",
+      name: "경남",
       subArea: [
         "거제시",
         "김해시",
@@ -243,7 +249,7 @@ export const area = [
       ],
     },
     {
-      name: "전라북도",
+      name: "전북",
       subArea: [
         "군산시",
         "김제시",
@@ -262,7 +268,7 @@ export const area = [
       ],
     },
     {
-      name: "전라남도",
+      name: "전남",
       subArea: [
         "광양시",
         "나주시",
