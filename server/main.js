@@ -285,6 +285,7 @@ Meteor.startup(() => {
           details: "견적서1-용달",
           amount: "20000",
           business_type: "용달",
+          request_del_flag: false,
           crateAt: new Date()
         });
       }
@@ -305,6 +306,7 @@ Meteor.startup(() => {
           details: "견적서-헬퍼",
           amount: "20000",
           business_type: "헬퍼",
+          request_del_flag: false,
           crateAt: new Date()
         });
         //}
@@ -392,19 +394,46 @@ Meteor.methods({
     return null;
   },
 
+  //개인-용달/헬퍼업체 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
+    try {
+      const query = {
+        '_id': requestId
+      }
+
+      const update = {
+        $set: {
+          'reqCar.car_confirm_id': car_businessId,
+          'reqHelper.hel_confirm_id': hel_businessId
+        }
+      }
+
+      const requpdateresult = CollectionRequest.update(query, update);
+
+      if (requpdateresult === 0) {
+        throw new error("request 컬렉션 업데이트 중 오류 발생");
+      }
+    } catch (error) {
+      console.error("컬렉션 update 중 오류 발생 : ", error);
+      throw new Meteor.Error('update-failed', error.message);
+    }
+  },
+
+  //개인-용달/헬퍼 견적서 컨펌 flag update
+  updateEstMatchingFlag({ requestId, businessId, matchingFlag }) {
+
     const query = {
-      '_id': requestId
+      'request_id': requestId,
+      'business_id': businessId
     }
 
     const update = {
       $set: {
-        'reqCar.car_confirm_id': car_businessId,
-        'reqHelper.hel_confirm_id': hel_businessId
+        'matching_flag': matchingFlag
       }
     }
 
-    CollectionRequest.update(query, update);
+    CollectionEstimate.update(query, update);
   },
 
   //개인-신규 견적요청서 저장
@@ -447,12 +476,23 @@ Meteor.methods({
     CollectionRequest.update(query, update);
   },
 
+  //견적요청서 삭제
   removeRequest({ param }) {
     try {
-      const estremoveresult = CollectionEstimate.remove({ 'request_id': param });
+      const query = {
+        'request_id': param
+      };
 
-      if (estremoveresult === 0) {
-        throw new Error("CollectionEstimate 삭제 실패");
+      const update = {
+        $set: {
+          'request_del_flag': true
+        }
+      }
+
+      const estupdateresult = CollectionEstimate.updateMany(query, update);
+
+      if (estupdateresult === 0) {
+        throw new Error("CollectionEstimate update 실패");
       }
 
       const reqremoveresult = CollectionRequest.remove({ '_id': param });
@@ -478,19 +518,47 @@ Meteor.methods({
   },
 
   //매칭-해제
-  updateRequestConfirmBizId({ requestId, type }) {
-    const query = {
-      '_id': requestId
+  updateRequestConfirmBizId({ requestId, type, bizId }) {
+    try {
+      const query = {
+        '_id': requestId
+      }
+
+      const update = {};
+
+      if (type === '용달') {
+        update.$set = { 'reqCar.car_confirm_id': null };
+      } else if (type === '헬퍼') {
+        update.$set = { 'reqHelper.hel_confirm_id': null };
+      }
+
+      const updateresult = CollectionRequest.update(query, update);
+
+      if (updateresult === 0) {
+        throw new Error("request 컬렉션 업데이트 중 오류 발생");
+      }
+
+      const estquery = {
+        'request_id': requestId,
+        'business_id': bizId
+      };
+
+      const estupdate = {
+        $set: {
+          'matching_flag': '3'
+        }
+      };
+
+      const estupdateresult = CollectionEstimate.update(estquery, estupdate);
+
+      if (estupdateresult === 0) {
+        throw new Error("estimate 컬렉션 업데이트 중 오류 발생");
+      }
+
+    } catch (error) {
+      console.error("컬렉션 update 중 오류 발생 : ", error);
+      throw new Meteor.Error('update-failed', error.message);
     }
 
-    const update = {};
-
-    if (type === '용달') {
-      update.$set = { 'reqCar.car_confirm_id': null };
-    } else if (type === '헬퍼') {
-      update.$set = { 'reqHelper.hel_confirm_id': null };
-    }
-
-    CollectionRequest.update(query, update);
   }
 });

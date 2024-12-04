@@ -1,8 +1,10 @@
 //새 견적서 요청
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css'
 import "/lib/utils.js";
 
 export default () => {
@@ -32,6 +34,7 @@ export default () => {
     const [aAddr_ladder, setAAddr_ladder] = useState(false); //도착지 사다리차 여부
     const [isChecked, setIsChecked] = useState(false);
     const carTextareaRef = useRef();
+    const startHouseSize = useRef(0);
 
     //주소찾기
     const [startPostcode, setStartPostcode] = useState('');
@@ -41,6 +44,11 @@ export default () => {
     const [arrPostcode, setArrPostcode] = useState('');
     const [arrAddress, setArrAddress] = useState('');
     const [detailArrAddress, setDetailArrAddress] = useState('');
+
+    //날짜
+    const today = new Date();
+    const oneWeekLater = new Date();
+    oneWeekLater.setDate(today.getDate() + 7);
 
     useEffect(() => {
 
@@ -188,60 +196,101 @@ export default () => {
         else if (type === 'arr') setAAddrEv((prev) => !prev);
     }
 
+    //날짜 검증
+    const handleDateChange = (date) => {
+        if (date) {
+            if (date < today) {
+                alert('오늘보다 이전의 날짜는 선택할 수 없습니다!');
+                setSelectedDate(null);
+            }
+            //선택한 날짜가 오늘로부터 일주일 이내라면
+            else if (date && date <= oneWeekLater) {
+                alert('오늘로부터 일주일 이내의 날짜는 선택할 수 없습니다!');
+                setSelectedDate(null);
+            } else {
+                setSelectedDate(date);
+            }
+        }
+    };
+
+    //입력 체크
+    const checkInputData = () => {
+        if (
+            proposer === '' ||
+            startAddress === '' ||
+            detailStartAddress === '' ||
+            arrAddress === '' ||
+            detailArrAddress === '' ||
+            selectedDate === null ||
+            startHouseSize === 0 ||
+            carSelectedTime === '' ||
+            (appliances.length === 0 &&
+                furnitures.length === 0 &&
+                carContent === '')
+        ) {
+            alert("필수 입력사항이 누락되었습니다! 입력해 주세요.");
+            return false;
+        }
+
+    }
+
     //견적서 제출
     const handleSubmit = () => {
-        const isconfirm = window.confirm("선택된 업체를 저장하시겠습니까?");
+        const checked = checkInputData(); //필수 입력사항 체크
 
-        if (isconfirm) {
-            const jsonRequestData = {
-                user_id: userId,
-                user_name: proposer,
-                move_date: selectedDate,
-                start_address: startAddress + ' ' + detailStartAddress,
-                arrive_address: arrAddress + ' ' + detailArrAddress,
-                house_size: s_house_size,
-                addworker: addWorker,
-                reqCar: {
-                    req_arr_time: carSelectedTime,
-                    str_addr_elv: sAddrEv,
-                    arr_addr_elv: aAddrEv,
-                    ladder_truck: {
-                        start: sAddr_ladder,
-                        arrive: aAddr_ladder
+        if (checked !== false) {
+            const isconfirm = window.confirm("견적 요청서를 제출하시겠습니까?");
+
+            if (isconfirm) {
+                const jsonRequestData = {
+                    user_id: userId,
+                    user_name: proposer,
+                    move_date: selectedDate,
+                    start_address: startAddress + ' ' + detailStartAddress,
+                    arrive_address: arrAddress + ' ' + detailArrAddress,
+                    house_size: startHouseSize,
+                    addworker: addWorker,
+                    reqCar: {
+                        req_arr_time: carSelectedTime,
+                        str_addr_elv: sAddrEv,
+                        arr_addr_elv: aAddrEv,
+                        ladder_truck: {
+                            start: sAddr_ladder,
+                            arrive: aAddr_ladder
+                        },
+                        appliances: appliances,
+                        furniture: furnitures,
+                        detail: carContent,
+                        car_confirm_id: null
                     },
-                    appliances: appliances,
-                    furniture: furnitures,
-                    detail: carContent,
-                    car_confirm_id: null
-                },
-                reqHelper: {
-                    request_time_area: selectedTimeArea,
-                    h_type: selHelpOption,
-                    h_req_arr_time: selectedTime,
-                    s_house_size: s_house_size,
-                    a_house_size: a_house_size,
-                    hel_confirm_id: null
-                },
-                createdAt: new Date()
-            }
-
-            //db insert
-            Meteor.call('insertRequest', jsonRequestData, (err, result) => {
-                if (err) {
-                    console.log(err);
-                    return;
+                    reqHelper: {
+                        request_time_area: selectedTimeArea,
+                        h_type: selHelpOption,
+                        h_req_arr_time: selectedTime,
+                        s_house_size: s_house_size,
+                        a_house_size: a_house_size,
+                        hel_confirm_id: null
+                    },
+                    createdAt: new Date()
                 }
 
-                console.log("insert success!!");
-                alert("견적 요청서가 저장되었습니다.");
+                //db insert
+                Meteor.call('insertRequest', jsonRequestData, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
 
-                // navigate('/checkrequest');
-                //리스트 화면으로 돌아가기
-                navigate('/mypage/checkrequest');
-            })
-        } else {
-            console.log("취소");
-            return;
+                    console.log("insert success!!");
+                    alert("견적 요청서가 저장되었습니다.");
+
+                    //리스트 화면으로 돌아가기
+                    navigate('/mypage/checkrequest');
+                })
+            } else {
+                console.log("취소");
+                return;
+            }
         }
     }
 
@@ -255,10 +304,12 @@ export default () => {
                     class="p-2"
                     alt="Rz Codes Logo"
                 />
-                신청자 :&nbsp;
+                <p className="relative pl-6">
+                    <span className="absolute left-0 top-0 text-red-500">*</span>신청자 :&nbsp;</p>
                 <input type="text" value={proposer} onChange={handleProposerChange} />
                 <div>
-                    출발지 : &nbsp;
+                    <p className="relative pl-6">
+                        <span className="absolute left-0 top-0 text-red-500">*</span>출발지 : &nbsp;</p>
                     <input
                         type="text"
                         value={startPostcode}
@@ -285,7 +336,8 @@ export default () => {
                         onChange={(e) => setDetailStartAddress(e.target.value)}
                     />
                     <br />
-                    도착지 : &nbsp;
+                    <p className="relative pl-6">
+                        <span className="absolute left-0 top-0 text-red-500">*</span>도착지 : &nbsp;</p>
                     <input
                         type="text"
                         value={arrPostcode}
@@ -313,20 +365,28 @@ export default () => {
                     />
                 </div>
                 <div>
-                    날짜 :
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        dateFormat="yyyy/MM/dd" // 원하는 날짜 형식 설정
-                        isClearable // 선택 해제 버튼 추가
-                        placeholderText="날짜를 선택하세요"
-                    />
+                    <p className="relative pl-6">
+                        <span className="absolute left-0 top-0 text-red-500">*</span>날짜 : &nbsp;
+                        <DatePicker
+                            selected={selectedDate}
+                            // onChange={(date) => setSelectedDate(date)}
+                            onChange={handleDateChange} //날짜 검증
+                            dateFormat="yyyy.MM.dd" // 원하는 날짜 형식 설정
+                            isClearable // 선택 해제 버튼 추가
+                            placeholderText="&#128198; 0000.00.00"
+                        />
+
+                    </p>
                 </div>
+                <p className="relative pl-6">
+                    <span className="absolute left-0 top-0 text-red-500">*</span>출발지 평형(전용 면적) :&nbsp;</p>
+                <input type="number" ref={startHouseSize} />
                 용달 인부 추가 여부&nbsp;
                 <input type="checkbox" name="addWorker" onChange={() => handleAddworkerChange(isChecked)} />
             </div>
             <div style={{ float: 'right' }} >
-                <h2>이사물품 입력</h2>
+                <p className="relative pl-6">
+                    <span className="absolute left-0 top-0 text-red-500">*</span><h2>이사물품 입력</h2></p>
                 <div>
                     <button
                         onClick={() => handleTabClick('car')}
@@ -391,15 +451,17 @@ export default () => {
                                 <p>선택된 가구 목록: {furnitures.join(', ')}</p>
                             </div>
                             <div>
-                                <p>도착요청시간 :&nbsp;
-                                    <select value={carSelectedTime} onChange={handleCarTimeChanged}>
-                                        {times.map((time) => (
-                                            <option key={time} value={time} >
-                                                {time}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </p>
+                                <p className="relative pl-6">
+                                    <span className="absolute left-0 top-0 text-red-500">*</span>
+                                    도착요청시간 :&nbsp;</p>
+                                <select value={carSelectedTime} onChange={handleCarTimeChanged}>
+                                    {times.map((time) => (
+                                        <option key={time} value={time} >
+                                            {time}
+                                        </option>
+                                    ))}
+                                </select>
+
                                 <p>
                                     출발지-e/v : 있음&nbsp;
                                     <input
@@ -476,6 +538,7 @@ export default () => {
                             </div>
                             <div>
                                 <p>추가 내용 입력</p>
+                                <p>2개 이상인 물품은 반드시 입력해 주세요!!</p>
                                 <textarea
                                     ref={carTextareaRef}
                                     value={carContent}
@@ -555,7 +618,7 @@ export default () => {
                                 </p>
                             </div>
                             <div>
-                                <p>면적(평수) :&nbsp;
+                                <p>면적(평형) :&nbsp;
                                     출발 :&nbsp; <input type="number" value={s_house_size} onChange={handleShouseSize}></input>,&nbsp;
                                     도착 :&nbsp; <input type="number" value={a_house_size} onChange={handleAhouseSize}></input> </p>
                             </div>
