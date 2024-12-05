@@ -41,7 +41,7 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
         const meta = data.metadata;
         const objectsDetails =
           objects.map(object => ({
-            물건: object.object,
+            사물: object.object,
             좌표: object.rectangle,
             사진크기: meta
           }));

@@ -31,10 +31,10 @@ export default () => {
       {showImage && (
         <div>
           <div>
-            <img src="/img.jpg" alt="main_img" className="main-img" />
+            <img src="/img.jpg" alt="메인이미지" className="main-img" />
           </div>
           <div class="flex justify-center items-center">
-            <button class="bg-blue-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-20 rounded-xl hover:scale-110 transition duration-300" onClick={handleStartClick}>
+            <button class="bg-indigo-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-20 rounded-xl hover:scale-110 transition duration-300" onClick={handleStartClick}>
               소소이사 시작하기
             </button>
           </div>

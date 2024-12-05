@@ -26,7 +26,7 @@ export default ({ onNavClick }) => {
         <div class="flex-1 flex justify-between items-center">
           <a href="/" class="flex text-lg font-semibold">
             <img src="/logo.png" width="80" height="80" class="p-2" alt="로고이미지" />
-            <div class="mt-6 text-red-600 text-center">소소이사</div>
+            <div class="mt-6 text-red-600 text-center font-cute">소소이사</div>
           </a>
         </div>
         <label htmlFor="menu-toggle" class="cursor-pointer lg:hidden block">
@@ -38,7 +38,7 @@ export default ({ onNavClick }) => {
         <input class="hidden" type="checkbox" id="menu-toggle" checked={menuOpen} onChange={handleMenuToggle} />
         <div class={`${menuOpen ? 'block' : 'hidden'} lg:flex lg:items-center lg:w-auto w-full`} id="menu">
           <nav>
-            <ul class="text-sm text-center items-center gap-x-5 pt-4 md:gap-x-4 lg:text-lg lg:flex  lg:pt-0">
+            <ul class="text-xs text-center items-center gap-x-5 pt-4 md:gap-x-4 lg:text-lg lg:flex lg:pt-0">
               {Meteor.user() ? (
                 <li class="py-2 lg:py-0 ">
                   <button onClick={handleLogout} >로그아웃</button>
@@ -58,18 +58,17 @@ export default ({ onNavClick }) => {
                 <Link to="/gpt" >포장도우미AI</Link>
               </li>
               <li class="py-2 lg:py-0 ">
-                <Link to="/mypage" >마이페이지(송희)</Link>
+                <Link to="/mypage" >마이페이지(일반회원)</Link>
               </li>
               <li class="py-2 lg:py-0 ">
-                <Link to="/business" >마이페이지(희원)</Link>
+                <Link to="/business" >마이페이지(사업자)</Link>
               </li>
               <li class="py-2 lg:py-0 ">
                 <Link to="/admin" >관리자페이지</Link>
               </li>
               <li class="py-2 lg:py-0 ">
-                <Link to="/ttt" >테스트용(효정)</Link>
+                <Link to="/ttt" >이미지분석</Link>
               </li>
-
             </ul>
           </nav>
         </div>
