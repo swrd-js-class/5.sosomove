@@ -180,14 +180,6 @@ export default () => {
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.arr_addr_elv === true ? '있음' : '없음'}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발지 사다리차</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.ladder_truck.start === true ? '필요' : '필요하지 않음'}</dd>
-                  </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도착지 사다리차</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.ladder_truck.arrive === true ? '필요' : '필요하지 않음'}</dd>
-                  </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">추가 요청사항</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.detail}</dd>
                   </div>

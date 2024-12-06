@@ -30,8 +30,6 @@ export default () => {
   const [selHelpOption, setSelHelpOption] = useState(false); //모두,짐싸기,짐풀기 옵션
   const [s_house_size, setShouseSize] = useState(0);
   const [a_house_size, setAhouseSize] = useState(0);
-  const [sAddr_ladder, setSAddr_ladder] = useState(false); //출발지 사다리차 여부
-  const [aAddr_ladder, setAAddr_ladder] = useState(false); //도착지 사다리차 여부
   const [isChecked, setIsChecked] = useState(false);
   const carTextareaRef = useRef();
 
@@ -45,6 +43,68 @@ export default () => {
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [reqDetail, setReqDetail] = useState([]);
+
+  //날짜
+  const today = new Date();
+  const oneWeekLater = new Date();
+  oneWeekLater.setDate(today.getDate() + 7);
+
+  // useState로 가전, 가구 체크박스 상태를 관리
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  //가전, 가구 목록
+  const items = {
+      appliances: [
+          { name: '냉장고', index: 'a' },
+          { name: '김치냉장고', index: 'b' },
+          { name: '세탁기', index: 'c' },
+          { name: '건조기', index: 'd' },
+          { name: 'TV모니터', index: 'e' },
+          { name: '에어컨', index: 'f' },
+          { name: '의류관리기', index: 'g' },
+          { name: '안마의자', index: 'h' },
+          { name: '전자레인지', index: 'i' },
+          { name: '가스레인지', index: 'j' },
+          { name: '인덕션', index: 'k' },
+          { name: '공기청정기', index: 'l' },
+          { name: '청소기', index: 'm' },
+          { name: '정수기', index: 'n' },
+          { name: '비데', index: 'o' },
+          { name: 'PC데스크탑', index: 'p' },
+      ],
+      furnitures: [
+          { name: '침대메트리스', index: 'q' },
+          { name: '침대프레임', index: 'r' },
+          { name: '책상', index: 's' },
+          { name: '의자', index: 't' },
+          { name: '소파', index: 'u' },
+          { name: '테이블', index: 'v' },
+          { name: '수납장', index: 'w' },
+          { name: '서랍장', index: 'x' },
+          { name: '책장', index: 'y' },
+          { name: '옷장', index: 'z' },
+          { name: '화장대', index: 'aa' },
+          { name: '헹거', index: 'bb' },
+      ]
+  };
+
+  //도우미 옵션
+  const helperOption = {
+      package : [
+          { name: '짐 싸기 / 짐 풀기 모두 원해요', id : 'all', value : '모두'},
+          { name: '짐 싸기 원해요', id : 'pack', value : '짐싸기'},
+          { name: '짐 풀기 원해요', id : 'unpack', value : '짐풀기'},
+      ],
+      timearea : [
+          { name: '오전', id : 'am'},
+          { name: '오후', id : 'pm'},
+          { name: '하루', id : 'day'},
+      ] 
+  }
+
+  function classNames(...classes) {
+      return classes.filter(Boolean).join(' ')
+  }
 
   useEffect(() => {
 
@@ -122,7 +182,8 @@ export default () => {
       setProposer(data.user_name); //신청자명
       setStartAddress(data.start_address);//출발지-주소
       setArrAddress(data.arrive_address);//도착지-주소
-      setMoveDate(data.move_date.toStringYMD()); //이사날짜
+      //setMoveDate(data.move_date.toStringYMD()); //이사날짜
+      setSelectedDate(data.move_date);
       setMoveDateData(data.move_date);
       setAddWorker(data.addworker);//추가용달인원 true/false
       //용달 내용
@@ -131,8 +192,6 @@ export default () => {
       setCarSelectedTime(data.reqCar.req_arr_time);//도착요청시간
       setSAddrEv(data.reqCar.str_addr_elv);//출발지 elv
       setAAddrEv(data.reqCar.arr_addr_elv);//도착지 elv
-      setSAddr_ladder(data.reqCar.ladder_truck.start);//사다리차 필요여부 출발지
-      setAAddr_ladder(data.reqCar.ladder_truck.arrive);//사다리차 필요여부 도착지
       setCarContent(data.reqCar.detail);//추가내용
       //헬퍼내용
       setSelectedTimeArea(data.reqHelper.request_time_area);//요청시간대
@@ -193,11 +252,27 @@ export default () => {
     setSelHelpOption(e.target.value);
   }
 
-  //사다리차 여부
-  const handleLadderChange = (type) => {
-    if (type === 'str') setSAddr_ladder((prev) => !prev);
-    else if (type === 'arr') setAAddr_ladder((prev) => !prev);
-  }
+  //날짜 검증
+  const handleDateChange = (date) => {
+    if(date === null) {
+        setSelectedDate(null);
+    }
+
+    if (date) {
+        if (date < today) {
+            alert('오늘보다 이전의 날짜는 선택할 수 없습니다!');
+            setSelectedDate(null);
+        }
+        //선택한 날짜가 오늘로부터 일주일 이내라면
+        else if (date && date <= oneWeekLater) {
+            alert('오늘로부터 일주일 이내의 날짜는 선택할 수 없습니다!');
+            setSelectedDate(null);
+        } else {
+            setSelectedDate(date);
+        }
+    }
+  };
+
 
   //체크된 가전 목록 set
   const toggleCheckboxAppli = (name, isChecked) => {
@@ -244,10 +319,6 @@ export default () => {
           req_arr_time: carSelectedTime,
           str_addr_elv: sAddrEv,
           arr_addr_elv: aAddrEv,
-          ladder_truck: {
-            start: sAddr_ladder,
-            arrive: aAddr_ladder
-          },
           appliances: appliances,
           furniture: furnitures,
           detail: carContent,
@@ -275,7 +346,6 @@ export default () => {
         alert("견적 요청서가 저장되었습니다.");
 
         //상세페이지로 페이지 이동
-        //navigate(`/RequestDetail/${id}`);
         navigate(`/mypage/requestdetail/${id}`);
       })
     } else {
@@ -287,66 +357,134 @@ export default () => {
   return (
     <>
       <div style={{ float: 'left' }}>
-        <img src="https://dev.rz-codes.com/static/logo-275e932fd817cc84d99d91f7519a9a22.svg"
-          width="50"
-          height="50"
-          class="p-2"
-          alt="Rz Codes Logo"
-        />
-        신청자 :&nbsp;
-        <input type="text" value={proposer} onChange={handleProposerChange} />
-        <div>
-          출발지 : &nbsp;
-          <input
-            type="text"
-            value={startPostcode}
-            placeholder="우편번호"
-            readOnly
-          />
-          <input
-            type="button"
-            value="우편번호 찾기"
-            onClick={() => handlePostcodeSearch('start')}
-          /><br />
+        <form>
+          <div className="space-y-12 pl-2">
+                    <div className="border-b border-gray-900/10 pb-12">
+                        <h2 className="text-base/7 font-semibold text-gray-900">견적 신청서 수정</h2>
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="sm:col-span-4">
+                                <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+                                <p className="relative pl-6">
+                                    <span className="absolute left-0 top-0 text-red-500">*</span>
+                                    신청자
+                                </p>
+                                </label>
+                                <div className="mt-2">
+                                  <input
+                                  id="username" 
+                                  type="text" 
+                                  placeholder="필수입력"
+                                  value={proposer} 
+                                  onChange={handleProposerChange} 
+                                  className="block min-w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                  />
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="sm:col-span-4">
+                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                    <p className="relative pl-6">
+                                        <span className="absolute left-0 top-0 text-red-500">*</span>
+                                        출발지
+                                    </p>
+                                </label>
+                                <div class="flex items-center space-x-2">
+                                  <input
+                                    type="text"
+                                    value={startPostcode}
+                                    placeholder="우편번호"
+                                    className="block w-[100px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    readOnly
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => handlePostcodeSearch('start')}
+                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                  >우편번호 찾기</button>
+                                </div>
 
-          <input
-            type="text"
-            value={startAddress}
-            placeholder="주소"
-          /><br />
-          <br />
-          도착지 : &nbsp;
-          <input
-            type="text"
-            value={arrPostcode}
-            placeholder="우편번호"
-            readOnly
-          />
-          <input
-            type="button"
-            value="우편번호 찾기"
-            onClick={() => handlePostcodeSearch('arr')}
-          /><br />
+                                <div class="flex items-center space-x-2">
+                                <input
+                                  type="text"
+                                  value={startAddress}
+                                  className="block w-[500px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                  placeholder="주소"
+                                />
+                                </div>
+                            </div>
 
-          <input
-            type="text"
-            value={arrAddress}
-            placeholder="주소"
-          /><br />
-        </div>
-        <div>
-          날짜 : {moveDate}
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            dateFormat="yyyy/MM/dd" // 원하는 날짜 형식 설정
-            isClearable // 선택 해제 버튼 추가
-            placeholderText="날짜를 선택하세요"
-          />
-        </div>
-        용달 인부 추가 여부&nbsp;
-        <input type="checkbox" name="addWorker" checked={addWorker} onChange={() => handleAddworkerChange(isChecked)} />
+                            <div className="sm:col-span-4">
+                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                    <p className="relative pl-6">
+                                        <span className="absolute left-0 top-0 text-red-500">*</span>
+                                        도착지
+                                    </p>
+                                </label>
+                                <div class="flex items-center space-x-2">
+                                  <input
+                                    type="text"
+                                    value={arrPostcode}
+                                    placeholder="우편번호"
+                                    className="block w-[100px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    readOnly
+                                  />
+                                  <button
+                                    type="button"
+                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    onClick={() => handlePostcodeSearch('arr')}
+                                  >우편번호 찾기
+                                  </button>
+                                </div>
+
+                                <div class="flex items-center space-x-2">
+                                  <input
+                                    type="text"
+                                    value={arrAddress}
+                                    className="block w-[500px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    placeholder="주소"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:col-span-4">
+                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                    <p className="relative pl-6">
+                                        <span className="absolute left-0 top-0 text-red-500">*</span>
+                                        이사 날짜
+                                    </p>
+                                </label>
+                                <DatePicker
+                                  selected={selectedDate}
+                                  onChange={handleDateChange} //날짜 검증
+                                  dateFormat="yyyy.MM.dd" // 원하는 날짜 형식 설정
+                                  isClearable // 선택 해제 버튼 추가
+                                  className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                  placeholderText="&#128198; 0000.00.00"
+                                />
+                              </div>
+
+                              <div className="sm:col-span-4">
+                                <div className="flex items-center space-x-2">
+                                    <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900"> 
+                                      용달 인부 추가 여부
+                                    </label>
+                                    <input 
+                                    type="checkbox" 
+                                    name="addWorker" 
+                                    checked={addWorker} 
+                                    onChange={() => handleAddworkerChange(isChecked)} 
+                                    className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" 
+                                    />
+                                </div>
+                              </div>                                    
+                            </div>
+                          </div>
+          </div>
+        </form>
       </div>
+      
       <div style={{ float: 'right' }} >
         <h2>이사물품 입력</h2>
         <div>
@@ -459,43 +597,7 @@ export default () => {
                   ></input>&nbsp;
                 </p>
               </div>
-              <div>
-                <p>
-                  사다리차 필요 여부 :
-                  출발지 - 필요&nbsp;
-                  <input
-                    type="radio"
-                    name="sAddr_ladder"
-                    value={true}
-                    checked={sAddr_ladder === true}
-                    onChange={() => handleLadderChange('str')}
-                  ></input>&nbsp;
-                  불필요&nbsp;
-                  <input
-                    type="radio"
-                    name="sAddr_ladder"
-                    value={false}
-                    checked={sAddr_ladder === false}
-                    onChange={() => handleLadderChange('str')}
-                  ></input>&nbsp;
-                  도착지 - 필요&nbsp;
-                  <input
-                    type="radio"
-                    name="aAddr_ladder"
-                    value={true}
-                    checked={aAddr_ladder === true}
-                    onChange={() => handleLadderChange('arr')}
-                  ></input>&nbsp;
-                  불필요&nbsp;
-                  <input
-                    type="radio"
-                    name="aAddr_ladder"
-                    value={false}
-                    checked={aAddr_ladder === false}
-                    onChange={() => handleLadderChange('arr')}
-                  ></input>&nbsp;
-                </p>
-              </div>
+              
               <div>
                 <p>추가 내용 입력</p>
                 <textarea

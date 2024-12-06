@@ -239,10 +239,6 @@ Meteor.startup(() => {
           req_arr_time: "14", //도착요청시간
           str_addr_elv: true,
           arr_addr_elv: false,
-          ladder_truck: {
-            start: false,
-            arrive: true,
-          },
           appliances: [
             //가전
             "세탁기",
@@ -489,15 +485,15 @@ Meteor.methods({
         }
       }
 
-      const estupdateresult = CollectionEstimate.updateMany(query, update);
+      const estupdateresult = CollectionEstimate.update(query, update);
 
-      if (estupdateresult === 0) {
+      if (estupdateresult.acknowledged === false) {
         throw new Error("CollectionEstimate update 실패");
       }
 
       const reqremoveresult = CollectionRequest.remove({ '_id': param });
 
-      if (reqremoveresult === 0) {
+      if (reqremoveresult.acknowledged === false) {
         throw new Error("CollectionRequest 삭제 실패");
       }
 
