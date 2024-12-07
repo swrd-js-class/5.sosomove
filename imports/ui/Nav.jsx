@@ -65,8 +65,8 @@ export default ({ onNavClick }) => {
               <li class="relative group">
                 <span class="cursor-pointer text-gray-700 hover:text-black hover:font-bold">이사도우미AI</span>
                 <ul class="absolute left-0 opacity-0 invisible mt-2 space-y-1 bg-gray-200 text-black border rounded-lg group-hover:opacity-100 group-hover:visible group-hover:block transition-all duration-[300ms] ease-in-out">
-                  <li class="block px-4 py-2 text-sm text-gray-900 hover:text-black hover:font-bold"><Link to="/gpt" >포장도우미</Link></li>
-                  <li class="block px-4 py-2 text-sm text-gray-900 hover:text-black hover:font-bold"><Link to="/ttt" >이미지분석</Link></li>
+                  <li class="block px-4 py-2 text-sm text-gray-900 hover:text-black hover:font-bold"><Link to="/gpt" >포장search</Link></li>
+                  <li class="block px-4 py-2 text-sm text-gray-900 hover:text-black hover:font-bold"><Link to="/ttt" >이삿짐scan</Link></li>
                 </ul>
               </li>
             </ul>

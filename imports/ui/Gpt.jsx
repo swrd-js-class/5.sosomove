@@ -1,19 +1,18 @@
 import React, { useState, useRef } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-// 포장도우미AI-GPT
+// GPT
 export default () => {
+
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const item = useRef(null);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const prompt = `이사 중 포장 방법을 제시해주세요. 다음은 포장해야 할 물품입니다.
     "${item.current.value}"
     물품에 대한 포장 방법을 안내해주세요. 주의해야 할 점, 필요한 포장 재료와 방법 등을 구체적으로 설명해주세요`;
-
     Meteor.call('openAI.query', prompt, (error, result) => {
       setLoading(false);
       if (error) {
@@ -30,7 +29,7 @@ export default () => {
         <div class="w-full px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 rounded-lg bg-white">
           <p class="text-center">
             포장방법이 궁금하시면 아래에 물품을 입력 후 검색 버튼을 누르세요.<br />
-            포장도우미AI가 당신의 이사를 위한 '유용한 팁'을 드립니다.
+            당신의 이사를 위한 '유용한 팁'을 드립니다.
           </p><br />
           <form onSubmit={handleSubmit} class="flex justify-center">
             <div class="flex items-center space-x-2">
