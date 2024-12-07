@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 //전체회원 목록
 export default () => {
 
-  //페이징처리+모든회원 리스트
+  //모든회원 리스트
   const PageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');

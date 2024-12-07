@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -6,9 +6,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 //위쪽 네비게이션
 export default ({ onNavClick }) => {
 
-  useTracker(() => Meteor.user());
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const user = useTracker(() => Meteor.user());
+
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
   };
@@ -38,7 +39,7 @@ export default ({ onNavClick }) => {
         <div class={`${menuOpen ? 'block' : 'hidden'} lg:flex lg:items-center lg:w-auto w-full`} id="menu">
           <nav>
             <ul class="text-xs text-center items-center gap-x-5 pt-4 md:gap-x-4 lg:text-lg lg:flex lg:pt-0">
-              {Meteor.user() ? (
+              {user ? (
                 <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
                   <button onClick={handleLogout} >로그아웃</button>
                 </li>
@@ -53,15 +54,21 @@ export default ({ onNavClick }) => {
               <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
                 <Link to="/service" >서비스</Link>
               </li>
-              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
-                <Link to="/mypage" >마이페이지</Link>
-              </li>
-              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
-                <Link to="/business" >마이페이지</Link>
-              </li>
-              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
-                <Link to="/admin" >관리자페이지</Link>
-              </li>
+              {user && user.profile && user.profile.type === '관리자' && (
+                <li className="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold">
+                  <Link to="/admin">관리자페이지</Link>
+                </li>
+              )}
+              {user && user.profile && user.profile.type === '일반' && (
+                <li className="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold">
+                  <Link to="/mypage">마이페이지</Link>
+                </li>
+              )}
+              {(user && user.profile && user.profile.type === '용달' || user && user.profile && user.profile.type === '헬퍼') && (
+                <li className="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold">
+                  <Link to="/business">마이페이지</Link>
+                </li>
+              )}
               <li class="relative group">
                 <span class="cursor-pointer text-gray-700 hover:text-black hover:font-bold">이사도우미AI</span>
                 <ul class="absolute left-0 opacity-0 invisible mt-2 space-y-1 bg-gray-200 text-black border rounded-lg group-hover:opacity-100 group-hover:visible group-hover:block transition-all duration-[300ms] ease-in-out">

@@ -26,11 +26,11 @@ export default () => {
       if (user.profile.type === '관리자') {
         navigate('/admin/adminbcheck'); //관리자 페이지 이동
       } else if (user.profile.type === '일반') {
-        navigate('/mypage'); //일반회원 마이페이지로 이동
+        navigate('/mypage/newrequest'); //일반회원 마이페이지로 이동
       } else if (user.profile.type === '용달' || '헬퍼') {
         if (user.profile.company.confirm === false) {
           alert('가입승인 중입니다')
-          navigate('/');
+          navigate('/business/allrequest');
         } else {
           navigate('/business'); //사업자회원 마이페이지로 이동
         }
