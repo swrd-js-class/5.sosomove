@@ -6,11 +6,14 @@ import "/lib/utils.js";
 
 export default () => {
 
-  let i = 1;
+  // let i = 1;
   const userId = Meteor.userId();
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [requestList, setRequestList] = useState([]);
+
+  const [reservations, setReservations] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     Meteor.call('requestListCall', { param: userId }, (err, result) => {
@@ -19,12 +22,46 @@ export default () => {
         return;
       }
       setRequestList(result);
+
+      // 예약 내역에서 '오늘로부터 7일 이내' 날짜가 있는지 체크
+      checkUpcomingReservations(result);
     });
   }, []);
+
+  // '오늘로부터 7일 이내'인 예약을 체크하는 함수
+  const checkUpcomingReservations = (reservations) => {
+    const today = new Date();
+    const sevenDaysLater = new Date(today);
+    sevenDaysLater.setDate(today.getDate() + 7);
+
+    console.log("날짜체크 함수 in");
+
+    for (const reservation of reservations) {
+      const reservationDate = new Date(reservation.move_date); // 예약 날짜가 'date' 필드에 있다고 가정
+      if (reservationDate >= today && reservationDate <= sevenDaysLater) {
+        setShowAlert(true);
+        break;  // 하나라도 찾으면 알림을 띄우고 종료
+      }
+    }
+  };
+
+  // 알림 닫기
+  const closeAlert = () => {
+    setShowAlert(false);
+  };
 
 
   return (
     <>
+    <div>
+      {showAlert && (
+        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white p-4 rounded-lg shadow-lg text-xl flex items-center justify-between z-50 animate-pulse">
+          <span>곧 다가오는 예약이 있습니다!</span>
+          <button onClick={closeAlert} className="ml-4 bg-white text-black rounded-full p-2">닫기</button>
+        </div>
+      )}
+    </div>
+
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -75,9 +112,9 @@ export default () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 bg-white">
-                        {requestList.map((request) => (
+                        {requestList.map((request, index) => (
                           <tr key={request._id} >
-                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{i++}</td>
+                            <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{index+1}</td>
                             <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.createdAt.toStringYMD()}</td>
                             <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.user_name}</td>
                             <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.move_date.toStringYMD()}</td>

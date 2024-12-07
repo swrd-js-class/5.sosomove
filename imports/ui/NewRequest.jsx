@@ -1,32 +1,4 @@
 //새 견적서 요청
-import {
-    Dialog,
-    DialogBackdrop,
-    DialogPanel,
-    Popover,
-    PopoverButton,
-    PopoverGroup,
-    PopoverPanel,
-    Radio,
-    RadioGroup,
-    Tab,
-    TabGroup,
-    TabList,
-    TabPanel,
-    TabPanels,
-} from '@headlessui/react'
-import {
-    Bars3Icon,
-    CurrencyDollarIcon,
-    GlobeAmericasIcon,
-    MagnifyingGlassIcon,
-    ShoppingBagIcon,
-    UserIcon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { StarIcon } from '@heroicons/react/20/solid'
-
-
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -548,7 +520,7 @@ export default () => {
             </form>
         </div>
 
-        <div className="pl-2" style={{ float: 'left' }} >
+        <div style={{ float: 'left' }} >
                 <div className="pl-2">
                     <div className="hidden sm:block">
                         <div aria-label="Tabs" className="flex space-x-4">
@@ -568,11 +540,12 @@ export default () => {
                                     'rounded-md px-3 py-2 text-sm font-medium',
                                 )}
                             >
-                            도우미_요청사항
+                                도우미_요청사항
                             </button>
                         </div>
                     </div>
                 </div>
+
                 <div style={{ marginTop: '20px' }} >
                     {activeTab === 'car' ? (
                         <div>
@@ -635,7 +608,6 @@ export default () => {
                                         ))}
                                     </div>
                                 </fieldset>
-                               
                             </div>
 
                             <div>
@@ -732,7 +704,7 @@ export default () => {
 
                                 <div className="mt-5 sm:col-span-3">
                                     <label className="block text-sm/6 font-medium text-red-500 relative">
-                                            ** 2개 이상인 물품은 반드시 입력해 주세요!! **
+                                            ** 추가 입력 사항 : 2개 이상인 물품은 반드시 입력해 주세요!! **
                                     </label>
                                     <textarea
                                         ref={carTextareaRef}
