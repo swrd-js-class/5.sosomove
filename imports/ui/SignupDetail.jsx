@@ -133,7 +133,7 @@ export default () => {
   };
 
   return (
-    <div class='flex items-center justify-center min-h-screen bg-gradient-to-br bg-indigo-50'>
+    <div class='flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400'>
       {userType === '일반' &&
         <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
           <form onSubmit={handleSignup} >
@@ -176,7 +176,7 @@ export default () => {
         </div>
       }
       {userType === '사업자' &&
-        <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
+        <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-20 lg:mb-20 lg:w-5/12">
           <form onSubmit={handleSignup} >
             <div class="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white rounded-xl relative z-10 border">
               <p class="w-full text-[32px] font-medium text-center leading-snug font-sans">사업자회원</p>

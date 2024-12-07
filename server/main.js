@@ -7,210 +7,7 @@ import fetch from 'node-fetch';
 import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
 
-
-//이미지분석 객체 탐지 테스트용
-const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
-const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
-
-const upload = multer();
-
-WebApp.connectHandlers.use('/ttt', (req, res, next) => {
-  if (req.method === 'POST') {
-    upload.single('image')(req, res, async (err) => {
-      if (err) {
-        res.writeHead(500);
-        res.end('File upload failed');
-        return;
-      }
-      console.log('Received file:', req.file);
-      try {
-        // Azure API 호출
-        const azureRes = await fetch(endpoint + '?visualFeatures=Objects', {
-          method: 'POST',
-          headers: {
-            'Ocp-Apim-Subscription-Key': subscriptionKey,
-            'Content-Type': 'application/octet-stream',
-          },
-          body: req.file.buffer,
-        });
-        const data = await azureRes.json();
-        // console.log(data);
-
-        //응답 받은 데이터 파싱
-        const objects = data.objects;
-        const meta = data.metadata;
-        const objectsDetails =
-          objects.map(object => ({
-            사물: object.object,
-            좌표: object.rectangle,
-            사진크기: meta
-          }));
-        console.log(objectsDetails);
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(objectsDetails));  // Azure API 결과 반환
-
-      } catch (err) {
-        res.writeHead(500);
-        res.end('Error: ' + err.message);
-      }
-    });
-  } else {
-    res.writeHead(405, { 'Content-Type': 'text/plain' });
-    res.end('Method Not Allowed');
-  }
-});
-
-
-
-
-
-
-//애저 오픈 AI GPT호출
-Meteor.startup(() => {
-  const fetchGPTResponse = async (prompt) => {
-    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': `${apiKey}`,
-      },
-      body: JSON.stringify({
-        "messages": [
-          {
-            "role": "user",
-            "content": prompt,
-          }
-        ],
-        'max_tokens': 800,
-      }),
-    });
-
-    const data = await response.json();
-    //안되면 출력해보자!!!
-    // console.log(data);  
-    const rawText = data.choices[0].message.content;
-    return rawText;
-  };
-
-  Meteor.methods({
-    'openAI.query': async (prompt) => {
-      return fetchGPTResponse(prompt);
-    }
-  });
-});
-
-//user - 관리자
-Meteor.publish('users', function () {
-  return Meteor.users.find();
-});
-//페이징처리
-Meteor.publish('users', function (skip, limit) {
-  return Meteor.users.find({}, { skip, limit });
-});
-//file처리
-Meteor.publish('files', function () {
-  return Files.find().cursor;
-});
-
-Meteor.methods({
-  //file-link처리
-  getFileLink(fileId) {
-    const file = Files.findOne(fileId);
-    if (file) {
-      return file.link();
-    }
-    throw new Meteor.Error("파일을 찾을 수 없습니다.");
-  },
-  //전체회원 검색
-  'users.list'() {
-    return Meteor.users.find().fetch();
-  },
-  //전체회원 중 서치하고 싶은 회원 검색
-  'users.search'(query) {
-    return Meteor.users.find({ 'profile.name': { $regex: query, $options: 'i' } }).fetch();
-  },
-  //관리자-회원 삭제
-  'userdelete'(userId) {
-    const targetUser = Meteor.users.findOne(userId);
-    return Meteor.users.remove(targetUser._id);
-  },
-  //가입승인
-  'users.update'(_id, confirm) {
-    Meteor.users.update(_id, {
-      $set: {
-        'profile.company.confirm': confirm,
-      },
-    });
-  },
-  //일반회원+관리자 정보수정(이름, 핸드폰번호)
-  'useredit'({ name, phone }) {
-    Meteor.users.update(this.userId, {
-      $set: {
-        'profile.name': name,
-        'profile.phone': phone,
-      }
-    })
-  },
-  //사업자회원 정보수정(사업장명, 대표번호, 대표자명, 사업장주소 )
-  'businessedit'({ name, phone, ceo_name, address }) {
-    Meteor.users.update(this.userId, {
-      $set: {
-        'profile.name': name,
-        'profile.phone': phone,
-        'profile.company.ceo_name': ceo_name,
-        'profile.company.address': address,
-      }
-    })
-  },
-  //모든 회원 정보수정(비밀번호)
-  'userchangepw'(newPassword) {
-    Accounts.setPassword(this.userId, newPassword, { logout: false });
-  },
-  //회원탈퇴
-  'users.removeAccount'() {
-    const userId = this.userId;
-    Meteor.users.remove(userId);
-    return '회원탈퇴 성공';
-  }
-});
-
-///////////////////////////////////////여기까지 효정
-
-//요청서 확인
-Meteor.publish('CollectionRequest', function () {
-  return CollectionRequest.find();
-});
-
-//견적서 확인
-Meteor.publish('CollectionEstimate', function () {
-  return CollectionEstimate.find();
-});
-
-//견적서 입력 및 삭제
-Meteor.methods({
-  'estimate.insert'(estimateData) {
-    if (!this.userId) {
-      throw new Meteor.Error('내용이 없습니다');
-    }
-
-    CollectionEstimate.insert({
-      ...estimateData,
-      createdAt: new Date(),
-    });
-  },
-
-  'estimate.delete'(estimateId) {
-    if (!this.userId) {
-      throw new Meteor.Error('삭제가 불가합니다');
-    }
-
-    CollectionEstimate.remove({ _id: estimateId })
-  }
-});
-
-///////////////////////더미데이터////////////////////////
+///////////////////////더미데이터 시작////////////////////////
 Meteor.startup(() => {
   //관리자 생성
   if (Meteor.users.find({ 'profile.type': "관리자" }).count() === 0) {
@@ -372,7 +169,205 @@ Meteor.startup(() => {
     })
   }
 });
-/////////////////더미데이터 끝///////////////////////
+////////////////////////더미데이터 끝///////////////////////
+
+////////////////////효정 시작///////////////////
+//azure 컴퓨터비전-이미지분석_객체탐지
+const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
+const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
+
+const upload = multer();
+WebApp.connectHandlers.use('/ttt', (req, res, next) => {
+  if (req.method === 'POST') {
+    upload.single('image')(req, res, async (err) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('File upload failed');
+        return;
+      }
+      console.log('Received file:', req.file);
+      try {
+        // Azure API 호출
+        const azureRes = await fetch(endpoint + '?visualFeatures=Objects', {
+          method: 'POST',
+          headers: {
+            'Ocp-Apim-Subscription-Key': subscriptionKey,
+            'Content-Type': 'application/octet-stream',
+          },
+          body: req.file.buffer,
+        });
+        const data = await azureRes.json();
+        // console.log(data);
+
+        //응답 받은 데이터 파싱
+        const objects = data.objects;
+        const meta = data.metadata;
+        const objectsDetails =
+          objects.map(object => ({
+            사물: object.object,
+            좌표: object.rectangle,
+            사진크기: meta
+          }));
+        // console.log(objectsDetails);  //출력해보자!!!
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(objectsDetails));  // Azure API 결과 반환
+
+      } catch (err) {
+        res.writeHead(500);
+        res.end('Error: ' + err.message);
+      }
+    });
+  } else {
+    res.writeHead(405, { 'Content-Type': 'text/plain' });
+    res.end('Method Not Allowed');
+  }
+});
+
+
+//azure 오픈AI-GPT
+Meteor.startup(() => {
+  const fetchGPTResponse = async (prompt) => {
+    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
+    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': `${apiKey}`,
+      },
+      body: JSON.stringify({
+        "messages": [
+          {
+            "role": "user",
+            "content": prompt,
+          }
+        ],
+        'max_tokens': 800,
+      }),
+    });
+
+    const data = await response.json();
+    //안되면 출력해보자!!!
+    // console.log(data);  
+    const rawText = data.choices[0].message.content;
+    return rawText;
+  };
+
+  Meteor.methods({
+    'openAI.query': async (prompt) => {
+      return fetchGPTResponse(prompt);
+    }
+  });
+});
+
+//user - 관리자
+Meteor.publish('users', function () {
+  return Meteor.users.find();
+});
+//페이징처리
+Meteor.publish('users', function (skip, limit) {
+  return Meteor.users.find({}, { skip, limit });
+});
+//file처리
+Meteor.publish('files', function () {
+  return Files.find().cursor;
+});
+
+Meteor.methods({
+  //file-link처리
+  getFileLink(fileId) {
+    const file = Files.findOne(fileId);
+    if (file) {
+      return file.link();
+    }
+    throw new Meteor.Error("파일을 찾을 수 없습니다.");
+  },
+  //전체회원 검색
+  'users.list'() {
+    return Meteor.users.find().fetch();
+  },
+  //전체회원 중 서치하고 싶은 회원 검색
+  'users.search'(query) {
+    return Meteor.users.find({ 'profile.name': { $regex: query, $options: 'i' } }).fetch();
+  },
+  //관리자-회원 삭제
+  'userdelete'(userId) {
+    const targetUser = Meteor.users.findOne(userId);
+    return Meteor.users.remove(targetUser._id);
+  },
+  //가입승인
+  'users.update'(_id, confirm) {
+    Meteor.users.update(_id, {
+      $set: {
+        'profile.company.confirm': confirm,
+      },
+    });
+  },
+  //일반회원+관리자 정보수정(이름, 핸드폰번호)
+  'useredit'({ name, phone }) {
+    Meteor.users.update(this.userId, {
+      $set: {
+        'profile.name': name,
+        'profile.phone': phone,
+      }
+    })
+  },
+  //사업자회원 정보수정(사업장명, 대표번호, 대표자명, 사업장주소 )
+  'businessedit'({ name, phone, ceo_name, address }) {
+    Meteor.users.update(this.userId, {
+      $set: {
+        'profile.name': name,
+        'profile.phone': phone,
+        'profile.company.ceo_name': ceo_name,
+        'profile.company.address': address,
+      }
+    })
+  },
+  //모든 회원 정보수정(비밀번호)
+  'userchangepw'(newPassword) {
+    Accounts.setPassword(this.userId, newPassword, { logout: false });
+  },
+  //회원탈퇴
+  'users.removeAccount'() {
+    const userId = this.userId;
+    Meteor.users.remove(userId);
+    return '회원탈퇴 성공';
+  }
+});
+////////////////////효정 끝///////////////////
+
+//요청서 확인
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
+});
+
+//견적서 확인
+Meteor.publish('CollectionEstimate', function () {
+  return CollectionEstimate.find();
+});
+
+//견적서 입력 및 삭제
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    if (!this.userId) {
+      throw new Meteor.Error('내용이 없습니다');
+    }
+
+    CollectionEstimate.insert({
+      ...estimateData,
+      createdAt: new Date(),
+    });
+  },
+
+  'estimate.delete'(estimateId) {
+    if (!this.userId) {
+      throw new Meteor.Error('삭제가 불가합니다');
+    }
+
+    CollectionEstimate.remove({ _id: estimateId })
+  }
+});
+
 
 //ksh. 
 Meteor.methods({

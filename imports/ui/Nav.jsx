@@ -22,7 +22,6 @@ export default ({ onNavClick }) => {
   return (
     <header>
       <nav class="lg:px-16 px-6 bg-white flex flex-wrap items-center lg:py-0 py-2" onClick={onNavClick}>
-        {/* 소소이사 로고 */}
         <div class="flex-1 flex justify-between items-center">
           <a href="/" class="flex text-lg font-semibold">
             <img src="/logo.png" width="80" height="80" class="p-2" alt="로고이미지" />
@@ -40,34 +39,35 @@ export default ({ onNavClick }) => {
           <nav>
             <ul class="text-xs text-center items-center gap-x-5 pt-4 md:gap-x-4 lg:text-lg lg:flex lg:pt-0">
               {Meteor.user() ? (
-                <li class="py-2 lg:py-0 ">
+                <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
                   <button onClick={handleLogout} >로그아웃</button>
                 </li>
               ) : (
-                <li class="py-2 lg:py-0 ">
+                <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold">
                   <Link to="/login" >로그인</Link>
                 </li>
               )}
-              <li class="py-2 lg:py-0 ">
+              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
                 <Link to="/signup" >회원가입</Link>
               </li>
-              <li class="py-2 lg:py-0 ">
+              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
                 <Link to="/service" >서비스</Link>
               </li>
-              <li class="py-2 lg:py-0 ">
-                <Link to="/gpt" >포장도우미AI</Link>
+              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
+                <Link to="/mypage" >마이페이지</Link>
               </li>
-              <li class="py-2 lg:py-0 ">
-                <Link to="/mypage" >마이페이지(일반회원)</Link>
+              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
+                <Link to="/business" >마이페이지</Link>
               </li>
-              <li class="py-2 lg:py-0 ">
-                <Link to="/business" >마이페이지(사업자)</Link>
-              </li>
-              <li class="py-2 lg:py-0 ">
+              <li class="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold ">
                 <Link to="/admin" >관리자페이지</Link>
               </li>
-              <li class="py-2 lg:py-0 ">
-                <Link to="/ttt" >이미지분석</Link>
+              <li class="relative group">
+                <span class="cursor-pointer text-gray-700 hover:text-black hover:font-bold">이사도우미AI</span>
+                <ul class="absolute left-0 opacity-0 invisible mt-2 space-y-1 bg-gray-200 text-black border rounded-lg group-hover:opacity-100 group-hover:visible group-hover:block transition-all duration-[300ms] ease-in-out">
+                  <li class="block px-4 py-2 text-sm text-gray-900 hover:text-black hover:font-bold"><Link to="/gpt" >포장도우미</Link></li>
+                  <li class="block px-4 py-2 text-sm text-gray-900 hover:text-black hover:font-bold"><Link to="/ttt" >이미지분석</Link></li>
+                </ul>
               </li>
             </ul>
           </nav>

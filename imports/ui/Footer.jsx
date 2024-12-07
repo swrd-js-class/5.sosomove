@@ -40,9 +40,6 @@ export default () => {
             <div class="w-full px-4 lg:w-full md:w-1/2">
               <nav class="mb-10 list-none">
                 <li class="mt-3">
-                  <a class="text-gray-500">대표: 김소소</a>
-                </li>
-                <li class="mt-3">
                   <a class="text-gray-500">화물운송주선사업자: 제777호</a>
                 </li>
                 <li class="mt-3">

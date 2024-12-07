@@ -46,8 +46,6 @@ export const App = () => {
           <Route path="/MypageNavbar" element={<MypageNavbar />} />
           <Route path="/ttt" element={<Ttt />} />
 
-
-
           {/* 효정 */}
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
@@ -75,13 +73,9 @@ export const App = () => {
             <Route path="/mypage/useredit" element={<UserEdit />} />
           </Route>
 
-
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Router>
   )
 };
-
-
-

@@ -6,13 +6,12 @@ export default () => {
 
   const navigate = useNavigate();
 
-  // 로그인된 사용자가 있을 경우 메인으로 되돌림
   useEffect(() => {
     if (Meteor.user()) {
       alert('이미 회원가입이 완료된 계정입니다')
-      navigate('/');
+      window.history.back();
     }
-  }, [navigate]);
+  }, []);
 
   //회원유형별 가입하는 버튼
   const handleButtonClick = (e) => {
@@ -24,11 +23,11 @@ export default () => {
   };
 
   return (
-    <div class='flex items-center justify-center min-h-screen bg-indigo-50'>
+    <div class='flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400'>
       <div class='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-lg border'>
         <div class='max-w-md mx-auto space-y-6'>
           <div class="space-y-4">
-            <p class="text-lg font-medium text-center text-neutral-900">회원가입 유형을 선택하세요</p>
+            <p class="text-lg font-bold font-medium text-center text-neutral-900">회원가입 유형을 선택하세요</p>
             <div class="relative " onClick={() => handleButtonClick('일반')}>
               <label for="option1-checkbox" class="inline-flex items-center justify-between w-full p-5 bg-white border-2 rounded-lg cursor-pointer group border-neutral-200/70 text-neutral-600 hover:border-indigo-500 hover:bg-indigo-100 peer-checked:border-indigo-400 peer-checked:text-neutral-900 peer-checked:bg-indigo-200/50">
                 <div class="flex items-center space-x-5">
