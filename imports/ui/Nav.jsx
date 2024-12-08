@@ -25,7 +25,7 @@ export default ({ onNavClick }) => {
       <nav class="lg:px-16 px-6 bg-white flex flex-wrap items-center lg:py-0 py-2" onClick={onNavClick}>
         <div class="flex-1 flex justify-between items-center">
           <a href="/" class="flex text-lg font-semibold">
-            <img src="/logo.png" width="80" height="80" class="p-2" alt="로고이미지" />
+            <img src="/logo.png" width="60" height="60" class="p-2" alt="로고이미지" />
             <div class="flex items-center justify-center text-red-600 text-center dongle-regular">소소이사</div>
           </a>
         </div>
