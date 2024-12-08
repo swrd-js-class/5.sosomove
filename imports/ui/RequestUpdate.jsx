@@ -514,7 +514,7 @@ export default () => {
 
         <div style={{ marginTop: '20px' }} >
           {activeTab === 'car' ? (
-            <div>
+            <div  className="pl-2">
               <div>
               <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                   <legend className="font-bold text-lg mb-2">가전 제품</legend>
@@ -686,7 +686,7 @@ export default () => {
               </div>
             </div>
           ) : (
-              <div>
+              <div  className="pl-2">
                 <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                   <legend className="font-bold text-lg mb-2">요청사항</legend>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">

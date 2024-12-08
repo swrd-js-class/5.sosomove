@@ -356,6 +356,16 @@ export default () => {
         }
     }
 
+    const handleSampleDataInput = () => {
+        setProposer("김민수");
+        setStartAddress("서울시 성동구 왕십리로 16");
+        setDetailStartAddress("102동 1022호");
+        setArrAddress("서울시 강남구 삼성로 511");
+        setDetailArrAddress("301호");
+        setStartHouseSize(15);
+
+    }
+
     return (
         <>
         <div style={{ float: 'left' }}>
@@ -366,6 +376,15 @@ export default () => {
                         <p className="mt-1 text-sm/6 text-gray-600">
                             견적요청서를 작성하여 예상 견적서를 받을 수 있습니다.
                         </p>
+                        <div>
+                            <button
+                                type="button"
+                                onClick={handleSampleDataInput}
+                                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                            >
+                                Sample Data Input
+                            </button>
+                        </div>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div className="sm:col-span-4">
                                 <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
@@ -378,7 +397,8 @@ export default () => {
                                     <input id="username" 
                                         type="text"
                                         placeholder="필수입력"
-                                        value={proposer} onChange={handleProposerChange} 
+                                        value={proposer} 
+                                        onChange={handleProposerChange} 
                                         className="block min-w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -548,7 +568,7 @@ export default () => {
 
                 <div style={{ marginTop: '20px' }} >
                     {activeTab === 'car' ? (
-                        <div>
+                        <div className="pl-2">
                             <div>
                                 <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                     <legend className="font-bold text-lg mb-2">가전 제품</legend>
@@ -721,7 +741,7 @@ export default () => {
                             </div>
                         </div>
                     ) : (
-                        <div>
+                        <div  className="pl-2">
                             <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                 <legend className="font-bold text-lg mb-2">요청사항</legend>
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
