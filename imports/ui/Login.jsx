@@ -41,6 +41,7 @@ export default () => {
   const handleLogout = () => {
     Meteor.logout(() => {
       alert('로그아웃 되었습니다');
+      navigate('/');
     });
   };
   //회원가입 버튼

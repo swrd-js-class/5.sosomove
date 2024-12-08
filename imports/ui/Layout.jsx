@@ -17,13 +17,16 @@ export default () => {
     setShowImage(false);
     navigate('/signup');
   };
-  // 페이지 로드 시 이미지가 보이도록 설정
+
+  // 페이지 로드 시 이미지 설정
   useEffect(() => {
+    // URL 경로가 '/'인 경우에만 이미지를 표시
     if (location.pathname === '/') {
-      setShowImage(true);  // 레이아웃 페이지로 돌아왔을 때만 이미지 표시
+      setShowImage(true);
+    } else {
+      setShowImage(false);
     }
   }, [location.pathname]);
-
 
   return (
     <div>

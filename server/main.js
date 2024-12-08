@@ -171,8 +171,9 @@ Meteor.startup(() => {
 });
 ////////////////////////더미데이터 끝///////////////////////
 
-////////////////////효정 시작///////////////////
-//azure 컴퓨터비전-이미지분석_객체탐지
+////효정 시작////
+
+//azure 컴퓨터비전
 const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
 const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
 
@@ -185,7 +186,7 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
         res.end('File upload failed');
         return;
       }
-      console.log('Received file:', req.file);
+      // console.log('Received file:', req.file);
       try {
         // Azure API 호출
         const azureRes = await fetch(endpoint + '?visualFeatures=Objects', {
@@ -225,11 +226,11 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
 });
 
 
-//azure 오픈AI-GPT
+//azure GPT
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
     const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview`, {
+    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -242,7 +243,7 @@ Meteor.startup(() => {
             "content": prompt,
           }
         ],
-        'max_tokens': 600,
+        'max_tokens': 1000,
       }),
     });
 
@@ -334,7 +335,7 @@ Meteor.methods({
     return '회원탈퇴 성공';
   }
 });
-////////////////////효정 끝///////////////////
+////효정 끝////
 
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {

@@ -25,8 +25,8 @@ export default ({ onNavClick }) => {
       <nav class="lg:px-16 px-6 bg-white flex flex-wrap items-center lg:py-0 py-2" onClick={onNavClick}>
         <div class="flex-1 flex justify-between items-center">
           <a href="/" class="flex text-lg font-semibold">
-            <img src="/logo.png" width="60" height="60" class="p-2" alt="로고이미지" />
-            <div class="flex items-center justify-center text-red-600 text-center dongle-regular">소소이사</div>
+            <img src="/logo.png" width="50" height="50" class="p-2" alt="로고이미지" />
+            <div class="flex items-center justify-center text-red-600 text-center dongle-regular pt-2">소소이사</div>
           </a>
         </div>
         <label htmlFor="menu-toggle" class="cursor-pointer lg:hidden block">
