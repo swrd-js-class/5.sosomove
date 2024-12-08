@@ -5,13 +5,12 @@ import { Link } from 'react-router-dom';
 import "/lib/utils.js";
 
 export default () => {
-
-  // let i = 1;
   const userId = Meteor.userId();
 
   //request테이블에서 견적서내용 리스트 뽑기
   const [requestList, setRequestList] = useState([]);
 
+  //알림
   const [reservations, setReservations] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -33,8 +32,6 @@ export default () => {
     const today = new Date();
     const sevenDaysLater = new Date(today);
     sevenDaysLater.setDate(today.getDate() + 7);
-
-    console.log("날짜체크 함수 in");
 
     for (const reservation of reservations) {
       const reservationDate = new Date(reservation.move_date); // 예약 날짜가 'date' 필드에 있다고 가정
