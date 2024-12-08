@@ -25,7 +25,7 @@ export default () => {
 
   return (
     <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400">
-      <div class="flex flex-col rounded-lg w-[1000px]">
+      <div class="flex flex-col rounded-lg w-[1000px] mb-5 mt-5">
         <div class="w-full px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 rounded-lg bg-white">
           <p class="text-center">
             포장방법이 궁금하시면 아래에 물품을 입력 후 검색 버튼을 누르세요.<br />

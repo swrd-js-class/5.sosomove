@@ -242,7 +242,7 @@ Meteor.startup(() => {
             "content": prompt,
           }
         ],
-        'max_tokens': 800,
+        'max_tokens': 600,
       }),
     });
 
