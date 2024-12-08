@@ -166,62 +166,6 @@ Meteor.methods({
   }
 });
 
-// Meteor.methods({
-//   'estimate.updateStatusByRequest'(requestId) {
-//     // 사용자 인증 확인
-//     if (!this.userId) {
-//       throw new Meteor.Error('Not authorized', '로그인된 사용자만 상태를 업데이트할 수 있습니다.');
-//     }
-
-//     // 요청 데이터 가져오기
-//     const request = CollectionRequest.findOne({ _id: requestId });
-//     if (!request || !request.car_confirm_id) {
-//       throw new Meteor.Error('Invalid request', '유효하지 않은 요청이거나 car_confirm_id가 없습니다.');
-//     }
-
-//     const businessId = request.car_confirm_id; // 사업자의 ID
-
-//     // 해당 사업자의 견적서 검색
-//     const estimate = CollectionEstimate.findOne({ request_id: requestId, business_id: businessId });
-//     if (!estimate) {
-//       throw new Meteor.Error('Estimate not found', '해당 사업자의 견적서를 찾을 수 없습니다.');
-//     }
-
-//     // 상태를 2(매칭)으로 업데이트
-//     const result = CollectionEstimate.update(
-//       { _id: estimate._id },
-//       { $set: { status: 2 } }
-//     );
-
-//     if (result === 0) {
-//       throw new Meteor.Error('Update failed', '견적 상태 업데이트에 실패했습니다.');
-//     }
-
-//     return 'Estimate status updated to 2 (Matched)';
-//   }
-// });
-
-Meteor.methods({
-  updateEstimateStatus(requestId, businessId) {
-    // requestId와 businessId를 바탕으로 상태 업데이트
-    const request = CollectionRequest.findOne(requestId);
-
-    if (request && request.confirm_id.includes(businessId)) {
-      // confirm_id에 사업자 id가 포함되면 상태를 '매칭'으로 업데이트
-      CollectionEstimate.update(
-        { request_id: requestId, business_id: businessId },
-        { $set: { status: 2 } }
-      );
-    } else if (request && !request.confirm_id.includes(businessId)) {
-      // confirm_id에서 사업자 id가 제외되면 상태를 '매칭 취소'로 업데이트
-      CollectionEstimate.update(
-        { request_id: requestId, business_id: businessId },
-        { $set: { status: 3 } }
-      );
-    }
-  },
-});
-
 ///////////////////////더미데이터////////////////////////
 Meteor.startup(() => {
   //관리자 생성
@@ -311,10 +255,6 @@ Meteor.startup(() => {
           req_arr_time: "14", //도착요청시간
           str_addr_elv: true,
           arr_addr_elv: false,
-          ladder_truck: {
-            start: false,
-            arrive: true,
-          },
           appliances: [
             //가전
             "세탁기",
@@ -358,6 +298,7 @@ Meteor.startup(() => {
           amount: "20000",
           business_type: "용달",
           status: 1,
+          request_del_flag: false,
           crateAt: new Date()
         });
       }
@@ -379,6 +320,7 @@ Meteor.startup(() => {
           amount: "20000",
           business_type: "헬퍼",
           status: 1,
+          request_del_flag: false,
           crateAt: new Date()
         });
         //}
@@ -466,15 +408,42 @@ Meteor.methods({
     return null;
   },
 
+  //개인-용달/헬퍼업체 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
+    try {
+      const query = {
+        '_id': requestId
+      }
+
+      const update = {
+        $set: {
+          'reqCar.car_confirm_id': car_businessId,
+          'reqHelper.hel_confirm_id': hel_businessId
+        }
+      }
+
+      const requpdateresult = CollectionRequest.update(query, update);
+
+      if (requpdateresult === 0) {
+        throw new error("request 컬렉션 업데이트 중 오류 발생");
+      }
+    } catch (error) {
+      console.error("컬렉션 update 중 오류 발생 : ", error);
+      throw new Meteor.Error('update-failed', error.message);
+    }
+  },
+
+  //개인-용달/헬퍼 견적서 컨펌 flag update
+  updateEstMatchingFlag({ requestId, businessId, matchingFlag, car_businessId, hel_businessId }) {
+
     const query = {
-      '_id': requestId
+      'request_id': requestId,
+      'business_id': businessId
     }
 
     const update = {
       $set: {
-        'reqCar.car_confirm_id': car_businessId,
-        'reqHelper.hel_confirm_id': hel_businessId
+        'matching_flag': matchingFlag
       }
     }
 
@@ -491,9 +460,10 @@ Meteor.methods({
     if (hel_businessId) {
       CollectionEstimate.update(
         { business_id: hel_businessId, request_id: requestId },
-        { $set: { status: '매칭됨' } } // 2 - 매칭
+        { $set: { status: 2 } } // 2 - 매칭
       );
     }
+    CollectionEstimate.update(query, update);
   },
 
   //개인-신규 견적요청서 저장
@@ -516,7 +486,7 @@ Meteor.methods({
       addworker,
       reqCar,
       reqHelper,
-      createdAt
+      // createdAt
     } = updateData
 
     const update = {
@@ -529,24 +499,35 @@ Meteor.methods({
         addworker,
         reqCar,
         reqHelper,
-        createdAt
+        // createdAt
       }
     }
 
     CollectionRequest.update(query, update);
   },
 
+  //견적요청서 삭제
   removeRequest({ param }) {
     try {
-      const estremoveresult = CollectionEstimate.remove({ 'request_id': param });
+      const query = {
+        'request_id': param
+      };
 
-      if (estremoveresult === 0) {
-        throw new Error("CollectionEstimate 삭제 실패");
+      const update = {
+        $set: {
+          'request_del_flag': true
+        }
+      }
+
+      const estupdateresult = CollectionEstimate.update(query, update);
+
+      if (estupdateresult.acknowledged === false) {
+        throw new Error("CollectionEstimate update 실패");
       }
 
       const reqremoveresult = CollectionRequest.remove({ '_id': param });
 
-      if (reqremoveresult === 0) {
+      if (reqremoveresult.acknowledged === false) {
         throw new Error("CollectionRequest 삭제 실패");
       }
 
@@ -567,20 +548,48 @@ Meteor.methods({
   },
 
   //매칭-해제
-  updateRequestConfirmBizId({ requestId, type }) {
-    const query = {
-      '_id': requestId
+  updateRequestConfirmBizId({ requestId, type, bizId }) {
+    try {
+      const query = {
+        '_id': requestId
+      }
+
+      const update = {};
+
+      if (type === '용달') {
+        update.$set = { 'reqCar.car_confirm_id': null };
+      } else if (type === '헬퍼') {
+        update.$set = { 'reqHelper.hel_confirm_id': null };
+      }
+
+      const updateresult = CollectionRequest.update(query, update);
+
+      if (updateresult === 0) {
+        throw new Error("request 컬렉션 업데이트 중 오류 발생");
+      }
+
+      const estquery = {
+        'request_id': requestId,
+        'business_id': bizId
+      };
+
+      const estupdate = {
+        $set: {
+          'matching_flag': '3'
+        }
+      };
+
+      const estupdateresult = CollectionEstimate.update(estquery, estupdate);
+
+      if (estupdateresult === 0) {
+        throw new Error("estimate 컬렉션 업데이트 중 오류 발생");
+      }
+
+    } catch (error) {
+      console.error("컬렉션 update 중 오류 발생 : ", error);
+      throw new Meteor.Error('update-failed', error.message);
     }
 
-    const update = {};
-
-    if (type === '용달') {
-      update.$set = { 'reqCar.car_confirm_id': null };
-    } else if (type === '헬퍼') {
-      update.$set = { 'reqHelper.hel_confirm_id': null };
-    }
-
-    CollectionRequest.update(query, update);
   }
 });
 

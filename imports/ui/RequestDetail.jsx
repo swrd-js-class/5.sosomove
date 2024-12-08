@@ -54,35 +54,55 @@ export default () => {
   }, []);
 
 
-  //컨펌내역 확정
+  //매칭내역 확정
   const handleConfirm = () => {
+    //용달 업체를 선택해야만(확정되어 있어야만) 매칭 확정될 수 있음
+    if (carBusinessId !== null) {
 
-    if (carBusinessId !== null || helBusinessId !== null) {
-
-      const isconfirm = window.confirm("선택된 업체를 저장하시겠습니까?");
+      const isconfirm = window.confirm("선택된 업체를 매칭 확정 하시겠습니까?");
 
       if (isconfirm) {
         //최종 사업자선택 컨펌
         //견적요청서_car의 car_confirm_id에 update
         //견적요청서_helper의 hel_confirm_id에 update
-        Meteor.call('updateRequestConfirmBusiId', { requestId: id, car_businessId: carBusinessId, hel_businessId: helBusinessId }, (err, result) => {
-          if (err) {
-            consol.log(err);
+        Meteor.call('updateRequestConfirmBusiId', { requestId: id, car_businessId: carBusinessId, hel_businessId: helBusinessId }, (error, result) => {
+          if (error) {
+            consol.log(error);
             return;
           }
-          console.log("update Success!!");
-          alert("저장되었습니다.");
-
-          //list 화면으로 이동
-          //navigate('/CheckRequest');
-          navigate('/mypage/checkrequest');
         });
+
+        const bizIdList = [];
+
+        if (carBusinessId !== null) bizIdList.push(carBusinessId);
+        if (helBusinessId !== null) bizIdList.push(helBusinessId);
+
+        if (bizIdList.length > 0) {
+          bizIdList.map((bizId) => {
+            Meteor.call('updateEstMatchingFlag', { requestId: id, businessId: bizId, matchingFlag: '2' }, (error, result) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+            });
+          });
+        }
+
+        console.log("update Success!!");
+        alert("저장되었습니다.");
+
+        //list 화면으로 이동
+        navigate('/mypage/checkrequest');
+      } else {
+        console.log("취소");
+        return;
       }
     } else {
-      console.log("취소");
+      alert("용달업체를 선택해야만 매칭이 가능합니다.");
       return;
     }
   }
+
 
   //삭제
   const handleRequestRemove = () => {
@@ -124,6 +144,10 @@ export default () => {
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">신청자</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.user_name}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">이사 날짜</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.move_date.toStringYMD()}</dd>
                   </div>
@@ -156,12 +180,8 @@ export default () => {
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.arr_addr_elv === true ? '있음' : '없음'}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발지 사다리차</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.ladder_truck.start === true ? '필요' : '필요하지 않음'}</dd>
-                  </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">도착지 사다리차</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.ladder_truck.arrive === true ? '필요' : '필요하지 않음'}</dd>
+                    <dt className="ml-4 text-sm/6 font-medium text-gray-900">추가 요청사항</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqCar.detail}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">가전</dt>
@@ -177,7 +197,7 @@ export default () => {
                                 {app}
                               </span>
                             );
-                          }) : <span className="hidden" />
+                          }) : <span className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0" >없음</span>
                       }
                     </dd>
                   </div>
@@ -195,21 +215,21 @@ export default () => {
                                 {furniture}
                               </span>
                             );
-                          }) : <span className="hidden" />
+                          }) : <span className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0" >없음</span>
                       }
                     </dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">도우미 요청시간대</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.request_time_area}</dd>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.request_time_area === "" ? '요청 없음' : detail.reqHelper.request_time_area}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">도우미 도착 요청시간</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.h_req_arr_time}</dd>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.h_req_arr_time === "" ? '요청 없음' : detail.reqHelper.h_req_arr_time}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">도우미 요청사항</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.h_type}</dd>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{detail.reqHelper.h_type === false ? '요청 없음' : detail.reqHelper.h_type}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="ml-4 text-sm/6 font-medium text-gray-900">출발지-평 수</dt>
@@ -349,7 +369,7 @@ export default () => {
               type="button"
               onClick={handleConfirm}
               className="rounded-md bg-indigo-50 px-2.5 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-              컨펌 확정
+              매칭 확정
             </button>
           </div>
         </div>

@@ -88,15 +88,14 @@ export default () => {
 
 
   //체크박스 체크 시
-  const handleCheckBiz = (requestId, type) => {
-    const delBizData = { requestId: requestId, type: type };
+  const handleCheckBiz = (requestId, type, bizId) => {
+    const delBizData = { requestId: requestId, type: type, bizId: bizId };
 
     setDelReqConfirmBizId((prevSelectedBizId) => {
-
-      const existingIndex = prevSelectedBizId.findIndex((item) => item.requestId === requestId);
+      const existingIndex = prevSelectedBizId.findIndex((item) => item.requestId === requestId && item.type === type);
 
       if (existingIndex !== -1) {
-        return prevSelectedBizId.filter((item) => item.requestId !== requestId)
+        return prevSelectedBizId.filter((item) => item.requestId !== requestId && item.type === type)
       } else {
         return [...prevSelectedBizId, delBizData];
       }
@@ -105,14 +104,13 @@ export default () => {
 
   // useEffect(() => {
   const handleConfrimCancle = async () => {
-
     if (delReqConfirmBizId.length > 0) {
       const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
 
       if (isconfirm) {
         const promises = delReqConfirmBizId.map((delInfo) => {
           return new Promise((resolve, reject) => {
-            Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type }, (err, result) => {
+            Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type, bizId: delInfo.bizId }, (err, result) => {
               if (err) {
                 console.log(err);
                 reject(err);
@@ -191,7 +189,7 @@ export default () => {
                         <td className="text-center px-3 py-4">
                           <input
                             type="checkbox"
-                            onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type)}
+                            onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type, bizInfo.bizId)}
                           />
                         </td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{index + 1}</td>
@@ -215,10 +213,6 @@ export default () => {
                   매칭 취소
                 </button>
               </div>
-
-              {/* <div>
-                <button onClick={handleConfrimCancle} >매칭 취소</button>
-              </div> */}
             </div>
           </div>
         </div>
