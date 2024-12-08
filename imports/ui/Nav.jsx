@@ -19,6 +19,13 @@ export default ({ onNavClick }) => {
     });
   };
 
+  const { user, businessType } = useTracker(() => {
+    const user = useTracker(() => Meteor.user());
+    const businessType = user?.profile?.type || null;
+    
+    return { user, businessType };
+  })
+
   return (
     <header>
       <nav class="lg:px-16 px-6 bg-white flex flex-wrap items-center lg:py-0 py-2" onClick={onNavClick}>
@@ -60,9 +67,11 @@ export default ({ onNavClick }) => {
               <li class="py-2 lg:py-0 ">
                 <Link to="/mypage" >마이페이지(송희)</Link>
               </li>
-              <li class="py-2 lg:py-0 ">
-                <Link to="/business" >마이페이지(희원)</Link>
-              </li>
+              {businessType === "용달" || businessType === "헬퍼" ? (
+                <li className="py-2 lg:py-0">
+                  <Link to="/business">마이페이지(희원)</Link>
+                </li>
+              ) : null}
               <li class="py-2 lg:py-0 ">
                 <Link to="/admin" >관리자페이지</Link>
               </li>
