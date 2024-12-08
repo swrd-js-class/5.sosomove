@@ -128,26 +128,98 @@ Meteor.publish('CollectionEstimate', function () {
   return CollectionEstimate.find();
 });
 
-//견적서 입력 및 삭제
 Meteor.methods({
   'estimate.insert'(estimateData) {
+    // 사용자 인증
     if (!this.userId) {
-      throw new Meteor.Error('내용이 없습니다');
+      throw new Meteor.Error('Not authorized', '로그인된 사용자만 견적을 작성할 수 있습니다.');
     }
 
-    CollectionEstimate.insert({
-      ...estimateData,
-      createdAt: new Date(),
-    });
+    // 요청 ID가 존재하는지 확인
+    const request = CollectionRequest.findOne({ _id: estimateData.request_id });
+    if (!request) {
+      throw new Meteor.Error('Request not found', '요청 정보를 찾을 수 없습니다.');
+    }
+
+    // 데이터 삽입
+    const insertedId = CollectionEstimate.insert(estimateData);
+    if (!insertedId) {
+      throw new Meteor.Error('Insert failed', '견적 삽입에 실패했습니다.');
+    }
+
+    return '견적서가 성공적으로 입력되었습니다.';
   },
 
   'estimate.delete'(estimateId) {
+    // 사용자 인증
     if (!this.userId) {
-      throw new Meteor.Error('삭제가 불가합니다');
+      throw new Meteor.Error('Not authorized', '삭제가 불가합니다');
     }
 
-    CollectionEstimate.remove({ _id: estimateId })
+    // 데이터 삭제
+    const result = CollectionEstimate.remove({ _id: estimateId });
+    if (!result) {
+      throw new Meteor.Error('Delete failed', '견적 삭제에 실패했습니다.');
+    }
+
+    return '견적서가 성공적으로 삭제되었습니다.';
   }
+});
+
+// Meteor.methods({
+//   'estimate.updateStatusByRequest'(requestId) {
+//     // 사용자 인증 확인
+//     if (!this.userId) {
+//       throw new Meteor.Error('Not authorized', '로그인된 사용자만 상태를 업데이트할 수 있습니다.');
+//     }
+
+//     // 요청 데이터 가져오기
+//     const request = CollectionRequest.findOne({ _id: requestId });
+//     if (!request || !request.car_confirm_id) {
+//       throw new Meteor.Error('Invalid request', '유효하지 않은 요청이거나 car_confirm_id가 없습니다.');
+//     }
+
+//     const businessId = request.car_confirm_id; // 사업자의 ID
+
+//     // 해당 사업자의 견적서 검색
+//     const estimate = CollectionEstimate.findOne({ request_id: requestId, business_id: businessId });
+//     if (!estimate) {
+//       throw new Meteor.Error('Estimate not found', '해당 사업자의 견적서를 찾을 수 없습니다.');
+//     }
+
+//     // 상태를 2(매칭)으로 업데이트
+//     const result = CollectionEstimate.update(
+//       { _id: estimate._id },
+//       { $set: { status: 2 } }
+//     );
+
+//     if (result === 0) {
+//       throw new Meteor.Error('Update failed', '견적 상태 업데이트에 실패했습니다.');
+//     }
+
+//     return 'Estimate status updated to 2 (Matched)';
+//   }
+// });
+
+Meteor.methods({
+  updateEstimateStatus(requestId, businessId) {
+    // requestId와 businessId를 바탕으로 상태 업데이트
+    const request = CollectionRequest.findOne(requestId);
+
+    if (request && request.confirm_id.includes(businessId)) {
+      // confirm_id에 사업자 id가 포함되면 상태를 '매칭'으로 업데이트
+      CollectionEstimate.update(
+        { request_id: requestId, business_id: businessId },
+        { $set: { status: 2 } }
+      );
+    } else if (request && !request.confirm_id.includes(businessId)) {
+      // confirm_id에서 사업자 id가 제외되면 상태를 '매칭 취소'로 업데이트
+      CollectionEstimate.update(
+        { request_id: requestId, business_id: businessId },
+        { $set: { status: 3 } }
+      );
+    }
+  },
 });
 
 ///////////////////////더미데이터////////////////////////
@@ -285,6 +357,7 @@ Meteor.startup(() => {
           details: "견적서1-용달",
           amount: "20000",
           business_type: "용달",
+          status: 1,
           crateAt: new Date()
         });
       }
@@ -305,6 +378,7 @@ Meteor.startup(() => {
           details: "견적서-헬퍼",
           amount: "20000",
           business_type: "헬퍼",
+          status: 1,
           crateAt: new Date()
         });
         //}
@@ -405,6 +479,21 @@ Meteor.methods({
     }
 
     CollectionRequest.update(query, update);
+
+    if (car_businessId) {
+      CollectionEstimate.update(
+        { business_id: car_businessId, request_id: requestId },
+        { $set: { status: 2 } } // 2 - 매칭
+      );
+    }
+  
+    // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
+    if (hel_businessId) {
+      CollectionEstimate.update(
+        { business_id: hel_businessId, request_id: requestId },
+        { $set: { status: '매칭됨' } } // 2 - 매칭
+      );
+    }
   },
 
   //개인-신규 견적요청서 저장
