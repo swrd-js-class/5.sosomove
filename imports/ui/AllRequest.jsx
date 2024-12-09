@@ -64,9 +64,9 @@ export default () => {
             setSelectedArea(e.target.value);
             setSelectedSubArea("");
           }}
-          className="text-center border-2 py-2 px-2 mx-1 rounded-md text-black"
+          className="text-left border-2 py-2 px-6 mx-1 rounded-md text-black"
         >
-          <option value="">지역 선택</option>
+          <option value="">지역</option>
           {area.map((area) => (
             <option key={area.name} value={area.name}>
               {area.name}
@@ -77,9 +77,9 @@ export default () => {
         <select
           value={selectedSubArea}
           onChange={(e) => setSelectedSubArea(e.target.value)}
-          className="text-center border-2 py-2 px-2 mx-1 rounded-md text-black"
+          className="text-left border-2 py-2 px-8 mx-1 rounded-md text-black"
         >
-          <option value="">시/군/구 선택</option>
+          <option value="">시/군/구</option>
           {subAreas.map((subArea) => (
             <option key={subArea} value={subArea}>
               {subArea}
