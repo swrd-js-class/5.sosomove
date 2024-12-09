@@ -60,38 +60,35 @@ export default () => {
   }
 
   return (
-
-    <div>
-      <div class="flex h-screen bg-gray-100">
-        <div class="bg-white bg-clip-border py-6 px-10 max-w-lg border h-[100vh] w-full max-w-[20rem]">
-          <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
-          <form onSubmit={handleSubmit}>
-            <div class="space-y-4 mt-6">
-              <div class="w-full">
-                <h2>비밀번호 재설정</h2>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
-              <div class="w-full">
-                <h2>사업장명</h2>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
-              <div class="w-full">
-                <h2>대표번호</h2>
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
-              <div class="w-full">
-                <h2>대표자명</h2>
-                <input type="text" value={ceo_name} onChange={(e) => setCeoName(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
-              <div class="w-full">
-                <h2>사업장 주소</h2>
-                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
+    <div class="flex h-screen border">
+      <div class="bg-white py-6 px-10 border">
+        <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
+        <form onSubmit={handleSubmit}>
+          <div class="space-y-4 mt-6">
+            <div class="w-full">
+              <h2>비밀번호 재설정</h2>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50" />
             </div>
-            <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
-          </form>
-          <button onClick={deleteAccount} class="w-full mt-5 bg-red-600 text-white py-2 rounded-md font-semibold tracking-tight">탈퇴</button>
-        </div>
+            <div class="w-full">
+              <h2>사업장명</h2>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50" />
+            </div>
+            <div class="w-full">
+              <h2>대표번호</h2>
+              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
+            </div>
+            <div class="w-full">
+              <h2>대표자명</h2>
+              <input type="text" value={ceo_name} onChange={(e) => setCeoName(e.target.value)} class="px-4 py-2 bg-gray-50" />
+            </div>
+            <div class="w-full">
+              <h2>사업장 주소</h2>
+              <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} class="px-4 py-2 bg-gray-50" />
+            </div>
+          </div>
+          <button type="submit" class="w-full mt-5 bg-indigo-600 text-white py-2 rounded-md font-semibold tracking-tight">수정</button>
+        </form>
+        <button onClick={deleteAccount} class="w-full mt-5 bg-red-600 text-white py-2 rounded-md font-semibold tracking-tight">탈퇴</button>
       </div>
     </div>
   );
