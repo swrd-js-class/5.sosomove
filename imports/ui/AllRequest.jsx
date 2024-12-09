@@ -41,17 +41,13 @@ export default () => {
     const startInArea = request.start_address.includes(selectedArea) && request.start_address.includes(selectedSubArea);
     const arriveInArea = request.arrive_address.includes(selectedArea) && request.arrive_address.includes(selectedSubArea);
     return startInArea || arriveInArea;
-  });
-
-  if (businessType === "일반" || businessType === "관리자") {
-    return <p>해당 페이지에 접근할 수 없습니다.</p>;
-  }
-
-
-  const filterRequest = requests.filter((request) =>
-    request.start_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, '')) ||
-    request.arrive_address.replace(/\s+/g, '').includes(search.replace(/\s+/g, ''))
-  ).sort((a, b) => new Date(a.move_date) - new Date(b.move_date));
+  }).filter((request) => {
+    if (businessType === "헬퍼") {
+      return request.reqHelper.request_time_area !== "" || request.reqHelper.h_type === true;
+    }
+    return true;
+  })
+    .sort((a, b) => new Date(a.move_date) - new Date(b.move_date));
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -70,7 +66,7 @@ export default () => {
               }}
               className="text-center border-2 py-2 px-2 mx-1 rounded-md text-black"
             >
-              <option value="">지역 선택</option>
+              <option value="">지역</option>
               {area.map((area) => (
                 <option key={area.name} value={area.name}>
                   {area.name}
@@ -83,7 +79,7 @@ export default () => {
               onChange={(e) => setSelectedSubArea(e.target.value)}
               className="text-center border-2 py-2 px-2 mx-1 rounded-md text-black"
             >
-              <option value="">시/군/구 선택</option>
+              <option value="">시/군/구</option>
               {subAreas.map((subArea) => (
                 <option key={subArea} value={subArea}>
                   {subArea}
@@ -147,8 +143,8 @@ export default () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {filterRequest.length > 0 ? (
-                    filterRequest.map((request) => (
+                  {filteredRequests.length > 0 ? (
+                    filteredRequests.map((request) => (
                       <tr key={request._id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 align-middle w-40">
                           {request.user_name}

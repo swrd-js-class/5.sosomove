@@ -7,6 +7,65 @@ import fetch from 'node-fetch';
 import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
 
+
+//요청서 확인
+Meteor.publish('CollectionRequest', function () {
+  return CollectionRequest.find();
+});
+
+//견적서 확인
+Meteor.publish('CollectionEstimate', function () {
+  return CollectionEstimate.find();
+});
+
+Meteor.publish("estimateStatus", function (businessId) {
+  if (!this.userId) {
+    return this.ready();
+  }
+
+  return CollectionEstimate.find(
+    { business_id: businessId },
+    { fields: { status: 1, updateAt: 1, request_id: 1 } });
+});
+
+Meteor.methods({
+  'estimate.insert'(estimateData) {
+    // 사용자 인증
+    if (!this.userId) {
+      throw new Meteor.Error('Not authorized', '로그인된 사용자만 견적을 작성할 수 있습니다.');
+    }
+
+    // 요청 ID가 존재하는지 확인
+    const request = CollectionRequest.findOne({ _id: estimateData.request_id });
+    if (!request) {
+      throw new Meteor.Error('Request not found', '요청 정보를 찾을 수 없습니다.');
+    }
+
+    // 데이터 삽입
+    const insertedId = CollectionEstimate.insert(estimateData);
+    if (!insertedId) {
+      throw new Meteor.Error('Insert failed', '견적 삽입에 실패했습니다.');
+    }
+
+    return '견적서가 성공적으로 입력되었습니다.';
+  },
+
+  'estimate.delete'(estimateId) {
+    // 사용자 인증
+    if (!this.userId) {
+      throw new Meteor.Error('Not authorized', '삭제가 불가합니다');
+    }
+
+    // 데이터 삭제
+    const result = CollectionEstimate.remove({ _id: estimateId });
+    if (!result) {
+      throw new Meteor.Error('Delete failed', '견적 삭제에 실패했습니다.');
+    }
+
+    return '견적서가 성공적으로 삭제되었습니다.';
+  }
+});
+
 ///////////////////////더미데이터 시작////////////////////////
 Meteor.startup(() => {
   //관리자 생성
@@ -138,6 +197,7 @@ Meteor.startup(() => {
           details: "견적서1-용달",
           amount: "20000",
           business_type: "용달",
+          status: 1,
           request_del_flag: false,
           crateAt: new Date()
         });
@@ -159,6 +219,7 @@ Meteor.startup(() => {
           details: "견적서-헬퍼",
           amount: "20000",
           business_type: "헬퍼",
+          status: 1,
           request_del_flag: false,
           crateAt: new Date()
         });
@@ -335,39 +396,6 @@ Meteor.methods({
 });
 ////효정 끝////
 
-//요청서 확인
-Meteor.publish('CollectionRequest', function () {
-  return CollectionRequest.find();
-});
-
-//견적서 확인
-Meteor.publish('CollectionEstimate', function () {
-  return CollectionEstimate.find();
-});
-
-//견적서 입력 및 삭제
-Meteor.methods({
-  'estimate.insert'(estimateData) {
-    if (!this.userId) {
-      throw new Meteor.Error('내용이 없습니다');
-    }
-
-    CollectionEstimate.insert({
-      ...estimateData,
-      createdAt: new Date(),
-    });
-  },
-
-  'estimate.delete'(estimateId) {
-    if (!this.userId) {
-      throw new Meteor.Error('삭제가 불가합니다');
-    }
-
-    CollectionEstimate.remove({ _id: estimateId })
-  }
-});
-
-
 //ksh. 
 Meteor.methods({
 
@@ -472,7 +500,7 @@ Meteor.methods({
   },
 
   //개인-용달/헬퍼 견적서 컨펌 flag update
-  updateEstMatchingFlag({ requestId, businessId, matchingFlag }) {
+  updateEstMatchingFlag({ requestId, businessId, matchingFlag, car_businessId, hel_businessId }) {
 
     const query = {
       'request_id': requestId,
@@ -485,6 +513,22 @@ Meteor.methods({
       }
     }
 
+    CollectionRequest.update(query, update);
+
+    if (car_businessId) {
+      CollectionEstimate.update(
+        { business_id: car_businessId, request_id: requestId },
+        { $set: { status: 2 } } // 2 - 매칭
+      );
+    }
+
+    // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
+    if (hel_businessId) {
+      CollectionEstimate.update(
+        { business_id: hel_businessId, request_id: requestId },
+        { $set: { status: 2 } } // 2 - 매칭
+      );
+    }
     CollectionEstimate.update(query, update);
   },
 
@@ -597,7 +641,8 @@ Meteor.methods({
 
       const estupdate = {
         $set: {
-          'matching_flag': '3'
+          'matching_flag': '3',
+          'status': 3
         }
       };
 
@@ -614,5 +659,3 @@ Meteor.methods({
 
   }
 });
-
-

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./Login.jsx";
 import Service from "./Service.jsx";
 import Gpt from "./Gpt.jsx";
@@ -48,6 +48,7 @@ export const App = () => {
 
           {/* 효정 */}
           <Route path="/admin" element={<Admin />}>
+            <Route index element={<Navigate to="/admin/adminbcheck" />} />
             <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
             <Route path="/admin/adminblist" element={<AdminBList />} />
             <Route path="/admin/adminalllist" element={<AdminAllList />} />
@@ -56,6 +57,7 @@ export const App = () => {
 
           {/* 희원 */}
           <Route path="/business" element={<Business />}>
+            <Route index element={<Navigate to="/business/allrequest" />} />
             <Route path="/business/allrequest" element={<AllRequest />} />
             <Route path="/business/businessAllEstimate" element={<BusinessAllEstimate />} />
             <Route path="/business/businessestimate/:id" element={<BusinessEst />} />
@@ -65,6 +67,7 @@ export const App = () => {
 
           {/* 송희 */}
           <Route path="/mypage" element={<Mypage />}>
+            <Route index element={<Navigate to="/mypage/checkrequest" />} />
             <Route path="/mypage/newrequest" element={<NewRequest />} />
             <Route path="/mypage/requestdetail/:id" element={<RequestDetail />} />
             <Route path="/mypage/checkrequest" element={<CheckRequest />} />
