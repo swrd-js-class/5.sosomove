@@ -38,6 +38,7 @@ export default () => {
           console.log("map 시작");
 
           let bizIdList = [];
+          let main_index = index;
 
           if (matching.reqCar.car_confirm_id !== null) {
             bizIdList = [...bizIdList, matching.reqCar.car_confirm_id];
@@ -46,7 +47,7 @@ export default () => {
             bizIdList = [...bizIdList, matching.reqHelper.hel_confirm_id];
           }
 
-          const bizPromises = bizIdList.map((bizId) =>
+          const bizPromises = bizIdList.map((bizId, index) =>
             new Promise((resolve, reject) => {
               Meteor.call('bizInfoSearch', { userId: bizId }, (err, result) => {
                 if (err) {
@@ -61,7 +62,8 @@ export default () => {
                   type: result.profile.type,
                   name: result.profile.name,
                   phone: result.profile.phone,
-                  bizId: bizId
+                  bizId: bizId,
+                  keyIndex : main_index+index
                 };
 
                 bizInfo = [...bizInfo, data];
@@ -88,17 +90,14 @@ export default () => {
 
 
   //체크박스 체크 시
-  const handleCheckBiz = (requestId, type, bizId) => {
-    console.log("체크박스 체크!! : " + requestId + ", type : " + type + ", bizId : " + bizId);
-
-    const delBizData = { requestId: requestId, type: type, bizId: bizId };
+  const handleCheckBiz = (requestId, type, bizId, keyIndex) => {
+    const delBizData = { requestId: requestId, type: type, bizId: bizId, delIndex : keyIndex };
 
     setDelReqConfirmBizId((prevSelectedBizId) => {
-      const existingIndex = prevSelectedBizId.findIndex((item) => item.requestId === requestId && item.type === type);
+      const existingIndex = prevSelectedBizId.findIndex((item) => item.delIndex === keyIndex);
 
-      console.log("existingIndex : " + existingIndex);
       if (existingIndex !== -1) {
-        return prevSelectedBizId.filter((item) => item.requestId !== requestId && item.type === type)
+        return prevSelectedBizId.filter((item) => item.delIndex !== keyIndex)
       } else {
         return [...prevSelectedBizId, delBizData];
       }
@@ -107,15 +106,12 @@ export default () => {
 
   // useEffect(() => {
   const handleConfrimCancle = async () => {
-    console.log("매칭 해제 목록 : ", delReqConfirmBizId.length);
 
     if (delReqConfirmBizId.length > 0) {
       const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
 
       if (isconfirm) {
-        const promises = delReqConfirmBizId.map((delInfo, index) => {
-
-          console.log("해제!! " + index);
+        const promises = delReqConfirmBizId.map((delInfo) => {
 
           return new Promise((resolve, reject) => {
             Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type, bizId: delInfo.bizId }, (err, result) => {
@@ -132,31 +128,15 @@ export default () => {
         //모든 비동기 작업이 완료될 때까지 기다림
         try {
           await Promise.all(promises);
-          console.log("await 후");
 
-
-
-          // //매칭 해제 후 상태 업데이트
-          // setBizInfoList((prevBizInfo) => {
-          //   return prevBizInfo.filter((bizInfo) => {
-          //     return !delReqConfirmBizId.some((delInfo) => {
-          //       return delInfo.requestId === bizInfo.requestId && delInfo.type === bizInfo.type;
-          //     });
-          //   });
-          // });
-
-
-          const delReqMap = new Map(
-            delReqConfirmBizId.map((delInfo) => [delInfo.requestId + "_" + delInfo.type, true])
-          );
-
-          // setBizInfoList((prevBizInfo) => {
-          //   return prevBizInfo.filter((bizInfo) => {
-          //     const shouldExclude = !delReqMap.has(bizInfo.requestId + "_" + bizInfo.type);
-          //     console.log(shouldExclude);
-          //     return shouldExclude;
-          //   });
-          // });
+          //매칭 해제 후 상태 업데이트
+          setBizInfoList((prevBizInfo) => {
+            return prevBizInfo.filter((bizInfo) => {
+              return !delReqConfirmBizId.some((delInfo) => {
+                return delInfo.delIndex === bizInfo.keyIndex;
+              });
+            });
+          });
 
           alert("매칭이 해제 되었습니다.");
         } catch (err) {
@@ -170,20 +150,6 @@ export default () => {
   };
   // handleConfrimCancle();
   // }, [delReqConfirmBizId]);
-
-  const bizInfoListSet = useCallback(() => {
-
-    console.log("callback함수 진입");
-    //매칭 해제 후 상태 업데이트
-    setBizInfoList((prevBizInfo) => {
-      return prevBizInfo.filter((bizInfo) => {
-        return !delReqConfirmBizId.some((delInfo) => {
-          console.log("delInfo.requestId : " + delInfo.requestId + ", bizInfo.requestId : " + bizInfo.requestId);
-          return delInfo.requestId === bizInfo.requestId && delInfo.type === bizInfo.type;
-        });
-      });
-    });
-  }, [delReqConfirmBizId]);
 
   return (
     <>
@@ -221,15 +187,17 @@ export default () => {
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         연락처
                       </th>
+                      <th>keyIndex</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {bizInfoList.map((bizInfo, index) => (
-                      <tr key={bizInfo.requestId}>
+                      // <tr key={bizInfo.requestId}>
+                      <tr key={bizInfo.keyIndex}>
                         <td className="text-center px-3 py-4">
                           <input
                             type="checkbox"
-                            onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type, bizInfo.bizId)}
+                            onClick={() => handleCheckBiz(bizInfo.requestId, bizInfo.type, bizInfo.bizId, bizInfo.keyIndex)}
                           />
                         </td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{index + 1}</td>
@@ -238,6 +206,7 @@ export default () => {
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.arrive}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.name}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.phone}</td>
+                        <td>{bizInfo.keyIndex}</td>
                       </tr>
                     ))}
                   </tbody>
