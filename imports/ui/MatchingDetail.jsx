@@ -104,6 +104,8 @@ export default () => {
 
   // useEffect(() => {
   const handleConfrimCancle = async () => {
+    console.log("매칭 해제 목록 : ", delReqConfirmBizId.length);
+
     if (delReqConfirmBizId.length > 0) {
       const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
 

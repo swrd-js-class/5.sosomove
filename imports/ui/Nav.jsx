@@ -20,12 +20,6 @@ export default ({ onNavClick }) => {
     });
   };
 
-  const { user, businessType } = useTracker(() => {
-    const user = useTracker(() => Meteor.user());
-    const businessType = user?.profile?.type || null;
-    
-    return { user, businessType };
-  })
 
   return (
     <header>
