@@ -509,7 +509,7 @@ Meteor.methods({
 
     const update = {
       $set: {
-        'matching_flag': matchingFlag
+        'status': matchingFlag
       }
     }
 
@@ -641,7 +641,6 @@ Meteor.methods({
 
       const estupdate = {
         $set: {
-          'matching_flag': '3',
           'status': 3
         }
       };

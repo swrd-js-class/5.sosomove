@@ -1,5 +1,5 @@
 //개인-마이페이지-이사매칭현황조회
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Meteor } from "meteor/meteor";
 import { useParams } from "react-router-dom";
 import "/lib/utils.js";
@@ -89,11 +89,14 @@ export default () => {
 
   //체크박스 체크 시
   const handleCheckBiz = (requestId, type, bizId) => {
+    console.log("체크박스 체크!! : " + requestId + ", type : " + type + ", bizId : " + bizId);
+
     const delBizData = { requestId: requestId, type: type, bizId: bizId };
 
     setDelReqConfirmBizId((prevSelectedBizId) => {
       const existingIndex = prevSelectedBizId.findIndex((item) => item.requestId === requestId && item.type === type);
 
+      console.log("existingIndex : " + existingIndex);
       if (existingIndex !== -1) {
         return prevSelectedBizId.filter((item) => item.requestId !== requestId && item.type === type)
       } else {
@@ -110,7 +113,10 @@ export default () => {
       const isconfirm = window.confirm("선택된 업체를 매칭 해제 하시겠습니까?");
 
       if (isconfirm) {
-        const promises = delReqConfirmBizId.map((delInfo) => {
+        const promises = delReqConfirmBizId.map((delInfo, index) => {
+
+          console.log("해제!! " + index);
+
           return new Promise((resolve, reject) => {
             Meteor.call('updateRequestConfirmBizId', { requestId: delInfo.requestId, type: delInfo.type, bizId: delInfo.bizId }, (err, result) => {
               if (err) {
@@ -126,13 +132,31 @@ export default () => {
         //모든 비동기 작업이 완료될 때까지 기다림
         try {
           await Promise.all(promises);
+          console.log("await 후");
 
-          //매칭 해제 후 상태 업데이트
-          setBizInfoList((prevBizInfo) => {
-            return prevBizInfo.filter((bizInfo) => {
-              return !delReqConfirmBizId.some((delInfo) => delInfo.requestId === bizInfo.requestId && delInfo.type === bizInfo.type);
-            });
-          });
+
+
+          // //매칭 해제 후 상태 업데이트
+          // setBizInfoList((prevBizInfo) => {
+          //   return prevBizInfo.filter((bizInfo) => {
+          //     return !delReqConfirmBizId.some((delInfo) => {
+          //       return delInfo.requestId === bizInfo.requestId && delInfo.type === bizInfo.type;
+          //     });
+          //   });
+          // });
+
+
+          const delReqMap = new Map(
+            delReqConfirmBizId.map((delInfo) => [delInfo.requestId + "_" + delInfo.type, true])
+          );
+
+          // setBizInfoList((prevBizInfo) => {
+          //   return prevBizInfo.filter((bizInfo) => {
+          //     const shouldExclude = !delReqMap.has(bizInfo.requestId + "_" + bizInfo.type);
+          //     console.log(shouldExclude);
+          //     return shouldExclude;
+          //   });
+          // });
 
           alert("매칭이 해제 되었습니다.");
         } catch (err) {
@@ -146,6 +170,20 @@ export default () => {
   };
   // handleConfrimCancle();
   // }, [delReqConfirmBizId]);
+
+  const bizInfoListSet = useCallback(() => {
+
+    console.log("callback함수 진입");
+    //매칭 해제 후 상태 업데이트
+    setBizInfoList((prevBizInfo) => {
+      return prevBizInfo.filter((bizInfo) => {
+        return !delReqConfirmBizId.some((delInfo) => {
+          console.log("delInfo.requestId : " + delInfo.requestId + ", bizInfo.requestId : " + bizInfo.requestId);
+          return delInfo.requestId === bizInfo.requestId && delInfo.type === bizInfo.type;
+        });
+      });
+    });
+  }, [delReqConfirmBizId]);
 
   return (
     <>
