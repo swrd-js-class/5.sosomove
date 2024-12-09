@@ -7,7 +7,7 @@ export default () => {
   return (
     <div class="flex flex-row border h-[100vh]">
       <BusinessMypageNavbar />
-      <main>
+      <main class="flex-1 overflow-y-auto">
         <Outlet />
       </main>
     </div>
