@@ -128,6 +128,16 @@ Meteor.publish('CollectionEstimate', function () {
   return CollectionEstimate.find();
 });
 
+Meteor.publish("estimateStatus", function (businessId) {
+  if (!this.userId) {
+    return this.ready();
+  }
+
+  return CollectionEstimate.find(
+    {business_id : businessId},
+    {fields: {status: 1, updateAt: 1, request_id: 1}});
+});
+
 Meteor.methods({
   'estimate.insert'(estimateData) {
     // 사용자 인증
@@ -575,7 +585,8 @@ Meteor.methods({
 
       const estupdate = {
         $set: {
-          'matching_flag': '3'
+          'matching_flag': '3',
+          'status' : 3
         }
       };
 
@@ -592,5 +603,3 @@ Meteor.methods({
 
   }
 });
-
-

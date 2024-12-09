@@ -20,11 +20,11 @@ export default () => {
         request: CollectionRequest.findOne({ _id: estimate.request_id }),
       }));
   
-      // Sort by move_date in ascending order (earliest date first)
+      //날짜 오름차순
       estimateinReq.sort((a, b) => {
-        const dateA = new Date(a.request?.move_date || 0); // Handle missing dates
+        const dateA = new Date(a.request?.move_date || 0);
         const dateB = new Date(b.request?.move_date || 0);
-        return dateA - dateB; // For descending order, use `dateB - dateA`
+        return dateA - dateB;
       });
       
     return { user, estimateinReq };
@@ -34,6 +34,17 @@ export default () => {
     return <p className="text-gray-500">견적서를 찾을 수 없습니다.</p>;
   }
 
+  const handleDelete = (estimateId) => {
+    Meteor.call('estimate.delete', estimateId, (err) => {
+        if (err) {
+            alert('삭제 중 오류가 발생했습니다: ' + err.reason);
+        } else {
+            alert('견적서가 삭제되었습니다.');
+        }
+    });
+};
+
+  //상태 text
   const getStatusText = (status) => {
     switch (status) {
         case 1: return '대기중';
@@ -43,6 +54,7 @@ export default () => {
     }
 };
 
+// 상태 color
 const getStatusColor = (status) => {
     switch (status) {
         case 1: return 'gray';
@@ -122,7 +134,7 @@ const getStatusColor = (status) => {
                           </span>
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          {estimateReq.status !== 2 && (
+                          {estimateReq.status == 1 && (
                             <button
                               onClick={() => handleDelete(estimateReq._id)}
                               className="text-indigo-600 hover:text-indigo-900"
