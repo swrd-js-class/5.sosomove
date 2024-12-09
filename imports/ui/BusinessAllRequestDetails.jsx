@@ -60,13 +60,6 @@ export default () => {
               </div>
 
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="ml-4 text-sm font-medium text-gray-900">사다리차 필요 여부</dt>
-                <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
-                  출발지: {request.reqCar.ladder_truck.start ? '있음' : '없음'}, 도착지: {request.reqCar.ladder_truck.arrive ? '있음' : '없음'}
-                </dd>
-              </div>
-
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt className="ml-4 text-sm font-medium text-gray-900">가전제품</dt>
                 <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
                   {request.reqCar.appliances.length > 0 ? (
@@ -139,14 +132,14 @@ export default () => {
           )}
 
           <div>
-          <div className="text-center mt-12 mb-12">
-            <Link 
-              to={`/business/businessestimate/${id}`}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
-            >
-              견적서 작성
-            </Link>
-          </div>
+            <div className="text-center mt-12 mb-12">
+              <Link
+                to={`/business/businessestimate/${id}`}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+              >
+                견적서 작성
+              </Link>
+            </div>
           </div>
         </dl>
       </div>
