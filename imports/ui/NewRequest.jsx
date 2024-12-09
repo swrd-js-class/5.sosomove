@@ -88,16 +88,16 @@ export default () => {
 
     //도우미 옵션
     const helperOption = {
-        package : [
-            { name: '짐 싸기 / 짐 풀기 모두 원해요', id : 'all', value : '모두'},
-            { name: '짐 싸기 원해요', id : 'pack', value : '짐싸기'},
-            { name: '짐 풀기 원해요', id : 'unpack', value : '짐풀기'},
+        package: [
+            { name: '짐 싸기 / 짐 풀기 모두 원해요', id: 'all', value: '모두' },
+            { name: '짐 싸기 원해요', id: 'pack', value: '짐싸기' },
+            { name: '짐 풀기 원해요', id: 'unpack', value: '짐풀기' },
         ],
-        timearea : [
-            { name: '오전', id : 'am'},
-            { name: '오후', id : 'pm'},
-            { name: '하루', id : 'day'},
-        ] 
+        timearea: [
+            { name: '오전', id: 'am' },
+            { name: '오후', id: 'pm' },
+            { name: '하루', id: 'day' },
+        ]
     }
 
     function classNames(...classes) {
@@ -260,7 +260,7 @@ export default () => {
 
     //날짜 검증
     const handleDateChange = (date) => {
-        if(date === null) {
+        if (date === null) {
             setSelectedDate(null);
         }
 
@@ -368,193 +368,202 @@ export default () => {
 
     return (
         <>
-        <div style={{ float: 'left' }}>
-            <form>
-                <div className="space-y-12 pl-2">
-                    <div className="border-b border-gray-900/10 pb-12">
-                        <h2 className="text-base/7 font-semibold text-gray-900">신규 견적 신청서</h2>
-                        <p className="mt-1 text-sm/6 text-gray-600">
-                            견적요청서를 작성하여 예상 견적서를 받을 수 있습니다.
-                        </p>
-                        <div>
-                            <button
-                                type="button"
-                                onClick={handleSampleDataInput}
-                                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                            >
-                                Sample Data Input
-                            </button>
-                        </div>
-                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <div className="sm:col-span-4">
-                                <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
-                                <p className="relative pl-6">
-                                    <span className="absolute left-0 top-0 text-red-500">*</span>
-                                    신청자
-                                </p>
-                                </label>
-                                <div className="mt-2">
-                                    <input id="username" 
-                                        type="text"
-                                        placeholder="필수입력"
-                                        value={proposer} 
-                                        onChange={handleProposerChange} 
-                                        className="block min-w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    />
-                                </div>
+            <div style={{ float: 'left' }}>
+                <form>
+                    <div className="space-y-12 pl-2">
+                        <div className="border-b border-gray-900/10 pb-12">
+                            <h2 className="text-base/7 font-semibold text-gray-900">신규 견적 신청서</h2>
+                            <p className="mt-1 text-sm/6 text-gray-600">
+                                견적요청서를 작성하여 예상 견적서를 받을 수 있습니다.
+                            </p>
+                            <div>
+                                <button
+                                    type="button"
+                                    onClick={handleSampleDataInput}
+                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                >
+                                    Sample Data Input
+                                </button>
                             </div>
-                        </div>
-                
-                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <div className="sm:col-span-4">
-                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
-                                    <p className="relative pl-6">
-                                        <span className="absolute left-0 top-0 text-red-500">*</span>
-                                        출발지
-                                    </p>
-                                </label>
-                                <div class="flex items-center space-x-2">
-                                    <input
-                                        type="text"
-                                        value={startPostcode}
-                                        placeholder="우편번호"
-                                        className="block w-[100px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                        readOnly
-                                    >
-                                    </input>
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                        onClick={() => handlePostcodeSearch('start')}
-                                    >우편번호 찾기</button>
-                                </div>
-
-                                <div class="flex items-center space-x-2">
-                                <input
-                                    type="text"
-                                    value={startAddress}
-                                    placeholder="주소"
-                                    className="block w-[500px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    readOnly
-                                />
-
-                                <input
-                                    type="text"
-                                    value={detailStartAddress}
-                                    placeholder="상세주소"
-                                    className="block w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    onChange={(e) => setDetailStartAddress(e.target.value)}
-                                />
-                                </div>
-                            </div>
-                        
-                            <div className="sm:col-span-4">
-                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
-                                    <p className="relative pl-6">
-                                        <span className="absolute left-0 top-0 text-red-500">*</span>
-                                        도착지
-                                    </p>
-                                </label>    
-                                <div class="flex items-center space-x-2">
-                                    <input
-                                        type="text"
-                                        value={arrPostcode}
-                                        className="block w-[100px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                        placeholder="우편번호"
-                                        readOnly
-                                    />
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                        onClick={() => handlePostcodeSearch('arr')}
-                                    >우편번호 찾기
-                                    </button>
-                                </div>
-
-                                <div class="flex items-center space-x-2">
-                                <input
-                                    type="text"
-                                    value={arrAddress}
-                                    placeholder="주소"
-                                    className="block w-[500px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    readOnly
-                                />
-                                <input
-                                    type="text"
-                                    value={detailArrAddress}
-                                    placeholder="상세주소"
-                                    className="block w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    onChange={(e) => setDetailArrAddress(e.target.value)}
-                                />
-                                </div>
-                            </div>
-
-                            <div className="sm:col-span-4">
-                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
-                                    <p className="relative pl-6">
-                                        <span className="absolute left-0 top-0 text-red-500">*</span>
-                                        이사 날짜
-                                    </p>
-                                </label>
-                                <DatePicker
-                                 selected={selectedDate}
-                                 onChange={handleDateChange} //날짜 검증
-                                 dateFormat="yyyy.MM.dd" // 원하는 날짜 형식 설정
-                                 placeholderText="&#128198; 0000.00.00"
-                                 className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                 isClearable // 선택 해제 버튼 추가
-                                />                                    
-                            </div>
-
-                            <div className="sm:col-span-4">
-                                <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">  
-                                    <p className="relative pl-6">
-                                        <span className="absolute left-0 top-0 text-red-500">*</span>
-                                        출발지 평형(전용 면적)
-                                    </p>
-                                </label>
-                                <input 
-                                type="number" 
-                                value={startHouseSize} 
-                                onChange={handleStartHouseSize} 
-                                className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                />
-                            </div>
-                                
-                            <div className="sm:col-span-4">
-                                <div className="flex items-center space-x-2">
-                                    <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900"> 
-                                        용달 인부 추가 여부
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+                                        <p className="relative pl-6">
+                                            <span className="absolute left-0 top-0 text-red-500">*</span>
+                                            신청자
+                                        </p>
                                     </label>
-                                    <input 
-                                    type="checkbox" 
-                                    name="addWorker" 
-                                    onChange={() => handleAddworkerChange(isChecked)}
-                                    className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" 
+                                    <div className="mt-2">
+                                        <input id="username"
+                                            type="text"
+                                            placeholder="필수입력"
+                                            value={proposer}
+                                            onChange={handleProposerChange}
+                                            className="block min-w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                        <p className="relative pl-6">
+                                            <span className="absolute left-0 top-0 text-red-500">*</span>
+                                            출발지
+                                        </p>
+                                    </label>
+                                    <div class="flex items-center space-x-2">
+                                        <input
+                                            type="text"
+                                            value={startPostcode}
+                                            placeholder="우편번호"
+                                            className="block w-[100px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            readOnly
+                                        >
+                                        </input>
+                                        <button
+                                            type="button"
+                                            className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                            onClick={() => handlePostcodeSearch('start')}
+                                        >우편번호 찾기</button>
+                                    </div>
+
+                                    <div class="flex items-center space-x-2">
+                                        <input
+                                            type="text"
+                                            value={startAddress}
+                                            placeholder="주소"
+                                            className="block w-[500px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            readOnly
+                                        />
+
+                                        <input
+                                            type="text"
+                                            value={detailStartAddress}
+                                            placeholder="상세주소"
+                                            className="block w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            onChange={(e) => setDetailStartAddress(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                        <p className="relative pl-6">
+                                            <span className="absolute left-0 top-0 text-red-500">*</span>
+                                            도착지
+                                        </p>
+                                    </label>
+                                    <div class="flex items-center space-x-2">
+                                        <input
+                                            type="text"
+                                            value={arrPostcode}
+                                            className="block w-[100px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            placeholder="우편번호"
+                                            readOnly
+                                        />
+                                        <button
+                                            type="button"
+                                            className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                            onClick={() => handlePostcodeSearch('arr')}
+                                        >우편번호 찾기
+                                        </button>
+                                    </div>
+
+                                    <div class="flex items-center space-x-2">
+                                        <input
+                                            type="text"
+                                            value={arrAddress}
+                                            placeholder="주소"
+                                            className="block w-[500px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            readOnly
+                                        />
+                                        <input
+                                            type="text"
+                                            value={detailArrAddress}
+                                            placeholder="상세주소"
+                                            className="block w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            onChange={(e) => setDetailArrAddress(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                        <p className="relative pl-6">
+                                            <span className="absolute left-0 top-0 text-red-500">*</span>
+                                            이사 날짜
+                                        </p>
+                                    </label>
+                                    <DatePicker
+                                        selected={selectedDate}
+                                        onChange={handleDateChange} //날짜 검증
+                                        dateFormat="yyyy.MM.dd" // 원하는 날짜 형식 설정
+                                        placeholderText="&#128198; 0000.00.00"
+                                        className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                        isClearable // 선택 해제 버튼 추가
                                     />
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                        <p className="relative pl-6">
+                                            <span className="absolute left-0 top-0 text-red-500">*</span>
+                                            출발지 평형(전용 면적)
+                                        </p>
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={startHouseSize}
+                                        onChange={handleStartHouseSize}
+                                        className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    />
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <div className="flex items-center space-x-2">
+                                        <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
+                                            용달 인부 추가 여부
+                                        </label>
+                                        <input
+                                            type="checkbox"
+                                            name="addWorker"
+                                            onChange={() => handleAddworkerChange(isChecked)}
+                                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                용달 인부 추가 여부&nbsp;
-                <input type="checkbox" name="addWorker" onChange={() => handleAddworkerChange(isChecked)} />
+                </form>
             </div>
-            <div style={{ float: 'right' }} >
-                <h2>이사물품 입력</h2>
-                <div>
-                    <button
-                        onClick={() => handleTabClick('car')}
-                        style={{ fontWeight: activeTab === 'car' ? 'bold' : 'normal' }}
-                    >
-                        용달_요청사항
-                    </button>
-                    <button
-                        onClick={() => handleTabClick('helper')}
-                        style={{ fontWeight: activeTab === 'helper' ? 'bold' : 'normal' }}
-                    >
-                        도우미_요청사항
-                    </button>
+
+            <div style={{ float: 'left' }} >
+                <div className="pl-2">
+                    <div className="hidden sm:block">
+                        <div aria-label="Tabs" className="flex space-x-4">
+                            <button
+                                onClick={() => handleTabClick('car')}
+                                className={classNames(
+                                    activeTab === 'car' ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
+                                    'rounded-md px-3 py-2 text-sm font-medium',
+                                )}
+                            >
+                                용달_요청사항
+                            </button>
+                            <button
+                                onClick={() => handleTabClick('helper')}
+                                className={classNames(
+                                    activeTab === 'helper' ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
+                                    'rounded-md px-3 py-2 text-sm font-medium',
+                                )}
+                            >
+                                도우미_요청사항
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div style={{ marginTop: '20px' }} >
@@ -572,10 +581,10 @@ export default () => {
                                                         'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
                                                         'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
                                                     )}
-                                                    id={apll.index} 
-                                                    value={apll.name} 
+                                                    id={apll.index}
+                                                    value={apll.name}
                                                     checked={checkedItems[apll.name] || false} //체크 상태에 맞게
-                                                    onChange={(e) => toggleCheckboxAppli(apll.name, e.target.checked)} 
+                                                    onChange={(e) => toggleCheckboxAppli(apll.name, e.target.checked)}
                                                     style={{ display: 'none' }} />
                                                 <span
                                                     className={classNames(
@@ -603,10 +612,10 @@ export default () => {
                                                         'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
                                                         'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
                                                     )}
-                                                    id={furniture.index} 
-                                                    value={furniture.name} 
+                                                    id={furniture.index}
+                                                    value={furniture.name}
                                                     checked={checkedItems[furniture.name] || false} //체크 상태에 맞게
-                                                    onChange={(e) => toggleCheckboxFurni(furniture.name, e.target.checked)} 
+                                                    onChange={(e) => toggleCheckboxFurni(furniture.name, e.target.checked)}
                                                     style={{ display: 'none' }} />
                                                 <span
                                                     className={classNames(
@@ -630,11 +639,11 @@ export default () => {
                                         </p>
                                     </label>
                                     <div className="mt-2 grid grid-cols-1">
-                                        <select 
-                                        id="time"
-                                        value={carSelectedTime} 
-                                        onChange={handleCarTimeChanged}
-                                        className="col-start-1 row-start-1 w-[100px] appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                        <select
+                                            id="time"
+                                            value={carSelectedTime}
+                                            onChange={handleCarTimeChanged}
+                                            className="col-start-1 row-start-1 w-[100px] appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         >
                                             {times.map((time) => (
                                                 <option key={time} value={time} >
@@ -646,55 +655,55 @@ export default () => {
                                 </div>
 
                                 <div className="mt-5">
-                                <fieldset>
-                                <legend className="block text-sm/6 font-medium text-gray-900">출발지 Elevator</legend>
-                                    <div className="mt-1 space-y-6">
-                                        <div className="flex items-center gap-x-3">
-                                            <label for="sAddrEvY" className="block text-sm/6 font-medium text-gray-900">
-                                            <input
-                                                type="radio"
-                                                name="sAddrEv"
-                                                id="sAddrEvY"
-                                                value={true}
-                                                checked={sAddrEv === true}
-                                                onChange={() => handleEvChange('str')}
-                                                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
-                                            />                                            
-                                            &nbsp;있음
-                                            </label>
-                                            
-                                            <label for="sAddrEvN" className="block text-sm/6 font-medium text-gray-900">
-                                            <input
-                                                type="radio"
-                                                id="sAddrEvN"
-                                                name="sAddrEv"
-                                                value={false}
-                                                checked={sAddrEv === false}
-                                                onChange={() => handleEvChange('str')}
-                                                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
-                                            />                                            
-                                            &nbsp;없음
-                                            </label>
+                                    <fieldset>
+                                        <legend className="block text-sm/6 font-medium text-gray-900">출발지 Elevator</legend>
+                                        <div className="mt-1 space-y-6">
+                                            <div className="flex items-center gap-x-3">
+                                                <label for="sAddrEvY" className="block text-sm/6 font-medium text-gray-900">
+                                                    <input
+                                                        type="radio"
+                                                        name="sAddrEv"
+                                                        id="sAddrEvY"
+                                                        value={true}
+                                                        checked={sAddrEv === true}
+                                                        onChange={() => handleEvChange('str')}
+                                                        className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                                                    />
+                                                    &nbsp;있음
+                                                </label>
+
+                                                <label for="sAddrEvN" className="block text-sm/6 font-medium text-gray-900">
+                                                    <input
+                                                        type="radio"
+                                                        id="sAddrEvN"
+                                                        name="sAddrEv"
+                                                        value={false}
+                                                        checked={sAddrEv === false}
+                                                        onChange={() => handleEvChange('str')}
+                                                        className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                                                    />
+                                                    &nbsp;없음
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                </fieldset>
+                                    </fieldset>
                                 </div>
 
                                 <div className="mt-5">
-                                <fieldset>
-                                <legend className="block text-sm/6 font-medium text-gray-900">도착지 Elevator</legend>
-                                    <div className="mt-1 space-y-6">
-                                        <div className="flex items-center gap-x-3">
-                                            <label for="aAddrEvY" className="block text-sm/6 font-medium text-gray-900">
-                                                <input
-                                                    type="radio"
-                                                    name="aAddrEv"
-                                                    id="aAddrEvY"
-                                                    value={true}
-                                                    checked={aAddrEv === true}
-                                                    onChange={() => handleEvChange('arr')}
-                                                />
-                                                &nbsp;있음
+                                    <fieldset>
+                                        <legend className="block text-sm/6 font-medium text-gray-900">도착지 Elevator</legend>
+                                        <div className="mt-1 space-y-6">
+                                            <div className="flex items-center gap-x-3">
+                                                <label for="aAddrEvY" className="block text-sm/6 font-medium text-gray-900">
+                                                    <input
+                                                        type="radio"
+                                                        name="aAddrEv"
+                                                        id="aAddrEvY"
+                                                        value={true}
+                                                        checked={aAddrEv === true}
+                                                        onChange={() => handleEvChange('arr')}
+                                                    />
+                                                    &nbsp;있음
                                                 </label>
 
                                                 <label for="aAddrEvN" className="block text-sm/6 font-medium text-gray-900">
@@ -706,16 +715,16 @@ export default () => {
                                                         checked={aAddrEv === false}
                                                         onChange={() => handleEvChange('arr')}
                                                     />
-                                                &nbsp;없음
+                                                    &nbsp;없음
                                                 </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                                </div>          
+                                    </fieldset>
+                                </div>
 
                                 <div className="mt-5 sm:col-span-3">
                                     <label className="block text-sm/6 font-medium text-red-500 relative">
-                                            ** 추가 입력 사항 : 2개 이상인 물품은 반드시 입력해 주세요!! **
+                                        ** 추가 입력 사항 : 2개 이상인 물품은 반드시 입력해 주세요!! **
                                     </label>
                                     <textarea
                                         ref={carTextareaRef}
@@ -732,56 +741,56 @@ export default () => {
                             </div>
                         </div>
                     ) : (
-                        <div  className="pl-2">
+                        <div className="pl-2">
                             <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                 <legend className="font-bold text-lg mb-2">요청사항</legend>
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                     {helperOption.package.map((pack) => (
                                         <label for={pack.id} className="mb-2">
-                                            <input 
-                                            type="radio"
-                                            name="helpOption"
-                                            id={pack.id}
-                                            className={classNames(
-                                                      'cursor-pointer focus:outline-none', // 기본 상태 스타일
-                                                      'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
-                                                      'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
-                                                    )}
-                                            value={pack.value} checked={selHelpOption === pack.value} onChange={handleHelpOptionChange} style={{ display: 'none' }} />
-                                                <span
-                                                    className={classNames(
-                                                        'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50', // 기본 스타일
-                                                        'peer-checked:border-transparent peer-checked:bg-gray-400 peer-checked:text-white', // 체크된 상태에서 스타일 변경
-                                                        'peer-focus:ring-2 peer-focus:ring-indigo-500 peer-focus:ring-offset-2' // 포커스 스타일
-                                                    )}
-                                                >{pack.name}</span>
+                                            <input
+                                                type="radio"
+                                                name="helpOption"
+                                                id={pack.id}
+                                                className={classNames(
+                                                    'cursor-pointer focus:outline-none', // 기본 상태 스타일
+                                                    'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
+                                                    'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
+                                                )}
+                                                value={pack.value} checked={selHelpOption === pack.value} onChange={handleHelpOptionChange} style={{ display: 'none' }} />
+                                            <span
+                                                className={classNames(
+                                                    'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50', // 기본 스타일
+                                                    'peer-checked:border-transparent peer-checked:bg-gray-400 peer-checked:text-white', // 체크된 상태에서 스타일 변경
+                                                    'peer-focus:ring-2 peer-focus:ring-indigo-500 peer-focus:ring-offset-2' // 포커스 스타일
+                                                )}
+                                            >{pack.name}</span>
                                         </label>
                                     ))}
                                 </div>
                             </fieldset>
-                            
+
                             <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                 <legend className="font-bold text-lg mb-2">요청 시간대</legend>
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                     {helperOption.timearea.map((time) => (
                                         <label for={time.id} className="mb-2">
-                                            <input 
-                                            type="radio"
-                                            name="timeArea"
-                                            id={time.id}
-                                            className={classNames(
-                                                      'cursor-pointer focus:outline-none', // 기본 상태 스타일
-                                                      'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
-                                                      'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
-                                                    )}
-                                            value={time.name} checked={selectedTimeArea === time.name} onChange={handleTimeAreaChanged} style={{ display: 'none' }} />
-                                                <span
-                                                    className={classNames(
-                                                        'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50', // 기본 스타일
-                                                        'peer-checked:border-transparent peer-checked:bg-gray-400 peer-checked:text-white', // 체크된 상태에서 스타일 변경
-                                                        'peer-focus:ring-2 peer-focus:ring-indigo-500 peer-focus:ring-offset-2' // 포커스 스타일
-                                                    )}
-                                                >{time.name}</span>
+                                            <input
+                                                type="radio"
+                                                name="timeArea"
+                                                id={time.id}
+                                                className={classNames(
+                                                    'cursor-pointer focus:outline-none', // 기본 상태 스타일
+                                                    'peer hidden', // 체크박스 숨기기, peer 클래스를 통해 label과 연결
+                                                    'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50'
+                                                )}
+                                                value={time.name} checked={selectedTimeArea === time.name} onChange={handleTimeAreaChanged} style={{ display: 'none' }} />
+                                            <span
+                                                className={classNames(
+                                                    'flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50', // 기본 스타일
+                                                    'peer-checked:border-transparent peer-checked:bg-gray-400 peer-checked:text-white', // 체크된 상태에서 스타일 변경
+                                                    'peer-focus:ring-2 peer-focus:ring-indigo-500 peer-focus:ring-offset-2' // 포커스 스타일
+                                                )}
+                                            >{time.name}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -789,13 +798,13 @@ export default () => {
 
                             <div className="mt-5 sm:col-span-3">
                                 <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
-                                도착요청시간 :&nbsp;
-                                </label>   
-                                <div className="mt-2 grid grid-cols-1"> 
-                                    <select 
-                                    value={selectedTime} 
-                                    onChange={handleTimeChanged}
-                                    className="col-start-1 row-start-1 w-[100px] appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    도착요청시간 :&nbsp;
+                                </label>
+                                <div className="mt-2 grid grid-cols-1">
+                                    <select
+                                        value={selectedTime}
+                                        onChange={handleTimeChanged}
+                                        className="col-start-1 row-start-1 w-[100px] appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     >
                                         {times.map((time) => (
                                             <option key={time} value={time} >
@@ -812,32 +821,37 @@ export default () => {
                                 </label>
                                 <label htmlFor="startHouseSize" className="block text-sm/6 font-medium text-gray-900">
                                     출발
-                                </label> 
+                                </label>
                                 <input
-                                type="number" 
-                                value={s_house_size} 
-                                onChange={handleShouseSize}
-                                className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    type="number"
+                                    value={s_house_size}
+                                    onChange={handleShouseSize}
+                                    className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 ></input>
 
                                 <label htmlFor="arriHouseSize" className="block text-sm/6 font-medium text-gray-900">
                                     도착
                                 </label>
-                                <input 
-                                type="number" 
-                                value={a_house_size} 
-                                onChange={handleAhouseSize}
-                                className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                ></input> 
+                                <input
+                                    type="number"
+                                    value={a_house_size}
+                                    onChange={handleAhouseSize}
+                                    className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                ></input>
                             </div>
                         </div>
                     )}
                 </div>
-                <div>
-                    <button onClick={handleSubmit}>견적요청서 제출</button>
+
+                <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <button
+                        onClick={handleSubmit}
+                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        견적요청서 제출
+                    </button>
                 </div>
             </div>
-
         </>
     );
 }
