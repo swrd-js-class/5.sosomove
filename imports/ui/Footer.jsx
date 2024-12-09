@@ -3,12 +3,12 @@ import React from "react";
 export default () => {
 
   return (
-    <div class="flex items-end w-full h-1/8 bg-white">
+    <div class="flex items-end w-full h-1/10 bg-white">
       <footer class="w-full text-gray-700 bg-gray-100 body-font">
-        <div class="container flex flex-col flex-wrap px-5 py-12 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
-          <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
-            <p class="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
-              소소이사(주)
+        <div class="container flex flex-col flex-wrap px-3 py-6 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
+          <div class="flex-shrink-0 w-50 mx-auto text-center md:mx-0 md:text-left">
+            <p class="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start ">
+              <b>소소이사(주)</b>
             </p>
             <div class="mt-4">
               <span class="inline-flex justify-center mt-2 sm:ml-auto sm:mt-0 sm:justify-start">
@@ -33,21 +33,15 @@ export default () => {
                     <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
                   </svg>
                 </a>
-                <a class="ml-3 text-gray-500 cursor-pointer hover:text-gray-700">
-                  <svg fill="currentColor" stroke="currentColor" strokeLinecap="round"
-                    strokeLinejoin="round" strokeWidth="0" class="w-5 h-5" viewBox="0 0 24 24">
-                    <path stroke="none"
-                      d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
-                    </path>
-                    <circle cx="4" cy="4" r="2" stroke="none"></circle>
-                  </svg>
-                </a>
               </span>
             </div>
           </div>
-          <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-center md:pl-20 md:mt-0 md:text-left">
+          <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-center md:pl-20 md:mt-0 md:text-left text-sm">
             <div class="w-full px-4 lg:w-full md:w-1/2">
               <nav class="mb-10 list-none">
+                <li class="mt-3">
+                  <a class="text-gray-500">화물운송주선사업자: 제777호</a>
+                </li>
                 <li class="mt-3">
                   <a class="text-gray-500">사업자등록번호: 123-12-12345</a>
                 </li>

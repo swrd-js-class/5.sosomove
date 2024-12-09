@@ -4,7 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 //사업자회원 목록
 export default () => {
 
-  //페이징처리+모든 사업자 리스트
+  //모든 사업자 리스트
   const PageSize = 5;  //한 페이지당 갯수
   const [currentPage, setCurrentPage] = useState(1);
 

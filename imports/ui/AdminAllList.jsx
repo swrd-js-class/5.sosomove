@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 //전체회원 목록
 export default () => {
 
-  //페이징처리+모든회원 리스트
+  //모든회원 리스트
   const PageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -53,8 +53,8 @@ export default () => {
     <div>
       <h1>회원 조회</h1>
       <div className="gap-x-2 pb-5 flex items-center">
-        <input type="text" placeholder="회원이름 또는 사업장명" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="rounded-md bg-white/5 text-sm text-black outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500" />
-        <button onClick={searchUsers} className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">검색</button>
+        <input type="text" placeholder="회원이름 또는 사업장명" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="rounded-md bg-white text-sm text-black outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 mr-3" />
+        <button onClick={searchUsers} className="flex-none rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white">검색</button>
       </div>
       {paginatedUsers.length > 0 ? (
         <div className="max-w-full mx-auto">

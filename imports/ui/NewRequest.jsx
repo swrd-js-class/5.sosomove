@@ -537,33 +537,24 @@ export default () => {
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-
-        <div style={{ float: 'left' }} >
-                <div className="pl-2">
-                    <div className="hidden sm:block">
-                        <div aria-label="Tabs" className="flex space-x-4">
-                            <button
-                                onClick={() => handleTabClick('car')}
-                                className={classNames(
-                                    activeTab === 'car' ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                )}
-                            >
-                                용달_요청사항
-                            </button>
-                            <button
-                                onClick={() => handleTabClick('helper')}
-                                className={classNames(
-                                    activeTab === 'helper' ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                )}
-                            >
-                                도우미_요청사항
-                            </button>
-                        </div>
-                    </div>
+                용달 인부 추가 여부&nbsp;
+                <input type="checkbox" name="addWorker" onChange={() => handleAddworkerChange(isChecked)} />
+            </div>
+            <div style={{ float: 'right' }} >
+                <h2>이사물품 입력</h2>
+                <div>
+                    <button
+                        onClick={() => handleTabClick('car')}
+                        style={{ fontWeight: activeTab === 'car' ? 'bold' : 'normal' }}
+                    >
+                        용달_요청사항
+                    </button>
+                    <button
+                        onClick={() => handleTabClick('helper')}
+                        style={{ fontWeight: activeTab === 'helper' ? 'bold' : 'normal' }}
+                    >
+                        도우미_요청사항
+                    </button>
                 </div>
 
                 <div style={{ marginTop: '20px' }} >
@@ -842,16 +833,11 @@ export default () => {
                         </div>
                     )}
                 </div>
+                <div>
+                    <button onClick={handleSubmit}>견적요청서 제출</button>
+                </div>
+            </div>
 
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button 
-            onClick={handleSubmit}
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-                견적요청서 제출
-            </button>
-        </div>
-    </div>
-</>
+        </>
     );
 }

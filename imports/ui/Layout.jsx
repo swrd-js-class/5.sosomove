@@ -19,15 +19,16 @@ export default () => {
     setShowImage(false);
     navigate('/signup');
   };
-  // 페이지 로드 시 이미지가 보이도록 설정
+
+  // 페이지 로드 시 이미지 설정
   useEffect(() => {
+    // URL 경로가 '/'인 경우에만 이미지를 표시
     if (location.pathname === '/') {
-      setShowImage(true);  // 레이아웃 페이지로 돌아왔을 때만 이미지 표시
+      setShowImage(true);
     } else {
       setShowImage(false);
     }
   }, [location.pathname]);
-
 
   return (
     <div>
@@ -35,10 +36,10 @@ export default () => {
       {showImage && (
         <div>
           <div>
-            <img src="/img.jpg" alt="main_img" className="main-img" />
+            <img src="/img.jpg" alt="메인이미지" className="main-img" />
           </div>
           <div class="flex justify-center items-center">
-            <button class="bg-blue-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-20 rounded-xl hover:scale-110 transition duration-300" onClick={handleStartClick}>
+            <button class="bg-indigo-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-20 rounded-xl hover:scale-110 transition duration-300" onClick={handleStartClick}>
               소소이사 시작하기
             </button>
           </div>

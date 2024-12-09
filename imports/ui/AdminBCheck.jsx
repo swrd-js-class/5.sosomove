@@ -5,7 +5,7 @@ import { Files } from "/imports/api/Files.js";
 //사업자회원 승인여부 체크
 export default () => {
 
-  //페이징처리+'승인신청 중'인 사업자 리스트
+  //승인신청 중 사업자 리스트
   const PageSize = 5;  //한 페이지당 갯수 조정
   const [currentPage, setCurrentPage] = useState(1);
   const UsersAll = useTracker(() => {
