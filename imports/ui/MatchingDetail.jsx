@@ -34,11 +34,10 @@ export default () => {
 
       const fetchBizInfo = async () => {
 
-        const promises = matchingList.map(async (matching, index) => {
+        const promises = matchingList.map(async (matching) => {
           console.log("map 시작");
 
           let bizIdList = [];
-          let main_index = index;
 
           if (matching.reqCar.car_confirm_id !== null) {
             bizIdList = [...bizIdList, matching.reqCar.car_confirm_id];
@@ -63,7 +62,7 @@ export default () => {
                   name: result.profile.name,
                   phone: result.profile.phone,
                   bizId: bizId,
-                  keyIndex : main_index+index
+                  keyIndex : matching._id+index.toString()
                 };
 
                 bizInfo = [...bizInfo, data];
