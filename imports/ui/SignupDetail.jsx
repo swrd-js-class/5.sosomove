@@ -40,12 +40,12 @@ export default () => {
     const password = refPassword.current.value;
     const name = refUsername.current.value;
     const phone = refPhone.current.value;
-    const ceo_name = refCeo_name.current.value;
-    const address = refAddress.current.value;
-    const business_number = refBusiness_number.current.value;
     //사업자회원만 company에 추가 정보
     let company = null;
     if (userType === '사업자') {
+      const ceo_name = refCeo_name.current.value;
+      const address = refAddress.current.value;
+      const business_number = refBusiness_number.current.value;
       company = {
         ceo_name,
         address,

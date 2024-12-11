@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Files } from "/imports/api/Files.js";
-import { CollectionRequest, CollectionEstimate } from "/imports/api/collections";
+import { CollectionRequest, CollectionEstimate, Notifications } from "/imports/api/collections";
 import "/lib/utils.js";
 import { Accounts } from "meteor/accounts-base";
 import fetch from 'node-fetch';
@@ -8,6 +8,8 @@ import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
 
 
+
+///////////////////희원///////////////////
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
@@ -65,6 +67,24 @@ Meteor.methods({
     return '견적서가 성공적으로 삭제되었습니다.';
   }
 });
+
+Meteor.publish('notifications', function (businessId) {
+  if (!businessId) {
+    throw new Meteor.Error('missing-business-id', '사업자 ID가 필요합니다.');
+  }
+  return Notifications.find({ businessId }, { sort: { createdAt: -1 } });
+});
+
+Meteor.methods({
+  notifyStatusChange({ businessId, message }) {
+    Notifications.insert({
+      businessId,
+      message,
+      createdAt: new Date(),
+    });
+  },
+});
+///////////////////희원 끝///////////////////
 
 ///////////////////////더미데이터 시작////////////////////////
 Meteor.startup(() => {
@@ -231,10 +251,9 @@ Meteor.startup(() => {
 ////////////////////////더미데이터 끝///////////////////////
 
 ////효정 시작////
-
 //azure 컴퓨터비전
-const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
-const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
+const subscriptionKey = process.env.AZURE_CV_KEY;
+const endpoint = process.env.AZURE_CV_URL;
 
 const upload = multer();
 WebApp.connectHandlers.use('/ttt', (req, res, next) => {
@@ -288,8 +307,9 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
 //azure GPT
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
-    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview`, {
+    const apiKey = process.env.AZURE_API_KEY;
+    const url = process.env.AZURE_API_URL;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -474,7 +494,7 @@ Meteor.methods({
     return null;
   },
 
-  //개인-용달/헬퍼업체 컨펌
+  //개인-사업자 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
     try {
       const query = {
@@ -505,13 +525,13 @@ Meteor.methods({
     const query = {
       'request_id': requestId,
       'business_id': businessId
-    }
+    };
 
     const update = {
       $set: {
         'status': matchingFlag
       }
-    }
+    };
 
     // CollectionRequest.update(query, update);
     CollectionEstimate.update(query, update);
@@ -647,6 +667,13 @@ Meteor.methods({
       };
 
       const estupdateresult = CollectionEstimate.update(estquery, estupdate);
+
+      //car, hel 매칭 취소 알림
+      Notifications.insert({
+        businessId: bizId,
+        message: '견적 매칭이 취소되었습니다!',
+        createdAt: new Date(),
+      });
 
       if (estupdateresult === 0) {
         throw new Error("estimate 컬렉션 업데이트 중 오류 발생");

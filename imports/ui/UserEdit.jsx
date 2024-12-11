@@ -8,6 +8,7 @@ export default () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
     const user = Meteor.user();
     if (user) {
@@ -15,6 +16,7 @@ export default () => {
       setPhone(user.profile.phone);
     }
   }, []);
+
   //회원정보 수정 버튼
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ export default () => {
       });
     }
   };
+
   //회원탈퇴 버튼
   const deleteAccount = () => {
     if (window.confirm('정말 탈퇴하시겠습니까?')) {
