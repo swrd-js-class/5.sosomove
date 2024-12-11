@@ -376,10 +376,10 @@ Meteor.methods({
     return Meteor.users.remove(targetUser._id);
   },
   //가입승인
-  'users.update'(_id, confirm) {
+  'users.update'(_id) {
     Meteor.users.update(_id, {
       $set: {
-        'profile.company.confirm': confirm,
+        'profile.company.confirm': true,
       },
     });
   },

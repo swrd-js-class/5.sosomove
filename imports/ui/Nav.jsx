@@ -65,11 +65,14 @@ export default ({ onNavClick }) => {
                   <Link to="/mypage">마이페이지</Link>
                 </li>
               )}
-              {(user && user.profile && user.profile.type === '용달' || user && user.profile && user.profile.type === '헬퍼') && (
-                <li className="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold">
-                  <Link to="/business">마이페이지</Link>
-                </li>
-              )}
+              {(
+                (user && user.profile && user.profile.type === '용달' && user.profile.company.confirm == true) ||
+                (user && user.profile && user.profile.type === '헬퍼' && user.profile.company.confirm == true)
+              ) && (
+                  <li className="py-2 lg:py-0 text-gray-700 hover:text-black hover:font-bold">
+                    <Link to="/business">마이페이지</Link>
+                  </li>
+                )}
               <li class="relative group">
                 <span class="cursor-pointer text-gray-700 hover:text-black hover:font-bold">이사도우미AI</span>
                 <ul class="absolute left-0 opacity-0 invisible mt-2 space-y-1 bg-gray-200 text-black border rounded-lg group-hover:opacity-100 group-hover:visible group-hover:block transition-all duration-[300ms] ease-in-out">
