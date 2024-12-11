@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Files } from "/imports/api/Files.js";
-import { CollectionRequest, CollectionEstimate } from "/imports/api/collections";
+import { CollectionRequest, CollectionEstimate, Notifications } from "/imports/api/collections";
 import "/lib/utils.js";
 import { Accounts } from "meteor/accounts-base";
 import fetch from 'node-fetch';
 import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
 
-
+///////////////////희원///////////////////
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
@@ -65,6 +65,24 @@ Meteor.methods({
     return '견적서가 성공적으로 삭제되었습니다.';
   }
 });
+
+Meteor.publish('notifications', function (businessId) {
+  if (!businessId) {
+    throw new Meteor.Error('missing-business-id', '사업자 ID가 필요합니다.');
+  }
+  return Notifications.find({ businessId }, { sort: { createdAt: -1 } });
+});
+
+Meteor.methods({
+  notifyStatusChange({ businessId, message }) {
+    Notifications.insert({
+      businessId,
+      message,
+      createdAt: new Date(),
+    });
+  },
+});
+///////////////////희원 끝///////////////////
 
 ///////////////////////더미데이터 시작////////////////////////
 Meteor.startup(() => {
@@ -474,12 +492,11 @@ Meteor.methods({
     return null;
   },
 
-  //개인-용달/헬퍼업체 컨펌
+  //개인-사업자 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
-    try {
-      const query = {
-        '_id': requestId
-      }
+    const query = {
+      '_id': requestId
+    }
 
       const update = {
         $set: {
@@ -505,13 +522,13 @@ Meteor.methods({
     const query = {
       'request_id': requestId,
       'business_id': businessId
-    }
+    };
 
     const update = {
       $set: {
         'status': matchingFlag
       }
-    }
+    };
 
     CollectionRequest.update(query, update);
 
@@ -520,16 +537,29 @@ Meteor.methods({
         { business_id: car_businessId, request_id: requestId },
         { $set: { status: 2 } } // 2 - 매칭
       );
+      
+      //car 매칭 알림
+      Notifications.insert({
+        businessId: car_businessId,
+        message: `요청 ID ${requestId}와 매칭되었습니다.`, // 알림 메시지
+        createdAt: new Date(),
+      });
     }
-
+  
     // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
     if (hel_businessId) {
       CollectionEstimate.update(
         { business_id: hel_businessId, request_id: requestId },
         { $set: { status: 2 } } // 2 - 매칭
       );
+
+      //hel 매칭 알림
+      Notifications.insert({
+        businessId: hel_businessId,
+        message: `견적이 매칭되었습니다.`, // 알림 메시지
+        createdAt: new Date(),
+      });
     }
-    CollectionEstimate.update(query, update);
   },
 
   //개인-신규 견적요청서 저장
@@ -646,6 +676,13 @@ Meteor.methods({
       };
 
       const estupdateresult = CollectionEstimate.update(estquery, estupdate);
+
+      //car, hel 매칭 취소 알림
+      Notifications.insert({
+        businessId: bizId,
+        message: '견적 매칭이 취소되었습니다!',
+        createdAt: new Date(),
+      });
 
       if (estupdateresult === 0) {
         throw new Error("estimate 컬렉션 업데이트 중 오류 발생");

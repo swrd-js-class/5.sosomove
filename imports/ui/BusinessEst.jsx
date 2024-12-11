@@ -82,63 +82,67 @@ export default () => {
     };
 
     return (
-        <div className="px-6 py-8 max-w-2xl mx-auto bg-white shadow-md rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            견적서 작성 페이지
-          </h2>
-          <div className="mb-6">
-            <p className="text-sm text-gray-700">
-              <strong>요청자 이름:</strong> {currentRequest.user_name}
-            </p>
-            <p className="text-sm text-gray-700">
-              <strong>사업체명:</strong> {currentUser?.profile?.name}
-            </p>
-            <p className="text-sm text-gray-700">
-              <strong>사업자 유형:</strong> {business_type}
-            </p>
-          </div>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label
-                htmlFor="estimateMoney"
-                className="block text-sm font-medium text-gray-700"
-              >
-                견적 비용
-              </label>
-              <input
-                type="number"
-                id="estimateMoney"
-                value={estimateMoney}
-                onChange={handleEstimateMoney}
-                placeholder="견적 비용 작성"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
+        <>
+            <div className="mt-6 px-4 sm:px-0">
+                <h3 className="ml-4 text-xl leading-7 font-semibold text-gray-900">견적서 작성</h3>
             </div>
-            <div>
-              <label
-                htmlFor="estimate"
-                className="block text-sm font-medium text-gray-700"
-              >
-                견적 상세 내용
-              </label>
-              <input
-                type="text"
-                id="estimate"
-                value={estimate}
-                onChange={handleEstimate}
-                placeholder="견적 상세 내용 작성"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
+            <div className="mt-6 border-t border-gray-100 w-full">
+                <dl className="divide-y divide-gray-100">
+                    {/* 요청 정보 섹션 */}
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="ml-4 text-sm font-medium text-gray-900">요청자 이름</dt>
+                        <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{currentRequest.user_name}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="ml-4 text-sm font-medium text-gray-900">사업체명</dt>
+                        <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{currentUser?.profile?.name}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="ml-4 text-sm font-medium text-gray-900">사업자 유형</dt>
+                        <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{business_type}</dd>
+                    </div>
+
+                    {/* 견적서 작성 폼 */}
+                    <form onSubmit={handleSubmit}>
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b border-gray-100">
+                            <dt className="ml-4 text-sm font-medium text-gray-900">견적 비용</dt>
+                            <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+                                <input
+                                    type="number"
+                                    id="estimateMoney"
+                                    value={estimateMoney}
+                                    onChange={handleEstimateMoney}
+                                    placeholder="견적 비용을 입력하세요"
+                                    className="w-80 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                />
+                            </dd>
+                        </div>
+
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="ml-4 text-sm font-medium text-gray-900">견적 상세 내용</dt>
+                            <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+                                <textarea
+                                    id="estimate"
+                                    value={estimate}
+                                    onChange={handleEstimate}
+                                    placeholder="견적 상세 내용을 입력하세요"
+                                    rows="4"
+                                    className="w-3/4 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                />
+                            </dd>
+                        </div>
+
+                        <div className="text-center mt-12 mb-12">
+                            <button
+                                type="submit"
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+                            >
+                                견적서 제출
+                            </button>
+                        </div>
+                    </form>
+                </dl>
             </div>
-            <div>
-              <button
-                type="submit"
-                className="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                제출
-              </button>
-            </div>
-          </form>
-        </div>
-      );
-    }
+        </>
+    );
+}

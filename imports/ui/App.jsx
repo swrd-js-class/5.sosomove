@@ -26,6 +26,7 @@ import BusinessEdit from "./BusinessEdit.jsx";
 import Layout from "./Layout.jsx";
 import BusinessMypageNavbar from './BusinessMypageNavbar.jsx';
 import Business from "./Business.jsx";
+import BusinessNotification from "./BusinessNotification.jsx";
 import Mypage from "./Mypage.jsx";
 import AdminAllList from "./AdminAllList.jsx";
 import Ttt from "./Ttt.jsx";
