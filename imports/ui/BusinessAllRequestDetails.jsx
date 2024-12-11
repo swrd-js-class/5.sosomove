@@ -53,10 +53,15 @@ export default () => {
               </div>
 
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="ml-4 text-sm font-medium text-gray-900">엘리베이터 여부</dt>
+                <dt className="ml-4 text-sm font-medium text-gray-900">출발지 E/V</dt>
                 <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
-                  출발지: {request.reqCar.str_addr_elv ? '있음' : '없음'}, 도착지: {request.reqCar.arr_addr_elv ? '있음' : '없음'}
-                </dd>
+                {request.reqCar.str_addr_elv ? '있음' : '없음'}</dd>
+              </div>
+
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="ml-4 text-sm font-medium text-gray-900">도착지 E/V</dt>
+                <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+                {request.reqCar.arr_addr_elv ? '있음' : '없음'}</dd>
               </div>
 
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -135,7 +140,7 @@ export default () => {
             <div className="text-center mt-12 mb-12">
               <Link
                 to={`/business/businessestimate/${id}`}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-colors duration-200"
               >
                 견적서 작성
               </Link>
