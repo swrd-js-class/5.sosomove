@@ -14,7 +14,7 @@ export default () => {
       </div>
       <nav class="flex flex-col gap-1 min-w-[240px] p-4 font-sans text-base font-normal text-gray-700">
         <ul>
-          <li>
+          <li class="mb-3">
             <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none">
               <div class="grid place-items-center mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -24,7 +24,7 @@ export default () => {
               <Link to="/admin/adminbcheck" >사업자회원 승인여부</Link>
             </div>
           </li>
-          <li>
+          <li class="mb-3">
             <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none">
               <div class="grid place-items-center mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
@@ -34,7 +34,7 @@ export default () => {
               <Link to="/admin/adminblist" >사업자회원 목록</Link>
             </div>
           </li>
-          <li>
+          <li class="mb-3">
             <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none">
               <div class="grid place-items-center mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
@@ -44,7 +44,7 @@ export default () => {
               <Link to="/admin/adminAllList" >전체회원 목록</Link>
             </div>
           </li>
-          <li>
+          <li class="mb-3">
             <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none">
               <div class="grid place-items-center mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">

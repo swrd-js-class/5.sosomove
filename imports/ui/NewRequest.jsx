@@ -368,15 +368,17 @@ export default () => {
     }
 
     return (
-        <>
+        <div class="ml-5 mt-5">
             <div style={{ float: 'left' }}>
                 <form>
                     <div className="space-y-8 pl-2">
                         <div className="border-b border-gray-900/10 pb-12">
-                            <h2 className="text-base/7 font-semibold text-gray-900">신규 견적 신청서</h2>
-                            <p className="mt-1 text-sm/6 text-gray-600">
-                                견적요청서를 작성하여 예상 견적서를 받을 수 있습니다.
-                            </p>
+                            <div>
+                                <h2 className="text-base/7 font-semibold text-gray-900">신규 견적 신청서</h2>
+                                <p className="mt-1 text-sm/4 text-gray-600 mb-3">
+                                    견적요청서를 작성하여 제출하세요. 이사에 필요한 예상 견적을 받을 수 있습니다.
+                                </p>
+                            </div>
                             <div>
                                 <button
                                     type="button"
@@ -414,7 +416,7 @@ export default () => {
                                             출발지
                                         </p>
                                     </label>
-                                    <div class="flex items-center space-x-2">
+                                    <div class="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={startPostcode}
@@ -430,7 +432,7 @@ export default () => {
                                         >우편번호 찾기</button>
                                     </div>
 
-                                    <div class="flex items-center space-x-2">
+                                    <div class="flex items-center space-x-2 ">
                                         <input
                                             type="text"
                                             value={startAddress}
@@ -456,7 +458,7 @@ export default () => {
                                             도착지
                                         </p>
                                     </label>
-                                    <div class="flex items-center space-x-2">
+                                    <div class="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={arrPostcode}
@@ -543,36 +545,36 @@ export default () => {
 
             <div style={{ float: 'left' }} >
                 <div className="pl-2 mb-5 bg-gray-100">
-                    아래 탭을 선택하여 용달 견적요청서와 헬퍼 견적요청서를 각각 작성하세요!
+                    아래 탭을 선택하여 용달 견적요청서와 도우미 견적요청서를 각각 작성하세요!
                 </div>
-                <div className="pl-2">
-                    <div className="hidden sm:block">
-                        <div aria-label="Tabs" className="flex space-x-4">
-                            <button
-                                onClick={() => handleTabClick('car')}
-                                className={classNames(
-                                    activeTab === 'car' ? 'bg-indigo-100 text-gray-700 border-2 ' : 'text-gray-500 hover:text-gray-700 border-2 ',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                )}
-                            >
-                                용달_요청사항
-                            </button>
-                            <button
-                                onClick={() => handleTabClick('helper')}
-                                className={classNames(
-                                    activeTab === 'helper' ? 'bg-pink-100 text-gray-700 border-2 ' : 'text-gray-500 hover:text-gray-700 border-2 ',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                )}
-                            >
-                                도우미_요청사항
-                            </button>
-                        </div>
+
+                <div className="hidden sm:block">
+                    <div aria-label="Tabs" className="flex">
+                        <button
+                            onClick={() => handleTabClick('car')}
+                            className={classNames(
+                                activeTab === 'car' ? 'bg-indigo-200 text-gray-700 border border-black border-b-0 ' : 'text-gray-500 hover:text-gray-700 border border-black border-b-0 ',
+                                'px-3 py-2 text-sm font-medium',
+                            )}
+                        >
+                            용달_요청사항
+                        </button>
+                        <button
+                            onClick={() => handleTabClick('helper')}
+                            className={classNames(
+                                activeTab === 'helper' ? 'bg-pink-200 text-gray-700 border border-black border-b-0 ' : 'text-gray-500 hover:text-gray-700 border border-black border-b-0 ',
+                                'px-3 py-2 text-sm font-medium',
+                            )}
+                        >
+                            도우미_요청사항
+                        </button>
                     </div>
                 </div>
 
-                <div style={{ marginTop: '20px' }} >
+
+                <div>
                     {activeTab === 'car' ? (
-                        <div className="pl-2">
+                        <div className="p-6 border border-black">
                             <div>
                                 <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                     <legend className="font-bold text-lg mb-2">가전 제품</legend>
@@ -745,7 +747,7 @@ export default () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="pl-2">
+                        <div className="p-6 border border-black">
                             <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                 <legend className="font-bold text-lg mb-2">요청사항</legend>
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -856,6 +858,6 @@ export default () => {
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

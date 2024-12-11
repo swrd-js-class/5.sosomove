@@ -5,18 +5,7 @@ import { Link } from 'react-router-dom';
 import "/lib/utils.js";
 
 export default () => {
-    //~님 환영합니다
-    const [user, setUser] = useState('');
     const userId = Meteor.userId();
-    Meteor.call('userSearch', { param: userId }, (err, result) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        setUser(result);
-    })
-
-    //   const userId = Meteor.userId();
 
     //request테이블에서 견적서내용 리스트 뽑기
     const [requestList, setRequestList] = useState([]);
@@ -73,8 +62,7 @@ export default () => {
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="sm:flex sm:items-center">
                     <div className="sm:flex-auto">
-                        <p>{user}님 환영합니다!</p>
-                        <h1 className="mt-6 text-base font-semibold text-gray-900">내 견적 요청서</h1>
+                        <h1 className="mt-6 text-base font-semibold text-gray-900">내가 작성한 견적요청서 전체 목록</h1>
                     </div>
                     <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                         <Link to={'/mypage/newRequest'}>
@@ -92,12 +80,12 @@ export default () => {
                                     <thead className="bg-gray-50">
                                         <tr>
                                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">작성일</th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">신청자</th>
+                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">신청인</th>
                                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이삿날</th>
                                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">출발지</th>
                                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">도착지</th>
-                                            <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                                <span className="sr-only">상세보기</span>
+                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                비고
                                             </th>
                                         </tr>
                                     </thead>
@@ -109,9 +97,9 @@ export default () => {
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.move_date.toStringYMD()}</td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.start_address}</td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.arrive_address}</td>
-                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                    <Link to={`/mypage/requestdetail/${request._id}`} className="text-indigo-600 hover:text-indigo-900">
-                                                        상세보기
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    <Link to={`/mypage/requestdetail/${request._id}`} className="text-indigo-600 hover:text-indigo-900 hover:underline">
+                                                        상세 내용
                                                     </Link>
                                                 </td>
                                             </tr>

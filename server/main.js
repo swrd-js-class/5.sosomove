@@ -364,7 +364,7 @@ Meteor.methods({
   },
   //전체회원 검색
   'users.list'() {
-    return Meteor.users.find().fetch();
+    return Meteor.users.find({}, { sort: { createdAt: -1 } }).fetch();
   },
   //전체회원 중 서치하고 싶은 회원 검색
   'users.search'(query) {
@@ -496,10 +496,10 @@ Meteor.methods({
 
   //개인-사업자 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
-    try{
-    const query = {
-      '_id': requestId
-    }
+    try {
+      const query = {
+        '_id': requestId
+      }
 
       const update = {
         $set: {
@@ -540,7 +540,7 @@ Meteor.methods({
         { business_id: car_businessId, request_id: requestId },
         { $set: { status: 2 } } // 2 - 매칭
       );
-      
+
       //car 매칭 알림
       Notifications.insert({
         businessId: car_businessId,
@@ -548,7 +548,7 @@ Meteor.methods({
         createdAt: new Date(),
       });
     }
-  
+
     // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
     if (hel_businessId) {
       CollectionEstimate.update(
