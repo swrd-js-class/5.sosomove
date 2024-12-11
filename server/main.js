@@ -496,10 +496,10 @@ Meteor.methods({
 
   //개인-사업자 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
-    try{
-    const query = {
-      '_id': requestId
-    }
+    try {
+      const query = {
+        '_id': requestId
+      }
 
       const update = {
         $set: {
@@ -533,36 +533,37 @@ Meteor.methods({
       }
     };
 
-    CollectionRequest.update(query, update);
+    // CollectionRequest.update(query, update);
+    CollectionEstimate.update(query, update);
 
-    if (car_businessId) {
-      CollectionEstimate.update(
-        { business_id: car_businessId, request_id: requestId },
-        { $set: { status: 2 } } // 2 - 매칭
-      );
-      
-      //car 매칭 알림
-      Notifications.insert({
-        businessId: car_businessId,
-        message: `요청 ID ${requestId}와 매칭되었습니다.`, // 알림 메시지
-        createdAt: new Date(),
-      });
-    }
-  
-    // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
-    if (hel_businessId) {
-      CollectionEstimate.update(
-        { business_id: hel_businessId, request_id: requestId },
-        { $set: { status: 2 } } // 2 - 매칭
-      );
+    // if (car_businessId) {
+    //   CollectionEstimate.update(
+    //     { business_id: car_businessId, request_id: requestId },
+    //     { $set: { status: 2 } } // 2 - 매칭
+    //   );
 
-      //hel 매칭 알림
-      Notifications.insert({
-        businessId: hel_businessId,
-        message: `견적이 매칭되었습니다.`, // 알림 메시지
-        createdAt: new Date(),
-      });
-    }
+    //   //car 매칭 알림
+    //   Notifications.insert({
+    //     businessId: car_businessId,
+    //     message: `요청 ID ${requestId}와 매칭되었습니다.`, // 알림 메시지
+    //     createdAt: new Date(),
+    //   });
+    // }
+
+    // // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
+    // if (hel_businessId) {
+    //   CollectionEstimate.update(
+    //     { business_id: hel_businessId, request_id: requestId },
+    //     { $set: { status: 2 } } // 2 - 매칭
+    //   );
+
+    //   //hel 매칭 알림
+    //   Notifications.insert({
+    //     businessId: hel_businessId,
+    //     message: `견적이 매칭되었습니다.`, // 알림 메시지
+    //     createdAt: new Date(),
+    //   });
+    // }
   },
 
   //개인-신규 견적요청서 저장

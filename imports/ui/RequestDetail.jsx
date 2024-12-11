@@ -79,7 +79,7 @@ export default () => {
 
         if (bizIdList.length > 0) {
           bizIdList.map((bizId) => {
-            Meteor.call('updateEstMatchingFlag', { requestId: id, businessId: bizId, matchingFlag: '2' }, (error, result) => {
+            Meteor.call('updateEstMatchingFlag', { requestId: id, businessId: bizId, matchingFlag: 2 }, (error, result) => {
               if (error) {
                 console.log(error);
                 return;
