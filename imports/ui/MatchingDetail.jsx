@@ -62,7 +62,7 @@ export default () => {
                   name: result.profile.name,
                   phone: result.profile.phone,
                   bizId: bizId,
-                  keyIndex : matching._id+index.toString()
+                  keyIndex: matching._id + index.toString()
                 };
 
                 bizInfo = [...bizInfo, data];
@@ -90,7 +90,7 @@ export default () => {
 
   //체크박스 체크 시
   const handleCheckBiz = (requestId, type, bizId, keyIndex) => {
-    const delBizData = { requestId: requestId, type: type, bizId: bizId, delIndex : keyIndex };
+    const delBizData = { requestId: requestId, type: type, bizId: bizId, delIndex: keyIndex };
 
     setDelReqConfirmBizId((prevSelectedBizId) => {
       const existingIndex = prevSelectedBizId.findIndex((item) => item.delIndex === keyIndex);
@@ -186,7 +186,6 @@ export default () => {
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         연락처
                       </th>
-                      <th>keyIndex</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
@@ -205,7 +204,6 @@ export default () => {
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.arrive}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.name}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.phone}</td>
-                        <td>{bizInfo.keyIndex}</td>
                       </tr>
                     ))}
                   </tbody>
