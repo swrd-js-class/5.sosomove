@@ -513,23 +513,24 @@ Meteor.methods({
       }
     }
 
-    CollectionRequest.update(query, update);
-
-    if (car_businessId) {
-      CollectionEstimate.update(
-        { business_id: car_businessId, request_id: requestId },
-        { $set: { status: 2 } } // 2 - 매칭
-      );
-    }
-
-    // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
-    if (hel_businessId) {
-      CollectionEstimate.update(
-        { business_id: hel_businessId, request_id: requestId },
-        { $set: { status: 2 } } // 2 - 매칭
-      );
-    }
+    // CollectionRequest.update(query, update);
     CollectionEstimate.update(query, update);
+
+    // if (car_businessId) {
+    //   CollectionEstimate.update(
+    //     { business_id: car_businessId, request_id: requestId },
+    //     { $set: { status: 2 } } // 2 - 매칭
+    //   );
+    // }
+
+    // // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
+    // if (hel_businessId) {
+    //   CollectionEstimate.update(
+    //     { business_id: hel_businessId, request_id: requestId },
+    //     { $set: { status: 2 } } // 2 - 매칭
+    //   );
+    // }
+    // CollectionEstimate.update(query, update);
   },
 
   //개인-신규 견적요청서 저장
