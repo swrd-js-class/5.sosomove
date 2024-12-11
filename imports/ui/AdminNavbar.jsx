@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //관리자페이지 사이드바
 export default () => {
   return (
-    <div class="relative flex flex-col bg-clip-border text-gray-700 h-[100vh] w-full max-w-[20rem] p-4 border bg-white">
+    <div class="relative flex flex-col bg-clip-border text-gray-700 h-full w-full max-w-[20rem] p-4 border">
       <div class="mb-2 p-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 mb-3">
           <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />

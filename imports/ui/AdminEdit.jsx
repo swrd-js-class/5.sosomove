@@ -38,29 +38,26 @@ export default () => {
   };
 
   return (
-
-    <div>
-      <div class="flex bg-gray-100">
-        <div class="bg-white bg-clip-border py-6 px-10 max-w-lg border w-full max-w-[20rem]">
-          <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
-          <form onSubmit={handleSubmit}>
-            <div class="space-y-4 mt-6">
-              <div class="w-full">
-                <h2>비밀번호 재설정</h2>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
-              <div class="w-full">
-                <h2>이름</h2>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
-              <div class="w-full">
-                <h2>핸드폰 번호</h2>
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
-              </div>
+    <div class="flex h-screen border">
+      <div class="bg-white py-6 px-10 border">
+        <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
+        <form onSubmit={handleSubmit}>
+          <div class="space-y-4 mt-6">
+            <div class="w-full">
+              <h2>비밀번호 재설정</h2>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50" />
             </div>
-            <button type="submit" class="w-full px-4 py-2 mt-5 bg-indigo-500 text-white rounded-md font-semibold tracking-tight mb-10">수정</button>
-          </form>
-        </div>
+            <div class="w-full">
+              <h2>이름</h2>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50" />
+            </div>
+            <div class="w-full">
+              <h2>핸드폰 번호</h2>
+              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50" />
+            </div>
+          </div>
+          <button type="submit" class="w-full px-4 py-2 mt-5 bg-indigo-500 text-white rounded-md font-semibold tracking-tight mb-10">수정</button>
+        </form>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ export default () => {
 
   return (
 
-    <div>
+    <div class="mt-6 ml-6 mr-6">
       <h1>사업자회원 목록</h1>
       <div className="max-w-full mx-auto">
         <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
