@@ -8,6 +8,7 @@ import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
 
 
+
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
@@ -231,10 +232,9 @@ Meteor.startup(() => {
 ////////////////////////더미데이터 끝///////////////////////
 
 ////효정 시작////
-
 //azure 컴퓨터비전
-const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
-const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
+const subscriptionKey = process.env.AZURE_CV_KEY;
+const endpoint = process.env.AZURE_CV_URL;
 
 const upload = multer();
 WebApp.connectHandlers.use('/ttt', (req, res, next) => {
@@ -288,8 +288,9 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
 //azure GPT
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
-    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview`, {
+    const apiKey = process.env.AZURE_API_KEY;
+    const url = process.env.AZURE_API_URL;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
