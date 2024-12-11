@@ -494,6 +494,7 @@ Meteor.methods({
 
   //개인-사업자 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
+    try{
     const query = {
       '_id': requestId
     }
