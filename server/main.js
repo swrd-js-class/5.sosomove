@@ -500,10 +500,6 @@ Meteor.methods({
       const query = {
         '_id': requestId
       }
-    try {
-      const query = {
-        '_id': requestId
-      }
 
       const update = {
         $set: {
