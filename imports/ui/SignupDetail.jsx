@@ -40,9 +40,9 @@ export default () => {
     const password = refPassword.current.value;
     const name = refUsername.current.value;
     const phone = refPhone.current.value;
-    let ceo_name = "";
-    let address = "";
-    let business_number = "";
+    let ceo_name = '';
+    let address = '';
+    let business_number = '';
 
     //사업자회원만 company에 추가 정보
     let company = null;

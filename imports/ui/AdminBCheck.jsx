@@ -24,7 +24,7 @@ export default () => {
 
   //승인버튼 눌러서 가입 승인
   const SignupConfirm = (_id) => {
-    Meteor.call('users.update', _id, true, (error, result) => {
+    Meteor.call('users.update', _id, (error, result) => {
       if (error) {
         console.error('Error:', error);
         alert('업데이트 실패');
