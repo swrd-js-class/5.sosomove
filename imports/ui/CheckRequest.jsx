@@ -20,23 +20,12 @@ export default () => {
 
     //request테이블에서 견적서내용 리스트 뽑기
     const [requestList, setRequestList] = useState([]);
-    //request테이블에서 견적서내용 리스트 뽑기
-    const [requestList, setRequestList] = useState([]);
 
     //알림
     const [reservations, setReservations] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
-    //알림
-    const [reservations, setReservations] = useState([]);
-    const [showAlert, setShowAlert] = useState(false);
 
-    useEffect(() => {
-        Meteor.call('requestListCall', { param: userId }, (err, result) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            setRequestList(result);
+
     useEffect(() => {
         Meteor.call('requestListCall', { param: userId }, (err, result) => {
             if (err) {
@@ -49,16 +38,7 @@ export default () => {
             checkUpcomingReservations(result);
         });
     }, []);
-            // 예약 내역에서 '오늘로부터 7일 이내' 날짜가 있는지 체크
-            checkUpcomingReservations(result);
-        });
-    }, []);
 
-    // '오늘로부터 7일 이내'인 예약을 체크하는 함수
-    const checkUpcomingReservations = (reservations) => {
-        const today = new Date();
-        const sevenDaysLater = new Date(today);
-        sevenDaysLater.setDate(today.getDate() + 7);
     // '오늘로부터 7일 이내'인 예약을 체크하는 함수
     const checkUpcomingReservations = (reservations) => {
         const today = new Date();
@@ -73,19 +53,7 @@ export default () => {
             }
         }
     };
-        for (const reservation of reservations) {
-            const reservationDate = new Date(reservation.move_date); // 예약 날짜가 'date' 필드에 있다고 가정
-            if (reservationDate >= today && reservationDate <= sevenDaysLater) {
-                setShowAlert(true);
-                break;  // 하나라도 찾으면 알림을 띄우고 종료
-            }
-        }
-    };
 
-    // 알림 닫기
-    const closeAlert = () => {
-        setShowAlert(false);
-    };
     // 알림 닫기
     const closeAlert = () => {
         setShowAlert(false);
