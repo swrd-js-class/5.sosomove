@@ -95,7 +95,8 @@ const usernameList = {
     'qwer111@gmail.com',
     'soso777@outlook.com',
     'qqqqq5@naver.com',
-    'tititi@gmail.com'
+    'tititi@gmail.com',
+    'zipzip@gmail.com'
   ],
   caruser: [
     'john.doe1@example.com',
@@ -186,7 +187,7 @@ const businessNumber = [
   '890-12-34567',
   '901-23-45678',
   '012-34-56789'
-]
+];
 
 const moveDate = [
   new Date('2024-12-23'),
@@ -200,7 +201,41 @@ const moveDate = [
   new Date('2025-01-08'),
   new Date('2025-02-15'),
   new Date('2025-02-13')
-]
+];
+
+const appliances = [
+  '냉장고',
+  '김치냉장고',
+  '세탁기',
+  '건조기',
+  'TV모니터',
+  '에어컨',
+  '의류관리기',
+  '안마의자',
+  '전자레인지',
+  '가스레인지',
+  '인덕션',
+  '공기청정기',
+  '청소기',
+  '정수기',
+  '비데',
+  'PC데스크탑',
+];
+
+const furniture = [
+  '침대메트리스',
+  '침대프레임',
+  '책상',
+  '의자',
+  '소파',
+  '테이블',
+  '수납장',
+  '서랍장',
+  '책장',
+  '옷장',
+  '화장대',
+  '헹거'
+];
 
 ///////////////////////더미데이터 시작////////////////////////
 Meteor.startup(() => {
@@ -221,7 +256,7 @@ Meteor.startup(() => {
   if (Meteor.users.find({ 'profile.type': "일반" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
       Accounts.createUser({
-        username: usernameList.username.random(),
+        username: usernameList.username[i - 1],
         password: "1111",
         profile: {
           type: "일반",
@@ -236,7 +271,7 @@ Meteor.startup(() => {
   if (Meteor.users.find({ 'profile.type': "용달" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
       Accounts.createUser({
-        username: usernameList.caruser.random(),
+        username: usernameList.caruser[i - 1],
         password: "1111",
         profile: {
           type: "용달",
@@ -257,7 +292,7 @@ Meteor.startup(() => {
   if (Meteor.users.find({ 'profile.type': "헬퍼" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
       Accounts.createUser({
-        username: usernameList.helper.random(),
+        username: usernameList.helper[i - 1],
         password: "1111",
         profile: {
           type: "헬퍼",
@@ -292,26 +327,20 @@ Meteor.startup(() => {
           str_addr_elv: [true, false].random(),
           arr_addr_elv: [true, false].random(),
           appliances: [
-            //가전
-            "세탁기",
-            "건조기",
-            "냉장고",
+            appliances.random()
           ],
           furniture: [
-            "침대메트리스",
-            "침대프레임",
-            "책상",
-            "의자",
+            furniture.random()
           ],
           detail: "",
           car_confirm_id: null,
         },
         reqHelper: {
-          request_time_area: "오전", //요청시간대
-          h_type: "짐싸기", //요청사항
-          h_req_arr_time: "10", //도착요청시간
-          s_house_size: "7", //출발집평수
-          a_house_size: "15", //도착집평수,
+          request_time_area: ["오전", "오후", "하루"].random(), //요청시간대
+          h_type: ["짐싸기", "짐풀기", "모두"].random(), //요청사항
+          h_req_arr_time: ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"].random(), //도착요청시간
+          s_house_size: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].random(), //출발집평수
+          a_house_size: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].random(), //도착집평수,
           hel_confirm_id: null,
         },
         createdAt: new Date(),
@@ -330,8 +359,8 @@ Meteor.startup(() => {
           business_id: estCaruser._id,
           business_name: estCaruser.profile.company.company_name,
           business_contact: estCaruser.profile.phone,
-          details: "견적서1-용달",
-          amount: "20000",
+          details: ["견적서1-용달", "용달견적서", "상세견적서", "일단넣기"].random(),
+          amount: ["20000", "30000", "40000", "50000", "60000", "70000", "80000", "90000"].random(),
           business_type: "용달",
           status: 1,
           request_del_flag: false,
@@ -352,8 +381,8 @@ Meteor.startup(() => {
           business_id: estCaruser._id,
           business_name: estCaruser.profile.company.company_name,
           business_contact: estCaruser.profile.phone,
-          details: "견적서-헬퍼",
-          amount: "20000",
+          details: ["견적서-헬퍼", "헬퍼견적서22", "청소해요", "견적서입니다."].random(),
+          amount: ["20000", "30000", "40000", "50000", "60000", "70000", "80000", "90000"].random(),
           business_type: "헬퍼",
           status: 1,
           request_del_flag: false,
