@@ -10,8 +10,6 @@ const Files = new FilesCollection({
     }
     return "Please upload image, with size equal or less than 10MB";
   },
-
-
 });
 
 export { Files };
