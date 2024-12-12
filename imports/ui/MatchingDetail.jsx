@@ -62,7 +62,9 @@ export default () => {
                   name: result.profile.name,
                   phone: result.profile.phone,
                   bizId: bizId,
-                  keyIndex: matching._id + index.toString()
+                  keyIndex: matching._id + index.toString(),
+                  createdAt: matching.createdAt,
+                  move_date: matching.move_date
                 };
 
                 bizInfo = [...bizInfo, data];
@@ -166,13 +168,18 @@ export default () => {
                   <thead className="bg-gray-50">
                     <tr>
                       <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6 w-15">
-                        선택
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-15">
                         No.
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
-                        업체타입
+                        작성일자
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
+                        이사날짜
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
+                        타입
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-40">
                         출발지
@@ -199,6 +206,8 @@ export default () => {
                           />
                         </td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{index + 1}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.createdAt.toStringYMD()}</td>
+                        <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.move_date.toStringYMD()}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.type}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.start}</td>
                         <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{bizInfo.arrive}</td>

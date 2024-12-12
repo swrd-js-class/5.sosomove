@@ -545,13 +545,6 @@ Meteor.methods({
     //     { business_id: car_businessId, request_id: requestId },
     //     { $set: { status: 2 } } // 2 - 매칭
     //   );
-
-    //   //car 매칭 알림
-    //   Notifications.insert({
-    //     businessId: car_businessId,
-    //     message: `요청 ID ${requestId}와 매칭되었습니다.`, // 알림 메시지
-    //     createdAt: new Date(),
-    //   });
     // }
 
     // // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
@@ -560,14 +553,8 @@ Meteor.methods({
     //     { business_id: hel_businessId, request_id: requestId },
     //     { $set: { status: 2 } } // 2 - 매칭
     //   );
-
-    //   //hel 매칭 알림
-    //   Notifications.insert({
-    //     businessId: hel_businessId,
-    //     message: `견적이 매칭되었습니다.`, // 알림 메시지
-    //     createdAt: new Date(),
-    //   });
     // }
+    // CollectionEstimate.update(query, update);
   },
 
   //개인-신규 견적요청서 저장

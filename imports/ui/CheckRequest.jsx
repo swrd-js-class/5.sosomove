@@ -14,6 +14,7 @@ export default () => {
     const [reservations, setReservations] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
 
+
     useEffect(() => {
         Meteor.call('requestListCall', { param: userId }, (err, result) => {
             if (err) {
@@ -79,27 +80,27 @@ export default () => {
                                 <table className="min-w-full divide-y divide-gray-300">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">작성일</th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">신청인</th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이삿날</th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">출발지</th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">도착지</th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                비고
+                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">작성일</th>
+                                            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">신청인</th>
+                                            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">이삿날</th>
+                                            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">출발지</th>
+                                            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">도착지</th>
+                                            <th scope="col" className="relative py-3.5 text-center pl-3 pr-4 sm:pr-6">
+                                                <span className="sr-only">상세보기</span>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
                                         {requestList.map((request) => (
                                             <tr key={request._id}>
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{request.createdAt.toStringYMD()}</td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.user_name}</td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.move_date.toStringYMD()}</td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.start_address}</td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{request.arrive_address}</td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <Link to={`/mypage/requestdetail/${request._id}`} className="text-indigo-600 hover:text-indigo-900 hover:underline">
-                                                        상세 내용
+                                                <td className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{request.createdAt.toStringYMD()}</td>
+                                                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.user_name}</td>
+                                                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.move_date.toStringYMD()}</td>
+                                                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.start_address}</td>
+                                                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{request.arrive_address}</td>
+                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                    <Link to={`/mypage/requestdetail/${request._id}`} className="text-indigo-600 hover:text-indigo-900">
+                                                        상세보기
                                                     </Link>
                                                 </td>
                                             </tr>
