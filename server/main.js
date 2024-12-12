@@ -86,6 +86,122 @@ Meteor.methods({
 });
 ///////////////////희원 끝///////////////////
 
+///////////////////////더미데이터 set 시작/////////////////////////
+
+///////////////////////더미데이터 set 종료/////////////////////////
+const usernameList = {
+  username: [
+    'asdf1234@naver.com',
+    'qwer111@gmail.com',
+    'soso777@outlook.com',
+    'qqqqq5@naver.com',
+    'tititi@gmail.com'
+  ],
+  caruser: [
+    'john.doe1@example.com',
+    'mary.smith2@example.net',
+    'alice.jones3@example.org',
+    'bob.brown4@example.com',
+    'emily.davis5@example.edu',
+    'charlie.wilson6@example.co.uk',
+    'sophia.miller7@example.com',
+    'david.martin8@example.biz',
+    'isabella.moore9@example.tv',
+    'william.taylor10@example.com'
+  ],
+  helper: [
+    'olivia.anderson11@example.co',
+    'james.thomas12@example.au',
+    'mia.jackson13@example.de',
+    'ethan.white14@example.it',
+    'ava.harris15@example.fr',
+    'benjamin.young16@example.us',
+    'zoe.king17@example.nl',
+    'daniel.scott18@example.ca',
+    'lily.green19@example.es',
+    'lucas.clark20@example.pt'
+  ]
+}
+
+const nameList = {
+  name: [
+    '김철수',
+    '이영희',
+    '최영호',
+    '이수지',
+    '박연우',
+    '박예은',
+    '김수지',
+    '지혜원',
+    '루혜리',
+    '지연후',
+    '이지혜',
+    '박준호',
+    '최지우',
+    '정우철',
+    '조예진',
+    '한승호',
+    '임아영',
+    '유민경',
+    '홍태민',
+    '서지수',
+    '배수빈'
+  ]
+}
+
+const phoneList = {
+  number: [
+    '010-111-2222',
+    '010-111-3333',
+    '010-111-4444',
+    '010-111-5555',
+    '010-111-6666'
+  ]
+}
+
+const address = [
+  '서울특별시 강남구 테헤란로 123',
+  '부산광역시 해운대구 좌동 456',
+  '대구광역시 중구 동성로 789',
+  '인천광역시 남동구 구월동 101',
+  '광주광역시 서구 상무지구 202',
+  '대전광역시 유성구 대학로 303',
+  '울산광역시 중구 성남동 404',
+  '경기도 수원시 장안구 영화동 505',
+  '경기도 고양시 일산동구 백석동 606',
+  '경기도 용인시 기흥구 상갈동 707',
+  '서울특별시 송파구 문정동 808',
+  '서울특별시 마포구 합정동 909',
+  '부산광역시 동래구 명장동 1010'
+]
+
+const businessNumber = [
+  '123-45-67890',
+  '234-56-78901',
+  '345-67-89012',
+  '456-78-90123',
+  '567-89-01234',
+  '678-90-12345',
+  '789-01-23456',
+  '890-12-34567',
+  '901-23-45678',
+  '012-34-56789'
+]
+
+const moveDate = [
+  new Date('2024-12-23'),
+  new Date('2024-12-24'),
+  new Date('2024-12-26'),
+  new Date('2024-12-27'),
+  new Date('2024-12-29'),
+  new Date('2025-02-26'),
+  new Date('2025-01-06'),
+  new Date('2025-03-01'),
+  new Date('2025-01-08'),
+  new Date('2025-02-15'),
+  new Date('2025-02-13')
+]
+
 ///////////////////////더미데이터 시작////////////////////////
 Meteor.startup(() => {
   //관리자 생성
@@ -105,12 +221,12 @@ Meteor.startup(() => {
   if (Meteor.users.find({ 'profile.type': "일반" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
       Accounts.createUser({
-        username: `user${i}`,
+        username: usernameList.username.random(),
         password: "1111",
         profile: {
           type: "일반",
-          name: `김철수${i}`,
-          phone: "010-1111-1111",
+          name: nameList.name.random(),
+          phone: phoneList.number.random(),
           company: null,
         }
       });
@@ -120,17 +236,17 @@ Meteor.startup(() => {
   if (Meteor.users.find({ 'profile.type': "용달" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
       Accounts.createUser({
-        username: `용달${i}`,
+        username: usernameList.caruser.random(),
         password: "1111",
         profile: {
           type: "용달",
-          name: `김용달${i}`,
-          phone: "010-2222-2222",
+          name: nameList.name.random(),
+          phone: phoneList.number.random(),
           company:
           {
-            ceo_name: "김대표",
-            address: "서울시 광진구 자양동1",
-            business_number: "0100-1101-20",
+            ceo_name: nameList.name.random(),
+            address: address.random(),
+            business_number: businessNumber.random(),
             confirm: false,
           },
         },
@@ -141,17 +257,17 @@ Meteor.startup(() => {
   if (Meteor.users.find({ 'profile.type': "헬퍼" }).count() === 0) {
     for (let i = 1; i <= 5; i++) {
       Accounts.createUser({
-        username: `헬퍼${i}`,
+        username: usernameList.helper.random(),
         password: "1111",
         profile: {
           type: "헬퍼",
-          name: `김헬퍼${i}`,
-          phone: "010-3333-3333",
+          name: nameList.name.random(),
+          phone: phoneList.number.random(),
           company:
           {
-            ceo_name: "김헬퍼",
-            address: "서울시 광진구 자양동2",
-            business_number: "0100-1101-30",
+            ceo_name: nameList.name.random(),
+            address: address.random(),
+            business_number: businessNumber.random(),
             confirm: false,
           },
 
@@ -166,15 +282,15 @@ Meteor.startup(() => {
       CollectionRequest.insert({
         user_id: user._id,
         user_name: user.profile.name,
-        move_date: [new Date('2025-10-01'), new Date('2024-12-31'), new Date('2025-02-15')].random(), //이사날짜
-        start_address: ["서울시", "대구시", "부산시"].random(), //출발지
-        arrive_address: ["서울시", "대구시", "부산시"].random(), //도착지
-        house_size: [10, 20, 30].random(), //집 평수
+        move_date: moveDate.random(), //이사날짜
+        start_address: address.random(), //출발지
+        arrive_address: address.random(), //도착지
+        house_size: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].random(), //집 평수
         addworker: true,
         reqCar: {
-          req_arr_time: "14", //도착요청시간
-          str_addr_elv: true,
-          arr_addr_elv: false,
+          req_arr_time: ["14:00", "10:00", "12:00", "13:00", "09:00", "15:00", "16:00", "17:00"].random(), //도착요청시간
+          str_addr_elv: [true, false].random(),
+          arr_addr_elv: [true, false].random(),
           appliances: [
             //가전
             "세탁기",
