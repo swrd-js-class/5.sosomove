@@ -63,7 +63,7 @@ export default () => {
             <div class="flex items-center justify-center text-center border">
               <input type="file" name="image" onChange={handleUpload} />
             </div>
-            <div class="flex items-center justify-center text-center mb-10" >
+            <div class="flex items-center justify-center text-center mb-10 " >
               {imagePreview &&
                 <img src={imagePreview} alt="업로드 이미지" class="w-[400px] h-[350px]" />
               }

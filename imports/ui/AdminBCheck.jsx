@@ -66,6 +66,11 @@ export default () => {
                 </th>
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
                   <p class="text-sm font-normal leading-none text-slate-500">
+                    대표번호
+                  </p>
+                </th>
+                <th class="p-4 border-b border-slate-200 bg-slate-50">
+                  <p class="text-sm font-normal leading-none text-slate-500">
                     대표자명
                   </p>
                 </th>
@@ -77,11 +82,6 @@ export default () => {
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
                   <p class="text-sm font-normal leading-none text-slate-500">
                     사업자등록증
-                  </p>
-                </th>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    대표번호
                   </p>
                 </th>
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -103,12 +103,14 @@ export default () => {
                       <p class="text-sm text-slate-500">{user.profile.name}</p>
                     </td>
                     <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.phone}</p>
+                    </td>
+                    <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
                     </td>
-
                     {/* 사업자등록증 파일 보이게 */}
                     <td class="p-4 py-5">
                       {userFiles.map((file) => {
@@ -131,10 +133,6 @@ export default () => {
                           </div>
                         );
                       })}
-                    </td>
-
-                    <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.profile.phone}</p>
                     </td>
                     <td class="p-4 py-5">
                       <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">
@@ -164,7 +162,5 @@ export default () => {
         </div>
       </div>
     </div>
-
-
   );
 };

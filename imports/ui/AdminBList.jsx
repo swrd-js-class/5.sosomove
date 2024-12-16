@@ -34,12 +34,17 @@ export default () => {
               <tr>
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
                   <p class="text-sm font-normal leading-none text-slate-500">
-                    사업자종류
+                    사업자유형
                   </p>
                 </th>
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
                   <p class="text-sm font-normal leading-none text-slate-500">
                     사업장명
+                  </p>
+                </th>
+                <th class="p-4 border-b border-slate-200 bg-slate-50">
+                  <p class="text-sm font-normal leading-none text-slate-500">
+                    대표번호
                   </p>
                 </th>
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -50,11 +55,6 @@ export default () => {
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
                   <p class="text-sm font-normal leading-none text-slate-500">
                     사업자등록번호
-                  </p>
-                </th>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    대표번호
                   </p>
                 </th>
                 <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -81,13 +81,13 @@ export default () => {
                       <p class="text-sm text-slate-500">{user.profile.name}</p>
                     </td>
                     <td class="p-4 py-5">
+                      <p class="text-sm text-slate-500">{user.profile.phone}</p>
+                    </td>
+                    <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.ceo_name}</p>
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-slate-500">{user.profile.company.business_number}</p>
-                    </td>
-                    <td class="p-4 py-5">
-                      <p class="text-sm text-slate-500">{user.profile.phone}</p>
                     </td>
                     <td class="p-4 py-5">
                       <p class="text-sm text-red-500 font-bold">{user.profile.company.confirm === false ? '가입신청 중' : '승인됨'}</p>
