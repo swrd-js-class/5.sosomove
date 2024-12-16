@@ -7,6 +7,8 @@ import fetch from 'node-fetch';
 import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
 
+
+
 ///////////////////희원///////////////////
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
@@ -249,10 +251,9 @@ Meteor.startup(() => {
 ////////////////////////더미데이터 끝///////////////////////
 
 ////효정 시작////
-
 //azure 컴퓨터비전
-const subscriptionKey = '3bCGjL1DVZWqmm28yT2y3aHTPNYkleql49sRVFF5TIKsfkiBpT1KJQQJ99ALACYeBjFXJ3w3AAAFACOGUhdT';
-const endpoint = 'https://shj-cv.cognitiveservices.azure.com/vision/v3.2/analyze';
+const subscriptionKey = process.env.AZURE_CV_KEY;
+const endpoint = process.env.AZURE_CV_URL;
 
 const upload = multer();
 WebApp.connectHandlers.use('/ttt', (req, res, next) => {
@@ -306,8 +307,9 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
 //azure GPT
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
-    const apiKey = '8FJ4HK4kROZM2zu1yhxQe3C5sOBMZZHCFjRT8jRTvxTy5L4g4uqgJQQJ99AKACYeBjFXJ3w3AAABACOGBbVs';
-    const response = await fetch(`https://shj-pk.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview`, {
+    const apiKey = process.env.AZURE_API_KEY;
+    const url = process.env.AZURE_API_URL;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -362,7 +364,7 @@ Meteor.methods({
   },
   //전체회원 검색
   'users.list'() {
-    return Meteor.users.find().fetch();
+    return Meteor.users.find({}, { sort: { createdAt: -1 } }).fetch();
   },
   //전체회원 중 서치하고 싶은 회원 검색
   'users.search'(query) {
@@ -374,10 +376,10 @@ Meteor.methods({
     return Meteor.users.remove(targetUser._id);
   },
   //가입승인
-  'users.update'(_id, confirm) {
+  'users.update'(_id) {
     Meteor.users.update(_id, {
       $set: {
-        'profile.company.confirm': confirm,
+        'profile.company.confirm': true,
       },
     });
   },
@@ -494,47 +496,61 @@ Meteor.methods({
 
   //개인-사업자 컨펌
   updateRequestConfirmBusiId({ requestId, car_businessId, hel_businessId }) {
-    const query = {
-      '_id': requestId
+    try {
+      const query = {
+        '_id': requestId
+      }
+
+      const update = {
+        $set: {
+          'reqCar.car_confirm_id': car_businessId,
+          'reqHelper.hel_confirm_id': hel_businessId
+        }
+      }
+
+      const requpdateresult = CollectionRequest.update(query, update);
+
+      if (requpdateresult === 0) {
+        throw new error("request 컬렉션 업데이트 중 오류 발생");
+      }
+    } catch (error) {
+      console.error("컬렉션 update 중 오류 발생 : ", error);
+      throw new Meteor.Error('update-failed', error.message);
     }
+  },
+
+  //개인-용달/헬퍼 견적서 컨펌 flag update
+  updateEstMatchingFlag({ requestId, businessId, matchingFlag, car_businessId, hel_businessId }) {
+
+    const query = {
+      'request_id': requestId,
+      'business_id': businessId
+    };
 
     const update = {
       $set: {
-        'reqCar.car_confirm_id': car_businessId,
-        'reqHelper.hel_confirm_id': hel_businessId
+        'status': matchingFlag
       }
-    }
+    };
 
-    CollectionRequest.update(query, update);
+    // CollectionRequest.update(query, update);
+    CollectionEstimate.update(query, update);
 
-    if (car_businessId) {
-      CollectionEstimate.update(
-        { business_id: car_businessId, request_id: requestId },
-        { $set: { status: 2 } } // 2 - 매칭
-      );
-      
-      //car 매칭 알림
-      Notifications.insert({
-        businessId: car_businessId,
-        message: `요청 ID ${requestId}와 매칭되었습니다.`, // 알림 메시지
-        createdAt: new Date(),
-      });
-    }
-  
-    // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
-    if (hel_businessId) {
-      CollectionEstimate.update(
-        { business_id: hel_businessId, request_id: requestId },
-        { $set: { status: 2 } } // 2 - 매칭
-      );
+    // if (car_businessId) {
+    //   CollectionEstimate.update(
+    //     { business_id: car_businessId, request_id: requestId },
+    //     { $set: { status: 2 } } // 2 - 매칭
+    //   );
+    // }
 
-      //hel 매칭 알림
-      Notifications.insert({
-        businessId: hel_businessId,
-        message: `견적이 매칭되었습니다.`, // 알림 메시지
-        createdAt: new Date(),
-      });
-    }
+    // // hel_businessId가 존재하면 CollectionEstimate 상태 업데이트
+    // if (hel_businessId) {
+    //   CollectionEstimate.update(
+    //     { business_id: hel_businessId, request_id: requestId },
+    //     { $set: { status: 2 } } // 2 - 매칭
+    //   );
+    // }
+    // CollectionEstimate.update(query, update);
   },
 
   //개인-신규 견적요청서 저장

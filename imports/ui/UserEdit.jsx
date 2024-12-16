@@ -55,62 +55,27 @@ export default () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="mt-6 text-base font-semibold text-gray-900">내 정보 관리</h1>
-        </div>
-      </div>
-      <div className="mt-8 flow-root">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6">
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <div className="w-full">
-                  <h2 className="text-sm font-medium text-gray-500">비밀번호 재설정</h2>
-                  <input 
-                    type="password" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    className="mt-1 block w-80 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                  />
-                </div>
-                <div className="w-full">
-                  <h2 className="text-sm font-medium text-gray-500">이름</h2>
-                  <input 
-                    type="text" 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
-                    className="mt-1 block w-80 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                  />
-                </div>
-                <div className="w-full">
-                  <h2 className="text-sm font-medium text-gray-500">핸드폰 번호</h2>
-                  <input 
-                    type="text" 
-                    value={phone} 
-                    onChange={(e) => setPhone(e.target.value)} 
-                    className="mt-1 block w-80 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end space-x-3 mt-5">
-                <button 
-                  type="submit" 
-                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-colors duration-200"
-                >
-                  수정
-                </button>
-                <button 
-                  onClick={deleteAccount} 
-                  className="bg-red-600 hover:bg-red-600 text-white py-2 px-6 rounded-lg transition-colors duration-200"
-                >
-                  탈퇴
-                </button>
-              </div>
-            </form>
+    <div class="flex h-screen">
+      <div class="bg-white py-6 px-10 border ">
+        <h1 class="text-center text-lg font-bold text-gray-500 ">내 정보 관리</h1>
+        <form onSubmit={handleSubmit}>
+          <div class="space-y-4 mt-6 mb-10">
+            <div class="w-full ">
+              <h2>비밀번호 재설정</h2>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+            </div>
+            <div class="w-full">
+              <h2>이름</h2>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+            </div>
+            <div class="w-full">
+              <h2>핸드폰 번호</h2>
+              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+            </div>
           </div>
-        </div>
+          <button type="submit" class="w-full mt-5 bg-indigo-500 text-white py-2 rounded-lg font-semibold tracking-tight">수정</button>
+        </form>
+        <button onClick={deleteAccount} class="w-full mt-5 bg-red-500 text-white py-2 rounded-lg font-semibold tracking-tight">탈퇴</button>
       </div>
     </div>
   );

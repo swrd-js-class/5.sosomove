@@ -50,7 +50,7 @@ export default () => {
 
   return (
 
-    <div>
+    <div class="mt-6 ml-6 mr-6">
       <h1>회원 조회</h1>
       <div className="gap-x-2 pb-5 flex items-center">
         <input type="text" placeholder="회원이름 또는 사업장명" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="rounded-md bg-white text-sm text-black outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 mr-3" />

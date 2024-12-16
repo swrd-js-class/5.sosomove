@@ -47,7 +47,6 @@ export const App = () => {
           <Route path="/MypageNavbar" element={<MypageNavbar />} />
           <Route path="/ttt" element={<Ttt />} />
 
-          {/* 효정 */}
           <Route path="/admin" element={<Admin />}>
             <Route index element={<Navigate to="/admin/adminbcheck" />} />
             <Route path="/admin/adminbcheck" element={<AdminBCheck />} />
@@ -56,7 +55,6 @@ export const App = () => {
             <Route path="/admin/adminedit" element={<AdminEdit />} />
           </Route>
 
-          {/* 희원 */}
           <Route path="/business" element={<Business />}>
             <Route index element={<Navigate to="/business/allrequest" />} />
             <Route path="/business/allrequest" element={<AllRequest />} />
@@ -66,7 +64,6 @@ export const App = () => {
             <Route path="/business/businessedit" element={<BusinessEdit />} />
           </Route>
 
-          {/* 송희 */}
           <Route path="/mypage" element={<Mypage />}>
             <Route index element={<Navigate to="/mypage/checkrequest" />} />
             <Route path="/mypage/newrequest" element={<NewRequest />} />

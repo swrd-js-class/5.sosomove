@@ -26,11 +26,11 @@ export default () => {
     // 요청이 없을 경우 기본 메시지 반환
     if (!currentRequest) {
         return (
-          <div className="flex items-center justify-center h-screen">
-            <p className="text-lg text-gray-600">요청 정보를 불러올 수 없습니다.</p>
-          </div>
+            <div className="flex items-center justify-center h-screen">
+                <p className="text-lg text-gray-600">요청 정보를 불러올 수 없습니다.</p>
+            </div>
         );
-      }
+    }
 
     // estimate, estimateMoney 상태 업데이트 함수
     const handleEstimate = (e) => {
@@ -86,15 +86,15 @@ export default () => {
             <div className="mt-6 px-4 sm:px-0">
                 <h3 className="ml-4 text-xl leading-7 font-semibold text-gray-900">견적서 작성</h3>
             </div>
-            <div className="mt-6 border-t border-gray-100 w-full">
+            <div className=" w-1/2 mt-6 border-t border-gray-100 w-full">
                 <dl className="divide-y divide-gray-100">
                     {/* 요청 정보 섹션 */}
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="ml-4 text-sm font-medium text-gray-900">요청자 이름</dt>
+                        <dt className="ml-4 text-sm font-medium text-gray-900">요청인</dt>
                         <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{currentRequest.user_name}</dd>
                     </div>
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="ml-4 text-sm font-medium text-gray-900">사업체명</dt>
+                        <dt className="ml-4 text-sm font-medium text-gray-900">사업자명</dt>
                         <dd className="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{currentUser?.profile?.name}</dd>
                     </div>
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

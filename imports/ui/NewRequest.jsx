@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "/lib/utils.js";
 
 export default () => {
+
     const userId = Meteor.userId(); //현재 로그인한 사용자의 userId 조회
     const navigate = useNavigate();
 
@@ -367,15 +368,17 @@ export default () => {
     }
 
     return (
-        <>
+        <div class="ml-5 mt-5">
             <div style={{ float: 'left' }}>
                 <form>
-                    <div className="space-y-12 pl-2">
+                    <div className="space-y-8 pl-2">
                         <div className="border-b border-gray-900/10 pb-12">
-                            <h2 className="text-base/7 font-semibold text-gray-900">신규 견적 신청서</h2>
-                            <p className="mt-1 text-sm/6 text-gray-600">
-                                견적요청서를 작성하여 예상 견적서를 받을 수 있습니다.
-                            </p>
+                            <div>
+                                <h2 className="text-base/7 font-semibold text-gray-900">신규 견적 신청서</h2>
+                                <p className="mt-1 text-sm/4 text-gray-600 mb-3">
+                                    견적요청서를 작성하여 제출하세요. 이사에 필요한 예상 견적을 받을 수 있습니다.
+                                </p>
+                            </div>
                             <div>
                                 <button
                                     type="button"
@@ -385,7 +388,7 @@ export default () => {
                                     Sample Data Input
                                 </button>
                             </div>
-                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-4">
                                     <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                                         <p className="relative pl-6">
@@ -399,13 +402,13 @@ export default () => {
                                             placeholder="필수입력"
                                             value={proposer}
                                             onChange={handleProposerChange}
-                                            className="block min-w-[400px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="block min-w-[200px] rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6">
                                 <div className="sm:col-span-4">
                                     <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">
                                         <p className="relative pl-6">
@@ -413,7 +416,7 @@ export default () => {
                                             출발지
                                         </p>
                                     </label>
-                                    <div class="flex items-center space-x-2">
+                                    <div class="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={startPostcode}
@@ -429,7 +432,7 @@ export default () => {
                                         >우편번호 찾기</button>
                                     </div>
 
-                                    <div class="flex items-center space-x-2">
+                                    <div class="flex items-center space-x-2 ">
                                         <input
                                             type="text"
                                             value={startAddress}
@@ -455,7 +458,7 @@ export default () => {
                                             도착지
                                         </p>
                                     </label>
-                                    <div class="flex items-center space-x-2">
+                                    <div class="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={arrPostcode}
@@ -541,34 +544,37 @@ export default () => {
             </div>
 
             <div style={{ float: 'left' }} >
-                <div className="pl-2">
-                    <div className="hidden sm:block">
-                        <div aria-label="Tabs" className="flex space-x-4">
-                            <button
-                                onClick={() => handleTabClick('car')}
-                                className={classNames(
-                                    activeTab === 'car' ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                )}
-                            >
-                                용달_요청사항
-                            </button>
-                            <button
-                                onClick={() => handleTabClick('helper')}
-                                className={classNames(
-                                    activeTab === 'helper' ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                )}
-                            >
-                                도우미_요청사항
-                            </button>
-                        </div>
+                <div className="pl-2 mb-5 bg-gray-100">
+                    아래 탭을 선택하여 용달 견적요청서와 도우미 견적요청서를 각각 작성하세요!
+                </div>
+
+                <div className="hidden sm:block">
+                    <div aria-label="Tabs" className="flex">
+                        <button
+                            onClick={() => handleTabClick('car')}
+                            className={classNames(
+                                activeTab === 'car' ? 'bg-indigo-200 text-gray-700 border border-black border-b-0 ' : 'text-gray-500 hover:text-gray-700 border border-black border-b-0 ',
+                                'px-3 py-2 text-sm font-medium',
+                            )}
+                        >
+                            용달_요청사항
+                        </button>
+                        <button
+                            onClick={() => handleTabClick('helper')}
+                            className={classNames(
+                                activeTab === 'helper' ? 'bg-pink-200 text-gray-700 border border-black border-b-0 ' : 'text-gray-500 hover:text-gray-700 border border-black border-b-0 ',
+                                'px-3 py-2 text-sm font-medium',
+                            )}
+                        >
+                            도우미_요청사항
+                        </button>
                     </div>
                 </div>
 
-                <div style={{ marginTop: '20px' }} >
+
+                <div>
                     {activeTab === 'car' ? (
-                        <div className="pl-2">
+                        <div className="p-6 border border-black">
                             <div>
                                 <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                     <legend className="font-bold text-lg mb-2">가전 제품</legend>
@@ -724,7 +730,7 @@ export default () => {
 
                                 <div className="mt-5 sm:col-span-3">
                                     <label className="block text-sm/6 font-medium text-red-500 relative">
-                                        ** 추가 입력 사항 : 2개 이상인 물품은 반드시 입력해 주세요!! **
+                                        ** 추가 입력 사항 : 2개 이상인 물품은 반드시 하단에 입력해 주세요!! **
                                     </label>
                                     <textarea
                                         ref={carTextareaRef}
@@ -741,7 +747,7 @@ export default () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="pl-2">
+                        <div className="p-6 border border-black">
                             <fieldset className="border-2 border-gray-300 p-4 rounded-lg">
                                 <legend className="font-bold text-lg mb-2">요청사항</legend>
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -846,12 +852,12 @@ export default () => {
                 <div className="mt-6 flex items-center justify-end gap-x-6">
                     <button
                         onClick={handleSubmit}
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mb-5"
                     >
                         견적요청서 제출
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

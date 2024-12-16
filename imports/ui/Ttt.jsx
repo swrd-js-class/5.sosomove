@@ -65,7 +65,7 @@ export default () => {
             </div>
             <div class="flex items-center justify-center text-center mb-10" >
               {imagePreview &&
-                <img src={imagePreview} alt="업로드 이미지" />
+                <img src={imagePreview} alt="업로드 이미지" class="w-[400px] h-[350px]" />
               }
             </div>
             <div class="text-center text-red-500 font-bold">
