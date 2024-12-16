@@ -6,10 +6,12 @@ import { Accounts } from "meteor/accounts-base";
 import fetch from 'node-fetch';
 import { WebApp } from 'meteor/webapp';
 import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
 
 
 
-///////////////////희원///////////////////
+///////////////////희원
 //요청서 확인
 Meteor.publish('CollectionRequest', function () {
   return CollectionRequest.find();
@@ -395,11 +397,10 @@ Meteor.startup(() => {
 });
 ////////////////////////더미데이터 끝///////////////////////
 
-////효정 시작////
-//azure 컴퓨터비전
+///////////////////////효정
+//azure-컴퓨터비전
 const subscriptionKey = process.env.AZURE_CV_KEY;
 const endpoint = process.env.AZURE_CV_URL;
-
 const upload = multer();
 WebApp.connectHandlers.use('/ttt', (req, res, next) => {
   if (req.method === 'POST') {
@@ -422,7 +423,6 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
         });
         const data = await azureRes.json();
         // console.log(data);
-
         //응답 받은 데이터 파싱
         const objects = data.objects;
         const meta = data.metadata;
@@ -433,10 +433,8 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
             사진크기: meta
           }));
         // console.log(objectsDetails);  //출력해보자!!!
-
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(objectsDetails));  // Azure API 결과 반환
-
       } catch (err) {
         res.writeHead(500);
         res.end('Error: ' + err.message);
@@ -448,8 +446,7 @@ WebApp.connectHandlers.use('/ttt', (req, res, next) => {
   }
 });
 
-
-//azure GPT
+//azure-GPT
 Meteor.startup(() => {
   const fetchGPTResponse = async (prompt) => {
     const apiKey = process.env.AZURE_API_KEY;
@@ -470,14 +467,12 @@ Meteor.startup(() => {
         'max_tokens': 1000,
       }),
     });
-
     const data = await response.json();
     //안되면 출력해보자!!!
     // console.log(data);  
     const rawText = data.choices[0].message.content;
     return rawText;
   };
-
   Meteor.methods({
     'openAI.query': async (prompt) => {
       return fetchGPTResponse(prompt);
@@ -485,20 +480,21 @@ Meteor.startup(() => {
   });
 });
 
-//user - 관리자
+//user
 Meteor.publish('users', function () {
   return Meteor.users.find();
 });
-//페이징처리
+//페이징
 Meteor.publish('users', function (skip, limit) {
   return Meteor.users.find({}, { skip, limit });
 });
-//file처리
+//file
 Meteor.publish('files', function () {
   return Files.find().cursor;
 });
 
 Meteor.methods({
+
   //file-link처리
   getFileLink(fileId) {
     const file = Files.findOne(fileId);
@@ -507,15 +503,36 @@ Meteor.methods({
     }
     throw new Meteor.Error("파일을 찾을 수 없습니다.");
   },
-  //전체회원 검색
+  //전체회원
   'users.list'() {
     return Meteor.users.find({}, { sort: { createdAt: -1 } }).fetch();
   },
-  //전체회원 중 서치하고 싶은 회원 검색
+  //회원 검색
   'users.search'(query) {
     return Meteor.users.find({ 'profile.name': { $regex: query, $options: 'i' } }).fetch();
   },
-  //관리자-회원 삭제
+  //회원 삭제시 파일 데이터 같이 삭제
+  deleteUserFiles(userId) {
+    const userFiles = Files.find({ 'meta.userId': userId }).fetch();
+    const deletedFiles = [];
+    userFiles.forEach(file => {
+      try {
+        const filePath = path.join(__dirname, 'uploads', file.name);
+        // 로컬 파일 삭제
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+          console.log(`로컬 파일 ${file.name} 삭제 완료`);
+        }
+        // 데이터베이스 파일 삭제
+        Files.remove(file._id);
+        deletedFiles.push(file);
+      } catch (error) {
+        console.error('파일 삭제 오류:', error);
+      }
+    });
+    return deletedFiles;
+  },
+  //회원 삭제
   'userdelete'(userId) {
     const targetUser = Meteor.users.findOne(userId);
     return Meteor.users.remove(targetUser._id);
@@ -528,7 +545,7 @@ Meteor.methods({
       },
     });
   },
-  //일반회원+관리자 정보수정(이름, 핸드폰번호)
+  //일반회원+관리자 정보수정
   'useredit'({ name, phone }) {
     Meteor.users.update(this.userId, {
       $set: {
@@ -537,7 +554,7 @@ Meteor.methods({
       }
     })
   },
-  //사업자회원 정보수정(사업장명, 대표번호, 대표자명, 사업장주소 )
+  //사업자회원 정보수정
   'businessedit'({ name, phone, ceo_name, address }) {
     Meteor.users.update(this.userId, {
       $set: {
@@ -559,7 +576,7 @@ Meteor.methods({
     return '회원탈퇴 성공';
   }
 });
-////효정 끝////
+//////////////////효정 끝
 
 //ksh. 
 Meteor.methods({

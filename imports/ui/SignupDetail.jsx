@@ -7,9 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 //회원가입
 export default () => {
-
   const navigate = useNavigate();
-  const { userType } = useParams(); //일반회원과 사업자회원을 param으로 구별
+
+  //일반&사업자 param으로 구별
+  const { userType } = useParams();
+
   const refEmail = useRef(null);
   const refPassword = useRef(null);
   const refUsername = useRef(null);
@@ -17,22 +19,27 @@ export default () => {
   const refCeo_name = useRef(null);
   const refAddress = useRef(null);
   const refBusiness_number = useRef(0);
+
+  //용달&헬퍼 구별 
+  const [type, setType] = useState('');
+  const [error, setError] = useState('');
+  const handleBusinessType = (e) => {
+    setType(e);
+  };
+
   //사업자등록증 파일
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileLink, setFileLink] = useState('');
-  //사업자유형 선택
+
+
+  //사업자등록증 파일 선택
   const handleFileChange = (e) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       const file = e.currentTarget.files[0];
       setSelectedFile(file);
     }
   };
-  //용달사업자와 헬퍼사업자 구별 
-  const [type, setType] = useState('');
-  const [error, setError] = useState('');
-  const handleBusinessType = (e) => {
-    setType(e);
-  };
+
   //회원가입 버튼
   const handleSignup = (event) => {
     event.preventDefault();
@@ -56,38 +63,6 @@ export default () => {
         business_number,
         confirm: false,
       };
-    }
-    //사업자등록증 업로드
-    function upload() {
-      if (!selectedFile) {
-        alert("No file selected for upload.");
-        return;
-      }
-      const upload = Files.insert(
-        {
-          file: selectedFile,
-          chunkSize: "dynamic",
-        },
-        false
-      );
-      upload.on("start", function () {
-        console.log("Upload started...");
-      });
-      upload.on("end", function (error, fileObj) {
-        if (error) {
-          alert(`업로드 중 에러: ${error}`);
-        } else {
-          alert(`파일 "${fileObj.name}" 업로드 완료`);
-          Meteor.call('getFileLink', fileObj._id, (err, link) => {
-            if (err) {
-              alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
-            } else {
-              setFileLink(link);
-            }
-          });
-        }
-      });
-      upload.start();
     }
     //필수입력 강제
     if (userType === '일반') {
@@ -125,18 +100,56 @@ export default () => {
         setError(err.reason);
       } else {
         setError('');
+        //회원가입이 성공적으로 완료된 후, 사업자라면 파일 업로드
         if (userType === '사업자') {
-          upload();
+          const userId = Meteor.userId();
+          uploadFile(userId);
         } else {
+          alert('회원가입 완료되었습니다!');
+          Meteor.logout(() => { });
+          navigate('/login');
         }
-        alert('회원가입 완료되었습니다!');
-        Meteor.logout(() => {
-        });
-        navigate('/login');
       }
     }
     );
   };
+
+  //파일 업로드 함수
+  function uploadFile(userId) {
+    if (!selectedFile) {
+      alert("No file selected for upload.");
+      return;
+    }
+    const upload = Files.insert(
+      {
+        file: selectedFile,
+        chunkSize: "dynamic",
+        meta: { userId: userId }
+      },
+      false
+    );
+    upload.on("start", function () {
+      console.log("Upload started...");
+    });
+    upload.on("end", function (error, fileObj) {
+      if (error) {
+        alert(`업로드 중 에러: ${error}`);
+      } else {
+        alert(`파일 "${fileObj.name}" 업로드 완료`);
+        Meteor.call('getFileLink', fileObj._id, (err, link) => {
+          if (err) {
+            alert('파일 링크를 가져오는 데 실패했습니다: ' + err.message);
+          } else {
+            setFileLink(link); // 파일 링크 업데이트
+            alert('회원가입 및 파일 업로드가 완료되었습니다!');
+            Meteor.logout(() => { });
+            navigate('/login');
+          }
+        });
+      }
+    });
+    upload.start();
+  }
 
   return (
     <div class='flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400'>
