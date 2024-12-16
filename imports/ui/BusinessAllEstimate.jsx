@@ -150,7 +150,7 @@ export default () => {
             </h1>
           </div>
           {/* 상태 필터 */}
-          <div className="sm:ml-4 mt-4 sm:mt-0">
+          <div className="flex justify-center sm:ml-4 mt-4 sm:mt-0">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(Number(e.target.value))}
@@ -170,14 +170,14 @@ export default () => {
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">요청인</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이사 날짜</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">출발지</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">도착지</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">상세 내용</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">금액</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">상태</th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">비고</th>
+                      <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">요청인</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">이사 날짜</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">출발지</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">도착지</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">상세 내용</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">금액</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">상태</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">비고</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
@@ -186,26 +186,26 @@ export default () => {
                         <tr key={estimateReq._id}>
                           {estimateReq.request && (
                             <>
-                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-6">
+                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-center text-sm text-gray-900 sm:pl-6">
                                 {estimateReq.request.user_name || 'N/A'}
                               </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                              <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                                 {estimateReq.request.move_date
                                   ? new Date(estimateReq.request.move_date).toLocaleDateString()
                                   : 'N/A'}
                               </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                              <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                                 {estimateReq.request.start_address || 'N/A'}
                               </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                              <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                                 {estimateReq.request.arrive_address || 'N/A'}
                               </td>
                             </>
                           )}
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                             {estimateReq.details || 'N/A'}
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                             {estimateReq.amount ? `${estimateReq.amount}원` : 'N/A'}
                           </td>
                           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -219,7 +219,7 @@ export default () => {
                               </span>
                             </span>
                           </td>
-                          <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                          <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                             {estimateReq.status == 1 && (
                               <button
                                 onClick={() => handleDelete(estimateReq._id)}
