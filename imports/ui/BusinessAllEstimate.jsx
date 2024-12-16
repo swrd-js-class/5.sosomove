@@ -170,7 +170,7 @@ export default () => {
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">요청인</th>
+                      <th scope="col" className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">요청인</th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이사 날짜</th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">출발지</th>
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">도착지</th>

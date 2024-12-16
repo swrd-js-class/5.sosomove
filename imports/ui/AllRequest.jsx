@@ -52,7 +52,7 @@ export default () => {
                             setSelectedArea(e.target.value);
                             setSelectedSubArea("");
                         }}
-                        className="mt-4 text-left w-2/5 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-4 text-left w-2/5 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-46 sm:text-sm"
                     >
                         <option value="">지역</option>
                         {area.map((area) => (
@@ -65,7 +65,7 @@ export default () => {
                     <select
                         value={selectedSubArea}
                         onChange={(e) => setSelectedSubArea(e.target.value)}
-                        className="text-left mt-4 text-left w-3/5 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="text-left mt-4 w-2/5 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-46 sm:text-sm"
                     >
                         <option value="">시/군/구</option>
                         {subAreas.map((subArea) => (
