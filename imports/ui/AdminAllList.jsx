@@ -71,7 +71,7 @@ export default () => {
 
     <div class="mt-6 ml-6 mr-6">
       <h1>회원 조회</h1>
-      <div className="gap-x-2 pb-5 flex items-center">
+      <div className="mt-4 gap-x-2 pb-5 flex items-center">
         <input type="text" placeholder="이름 또는 사업장명" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="rounded-md bg-white text-sm text-black outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 mr-3" />
         <button onClick={searchUsers} className="flex-none rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white">검색</button>
       </div>
@@ -124,7 +124,7 @@ export default () => {
                       <p class="text-sm text-slate-500">{user.profile.phone}</p>
                     </td>
                     <td class="p-4 py-5">
-                      <button onClick={() => userdelete(user._id)} class="middle none center rounded-lg bg-red-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">삭제</button>
+                      <button onClick={() => userdelete(user._id)} class="middle none center rounded-lg bg-red-500 py-1 px-3 text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">삭제</button>
                     </td>
                   </tr>
                 ))}

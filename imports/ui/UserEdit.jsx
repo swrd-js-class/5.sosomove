@@ -55,28 +55,53 @@ export default () => {
   }
 
   return (
-    <div class="flex h-screen">
-      <div class="bg-white py-6 px-10 border ">
-        <h1 class="text-center text-lg font-bold text-gray-500 ">내 정보 관리</h1>
+    <div className="flex h-screen justify-center items-center bg-gray-100">
+      <div className="bg-white py-6 px-10 shadow-lg rounded-lg">
+        <h1 className="text-center text-lg font-bold text-gray-700 mb-6">내 정보 관리</h1>
         <form onSubmit={handleSubmit}>
-          <div class="space-y-4 mt-6 mb-10">
-            <div class="w-full ">
-              <h2>비밀번호 재설정</h2>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+          <div className="space-y-4">
+            <div className="w-full">
+              <h2 className="text-sm font-medium text-gray-600 mb-1">비밀번호 재설정</h2>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              />
             </div>
-            <div class="w-full">
-              <h2>이름</h2>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+            <div className="w-full">
+              <h2 className="text-sm font-medium text-gray-600 mb-1">이름</h2>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              />
             </div>
-            <div class="w-full">
-              <h2>핸드폰 번호</h2>
-              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+            <div className="w-full">
+              <h2 className="text-sm font-medium text-gray-600 mb-1">핸드폰 번호</h2>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              />
             </div>
           </div>
-          <button type="submit" class="w-full mt-5 bg-indigo-500 text-white py-2 rounded-lg font-semibold tracking-tight">수정</button>
+          <button
+            type="submit"
+            className="w-full mt-5 bg-indigo-500 text-white py-2 rounded-lg font-semibold tracking-tight hover:bg-indigo-600 transition"
+          >
+            수정
+          </button>
         </form>
-        <button onClick={deleteAccount} class="w-full mt-5 bg-red-500 text-white py-2 rounded-lg font-semibold tracking-tight">탈퇴</button>
+        <button
+          onClick={deleteAccount}
+          className="w-full mt-5 bg-red-500 text-white py-2 rounded-lg font-semibold tracking-tight hover:bg-red-600 transition"
+        >
+          탈퇴
+        </button>
       </div>
     </div>
   );
-};
+}  

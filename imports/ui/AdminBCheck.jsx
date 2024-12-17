@@ -49,7 +49,7 @@ export default () => {
 
     <div class="mt-6 ml-6 mr-6">
       <h1>사업자회원 승인여부 체크 목록</h1>
-      <div className="max-w-full mx-auto">
+      <div className="mt-4 max-w-full mx-auto">
         <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
           <table class="w-full text-left table-auto min-w-max">
             <thead>
@@ -135,7 +135,7 @@ export default () => {
                       })}
                     </td>
                     <td class="p-4 py-5">
-                      <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">
+                      <button onClick={() => SignupConfirm(user._id)} class="middle none center rounded-lg bg-pink-500 py-1 px-3 text-xs font-bold uppercase text-white transition-all" data-ripple-light="true">
                         승인
                       </button>
                     </td>

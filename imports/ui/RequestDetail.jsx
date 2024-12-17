@@ -136,11 +136,11 @@ export default () => {
       <div>
         {/*내 견적 요청서 조회*/}
         <div className="px-4 sm:px-0">
-          <h3 className="ml-4 text-xl leading-7 font-semibold text-gray-900">견적 요청서 확인</h3>
+          <h3 className="mt-4 ml-4 text-xl leading-7 font-semibold text-gray-900">견적 요청서 확인</h3>
         </div>
         {reqDetail.map((detail) => {
           return (
-            <div className=" w-1/2 mt-6 border-t border-gray-100">
+            <div className=" w-full mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="ml-4 text-sm/6 font-medium text-gray-900">신청인</dt>
