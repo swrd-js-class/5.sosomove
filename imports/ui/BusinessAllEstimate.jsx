@@ -206,22 +206,24 @@ export default () => {
                             </>
                           )}
                           <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
-                            {estimateReq.details || 'N/A'}
+                            <div class="w-[300px] break-words whitespace-normal">
+                              {estimateReq.details || 'N/A'}
+                            </div>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                             {estimateReq.amount ? `${estimateReq.amount}원` : 'N/A'}
                           </td>
                           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 text-center">
-                          <span className="relative inline-block px-3 py-1 font-semibold leading-tight">
-                            <span
-                              aria-hidden="true"
-                              className={`absolute inset-0 ${getStatusStyle(estimateReq.status).bg} rounded-full opacity-50`}
-                            ></span>
-                            <span className={`relative ${getStatusStyle(estimateReq.status).text}`}>
-                              {getStatusText(estimateReq.status)}
+                            <span className="relative inline-block px-3 py-1 font-semibold leading-tight">
+                              <span
+                                aria-hidden="true"
+                                className={`absolute inset-0 ${getStatusStyle(estimateReq.status).bg} rounded-full opacity-50`}
+                              ></span>
+                              <span className={`relative ${getStatusStyle(estimateReq.status).text}`}>
+                                {getStatusText(estimateReq.status)}
+                              </span>
                             </span>
-                          </span>
-                        </td>
+                          </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                             {estimateReq.status == 1 && (
                               <button
