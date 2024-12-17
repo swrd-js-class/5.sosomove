@@ -295,7 +295,11 @@ export default () => {
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.business_name}</td>
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.business_contact}</td>
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.amount}</td>
-                      <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.details}</td>
+                      <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                        <div class="w-[300px] break-words whitespace-normal">
+                          {carestimate.details}
+                        </div>
+                      </td>
                     </tr>
                   )
                 })}
@@ -354,7 +358,11 @@ export default () => {
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.business_name} </td>
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.business_contact}</td>
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.amount}</td>
-                      <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{helestimate.details}</td>
+                      <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                        <div class="w-[300px] break-words whitespace-normal">
+                          {helestimate.details}
+                        </div>
+                      </td>
                     </tr>
 
                   )
