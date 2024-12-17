@@ -145,7 +145,7 @@ export default () => {
         </div>
       )}
 
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8 ">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="mt-6 text-base font-semibold text-gray-900">
@@ -153,7 +153,7 @@ export default () => {
             </h1>
           </div>
           {/* 상태 필터 */}
-          <div className="flex justify-center sm:ml-4 mt-4 sm:mt-0">
+          <div className="flex justify-center sm:ml-4 mt-4 sm:mt-0 ">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(Number(e.target.value))}
@@ -206,22 +206,24 @@ export default () => {
                             </>
                           )}
                           <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
-                            {estimateReq.details || 'N/A'}
+                            <div class="w-[300px] break-words whitespace-normal">
+                              {estimateReq.details || 'N/A'}
+                            </div>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                             {estimateReq.amount ? `${estimateReq.amount}원` : 'N/A'}
                           </td>
                           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 text-center">
-                          <span className="relative inline-block px-3 py-1 font-semibold leading-tight">
-                            <span
-                              aria-hidden="true"
-                              className={`absolute inset-0 ${getStatusStyle(estimateReq.status).bg} rounded-full opacity-50`}
-                            ></span>
-                            <span className={`relative ${getStatusStyle(estimateReq.status).text}`}>
-                              {getStatusText(estimateReq.status)}
+                            <span className="relative inline-block px-3 py-1 font-semibold leading-tight">
+                              <span
+                                aria-hidden="true"
+                                className={`absolute inset-0 ${getStatusStyle(estimateReq.status).bg} rounded-full opacity-50`}
+                              ></span>
+                              <span className={`relative ${getStatusStyle(estimateReq.status).text}`}>
+                                {getStatusText(estimateReq.status)}
+                              </span>
                             </span>
-                          </span>
-                        </td>
+                          </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                             {estimateReq.status == 1 && (
                               <button
