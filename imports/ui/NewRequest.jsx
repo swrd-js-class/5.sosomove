@@ -87,7 +87,7 @@ export default () => {
         ]
     };
 
-    //도우미 옵션
+    //헬퍼 옵션
     const helperOption = {
         package: [
             { name: '짐 싸기 / 짐 풀기 모두 원해요', id: 'all', value: '모두' },
@@ -192,7 +192,7 @@ export default () => {
         setCarSelectedTime(e.target.value);
     }
 
-    //도우미 탭-요청시간대 선택 시
+    //헬퍼퍼 탭-요청시간대 선택 시
     const handleTimeAreaChanged = (e) => {
         setSelectedTimeArea(e.target.value);
     }
@@ -545,7 +545,7 @@ export default () => {
 
             <div style={{ float: 'left' }} >
                 <div className="pl-2 mb-5 bg-gray-100">
-                    아래 탭을 선택하여 용달 견적요청서와 도우미 견적요청서를 각각 작성하세요!
+                    아래 탭을 선택하여 용달 견적요청서와 헬퍼퍼 견적요청서를 각각 작성하세요!
                 </div>
 
                 <div className="hidden sm:block">
@@ -566,7 +566,7 @@ export default () => {
                                 'px-3 py-2 text-sm font-medium',
                             )}
                         >
-                            도우미_요청사항
+                            헬퍼_요청사항
                         </button>
                     </div>
                 </div>

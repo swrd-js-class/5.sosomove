@@ -361,7 +361,7 @@ Meteor.startup(() => {
           business_id: estCaruser._id,
           business_name: estCaruser.profile.company.company_name,
           business_contact: estCaruser.profile.phone,
-          details: ["견적서1-용달", "용달견적서", "상세견적서", "일단넣기"].random(),
+          details: ["견적서1-용달", "용달견적서", "상세견적서"].random(),
           amount: ["20000", "30000", "40000", "50000", "60000", "70000", "80000", "90000"].random(),
           business_type: "용달",
           status: 1,
