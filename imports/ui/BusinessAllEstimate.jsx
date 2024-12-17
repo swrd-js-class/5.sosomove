@@ -45,13 +45,6 @@ export default () => {
       request: CollectionRequest.findOne({ _id: estimate.request_id }),
     }));
 
-    // // 날짜 오름차순 정렬
-    // estimateinReq.sort((a, b) => {
-    //   const dateA = new Date(a.request?.move_date || 0);
-    //   const dateB = new Date(b.request?.move_date || 0);
-    //   return dateA - dateB;
-    // });
-
     // 날짜 오름차순 정렬
     estimateinReqRequest.sort((a, b) => {
       const dateA = new Date(a.request?.move_date || 0);
