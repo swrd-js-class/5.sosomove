@@ -3,8 +3,8 @@ import React from "react";
 export default () => {
   return (
     <div class='flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400 '>
-      <div class='w-full flex justify-center bg-white'>
-        <img src='/service_img.png' alt='서비스이미지' class="w-[600px] h-[300px] " />
+      <div class='w-full flex justify-center'>
+        <img src='/truckfix.png' alt='서비스이미지' class="w-[600px] h-[300px] " />
       </div>
       <div class="flex flex-col items-center justify-center text-center w-[800px] h-[200px]">
         <span class="font-bold text-lg">소소이사에 오신걸 환영합니다!</span>
