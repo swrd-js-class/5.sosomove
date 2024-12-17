@@ -74,8 +74,11 @@ export default () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-gray-500">Loading ...</p>
+      <div className="flex justify-center items-center h-screen"> {/* 화면 전체 중앙 정렬 */}
+        <div className="flex flex-col items-center">
+          <img src="/loading.gif" alt="Loading..." className="w-16 h-16 mb-4" />
+          <p className="text-gray-500">Loading ...</p>
+        </div>
       </div>
     );
   }
@@ -157,7 +160,7 @@ export default () => {
               className="mt-4 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value={0}>전체</option>
-              <option value={1}>대기중</option>
+              <option value={1}>대기</option>
               <option value={2}>매칭</option>
               <option value={3}>매칭 취소</option>
             </select>
@@ -177,7 +180,7 @@ export default () => {
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">상세 내용</th>
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">금액</th>
                       <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">상태</th>
-                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">비고</th>
+                      <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
@@ -208,17 +211,17 @@ export default () => {
                           <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-900">
                             {estimateReq.amount ? `${estimateReq.amount}원` : 'N/A'}
                           </td>
-                          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <span className="relative inline-block px-3 py-1 font-semibold leading-tight">
-                              <span
-                                aria-hidden="true"
-                                className={`absolute inset-0 ${getStatusStyle(estimateReq.status).bg} rounded-full opacity-50`}
-                              ></span>
-                              <span className={`relative ${getStatusStyle(estimateReq.status).text}`}>
-                                {getStatusText(estimateReq.status)}
-                              </span>
+                          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 text-center">
+                          <span className="relative inline-block px-3 py-1 font-semibold leading-tight">
+                            <span
+                              aria-hidden="true"
+                              className={`absolute inset-0 ${getStatusStyle(estimateReq.status).bg} rounded-full opacity-50`}
+                            ></span>
+                            <span className={`relative ${getStatusStyle(estimateReq.status).text}`}>
+                              {getStatusText(estimateReq.status)}
                             </span>
-                          </td>
+                          </span>
+                        </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                             {estimateReq.status == 1 && (
                               <button

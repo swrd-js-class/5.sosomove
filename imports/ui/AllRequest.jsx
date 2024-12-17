@@ -52,7 +52,7 @@ export default () => {
                             setSelectedArea(e.target.value);
                             setSelectedSubArea("");
                         }}
-                        className="mt-4 text-left block w-2/5 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-4 text-left block w-46 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                         <option value="">지역</option>
                         {area.map((area) => (
@@ -65,7 +65,7 @@ export default () => {
                     <select
                         value={selectedSubArea}
                         onChange={(e) => setSelectedSubArea(e.target.value)}
-                        className="text-left mt-4 block w-4/5 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="text-left mt-4 block w-46 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                         <option value="">시/군/구</option>
                         {subAreas.map((subArea) => (
@@ -95,7 +95,7 @@ export default () => {
                                             <th scope="col" className="px-2 sm:px-3 py-2 sm:py-3.5 text-center text-xs sm:text-sm font-semibold text-gray-900">요청 시간대 / 요청 사항</th>
                                         )}
                                         <th scope="col" className="px-2 sm:px-3 py-2 sm:py-3.5 text-center text-xs sm:text-sm font-semibold text-gray-900">
-                                            비고
+                                            
                                         </th>
                                     </tr>
                                 </thead>
