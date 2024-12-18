@@ -2,6 +2,7 @@ import { FilesCollection } from "meteor/ostrio:files";
 
 const Files = new FilesCollection({
   collectionName: "files",
+  storagePath: '~/data',
   allowClientCode: true,
   onBeforeUpload(file) {
     file.meta = { userId: this.userId };

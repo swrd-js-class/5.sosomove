@@ -38,25 +38,25 @@ export default () => {
   };
 
   return (
-    <div class="flex h-screen border">
-      <div class="bg-white py-6 px-10 border">
-        <h1 class="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
+    <div className="flex h-screen border">
+      <div className="bg-white py-6 px-10 border">
+        <h1 className="text-center text-lg font-bold text-gray-500">내 정보 관리</h1>
         <form onSubmit={handleSubmit}>
-          <div class="space-y-4 mt-6 mb-10">
-            <div class="w-full">
+          <div className="space-y-4 mt-6 mb-10">
+            <div className="w-full">
               <h2>비밀번호 재설정</h2>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="px-4 py-2 bg-gray-50 rounded-lg" />
             </div>
-            <div class="w-full">
+            <div className="w-full">
               <h2>이름</h2>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="px-4 py-2 bg-gray-50 rounded-lg" />
             </div>
-            <div class="w-full">
+            <div className="w-full">
               <h2>핸드폰 번호</h2>
-              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} class="px-4 py-2 bg-gray-50 rounded-lg" />
+              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="px-4 py-2 bg-gray-50 rounded-lg" />
             </div>
           </div>
-          <button type="submit" class="w-full px-4 py-2 mt-5 bg-indigo-500 text-white rounded-lg font-semibold tracking-tight mb-10">수정</button>
+          <button type="submit" className="w-full px-4 py-2 mt-5 bg-indigo-500 text-white rounded-lg font-semibold tracking-tight mb-10">수정</button>
         </form>
       </div>
     </div>

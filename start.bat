@@ -1,6 +1,6 @@
 @echo off
 
-set MONGO_URL=mongodb://13.125.73.183:28888/sosomove
+set MONGO_URL=mongodb+srv://13.125.73.183:28888/sosomove
 
 set AZURE_API_URL=https://ai-sosogpt.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview
 set AZURE_API_KEY=9Z38qzJ5LwWvnTGgDrl6uZFGkRm60uVz6KhcawHHK7enymVHkMF9JQQJ99ALACYeBjFXJ3w3AAABACOGrqQp

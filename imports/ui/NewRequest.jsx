@@ -368,7 +368,7 @@ export default () => {
     }
 
     return (
-        <div class="ml-5 mt-5">
+        <div className="ml-5 mt-5">
             <div style={{ float: 'left' }}>
                 <form>
                     <div className="space-y-8 pl-2">
@@ -416,7 +416,7 @@ export default () => {
                                             출발지
                                         </p>
                                     </label>
-                                    <div class="flex items-center space-x-2 mb-2">
+                                    <div className="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={startPostcode}
@@ -432,7 +432,7 @@ export default () => {
                                         >우편번호 찾기</button>
                                     </div>
 
-                                    <div class="flex items-center space-x-2 ">
+                                    <div className="flex items-center space-x-2 ">
                                         <input
                                             type="text"
                                             value={startAddress}
@@ -458,7 +458,7 @@ export default () => {
                                             도착지
                                         </p>
                                     </label>
-                                    <div class="flex items-center space-x-2 mb-2">
+                                    <div className="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={arrPostcode}
@@ -474,7 +474,7 @@ export default () => {
                                         </button>
                                     </div>
 
-                                    <div class="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2">
                                         <input
                                             type="text"
                                             value={arrAddress}
