@@ -24,34 +24,34 @@ export default () => {
   };
 
   return (
-    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400">
-      <div class="flex flex-col rounded-lg w-[1000px] mb-5 mt-5">
-        <div class="w-full px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 rounded-lg bg-white">
-          <p class="text-center">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400">
+      <div className="flex flex-col rounded-lg w-[1000px] mb-5 mt-5">
+        <div className="w-full px-5 pt-5 pb-5 mx-auto mb-10 text-gray-800 rounded-lg bg-white">
+          <p className="text-center">
             포장방법이 궁금하시면 아래에 물품을 입력 후 검색 버튼을 누르세요.<br />
             당신의 이사를 위한 '유용한 팁'을 드립니다.
           </p><br />
-          <form onSubmit={handleSubmit} class="flex justify-center">
-            <div class="flex items-center space-x-2">
-              <input type="text" ref={item} class="rounded-lg border appearance-none border border-gray-300 w-50 py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="물품을 입력하세요" />
-              <button type="submit" disabled={loading} class="px-3 py-1 bg-green-600 text-white rounded-lg text-lg shadow-md hover:from-green-500 hover:to-green-700 disabled:opacity-50 disabled:bg-green-300 transition-all duration-200">
+          <form onSubmit={handleSubmit} className="flex justify-center">
+            <div className="flex items-center space-x-2">
+              <input type="text" ref={item} className="rounded-lg border appearance-none border border-gray-300 w-50 py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="물품을 입력하세요" />
+              <button type="submit" disabled={loading} className="px-3 py-1 bg-green-600 text-white rounded-lg text-lg shadow-md hover:from-green-500 hover:to-green-700 disabled:opacity-50 disabled:bg-green-300 transition-all duration-200">
                 검색
               </button>
             </div>
           </form>
         </div>
 
-        <div class="w-full px-5 pt-5 pb-10 mx-auto text-gray-800 bg-white rounded-lg border ">
-          <div class="w-full pt-1 pb-5 mx-auto -mt-16 text-center">
-            <img alt="AI-bot" src="/AI.png" class="mx-auto object-cover rounded-full h-20 w-20 " />
+        <div className="w-full px-5 pt-5 pb-10 mx-auto text-gray-800 bg-white rounded-lg border ">
+          <div className="w-full pt-1 pb-5 mx-auto -mt-16 text-center">
+            <img alt="AI-bot" src="/AI.png" className="mx-auto object-cover rounded-full h-20 w-20 " />
           </div>
-          <div class="w-full mb-10 min-h-56">
+          <div className="w-full mb-10 min-h-56">
             {response ? (
-              <p class="px-5 text-base text-gray-600 dark:text-gray-100" style={{ whiteSpace: 'pre-line' }}>
+              <p className="px-5 text-base text-gray-600 dark:text-gray-100" style={{ whiteSpace: 'pre-line' }}>
                 {response}
               </p>
             ) : (
-              <p class="px-5 text-base text-center text-gray-600 dark:text-gray-100">
+              <p className="px-5 text-base text-center text-gray-600 dark:text-gray-100">
                 {loading ? (
                   <div>
                     <div className="flex justify-center items-center">
@@ -69,11 +69,11 @@ export default () => {
               </p>
             )}
           </div>
-          <div class="w-full">
-            <p class="font-bold text-center text-indigo-500 text-md">
+          <div className="w-full">
+            <p className="font-bold text-center text-indigo-500 text-md">
               위 사항을 참고해주세요!
             </p>
-            <p class="text-xs text-center text-gray-500 dark:text-gray-300">
+            <p className="text-xs text-center text-gray-500 dark:text-gray-300">
               @포장도우미AI
             </p>
           </div>
