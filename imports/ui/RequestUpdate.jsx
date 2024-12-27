@@ -413,7 +413,7 @@ export default () => {
                     >우편번호 찾기</button>
                   </div>
 
-                  <div class="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <input
                       type="text"
                       value={startAddress}
@@ -430,7 +430,7 @@ export default () => {
                       도착지
                     </p>
                   </label>
-                  <div class="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <input
                       type="text"
                       value={arrPostcode}
@@ -446,7 +446,7 @@ export default () => {
                     </button>
                   </div>
 
-                  <div class="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <input
                       type="text"
                       value={arrAddress}

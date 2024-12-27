@@ -152,40 +152,40 @@ export default () => {
   }
 
   return (
-    <div class='flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400'>
+    <div className='flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400'>
       {userType === '일반' &&
-        <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
+        <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-0 lg:w-5/12">
           <form onSubmit={handleSignup} >
-            <div class="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white rounded-xl relative z-10 border ">
-              <p class="w-full text-[32px] font-medium text-center leading-snug">일반회원</p>
-              <div class="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-5">
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+            <div className="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white rounded-xl relative z-10 border ">
+              <p className="w-full text-[32px] font-medium text-center leading-snug">일반회원</p>
+              <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-5">
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
                   absolute">ID(이메일 주소)</p>
                   <input type="email" ref={refEmail} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
                   absolute">비밀번호</p>
                   <input type="password" ref={refPassword} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">이름</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">이름</p>
                   <input type="text" ref={refUsername} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">핸드폰번호</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">핸드폰번호</p>
                   <input type="number" ref={refPhone} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
+                <div className="relative">
                   <button type="submit" className="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-[#0070ba]
                   rounded-lg transition duration-200 ">회원가입</button>
                 </div>
@@ -195,39 +195,39 @@ export default () => {
         </div>
       }
       {userType === '사업자' &&
-        <div class="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-20 lg:mb-20 lg:w-5/12">
+        <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-sm lg:mt-20 lg:mb-20 lg:w-5/12">
           <form onSubmit={handleSignup} >
-            <div class="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white rounded-xl relative z-10 border">
-              <p class="w-full text-[32px] font-medium text-center leading-snug">사업자회원</p>
-              <div class="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-5">
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+            <div className="flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white rounded-xl relative z-10 border">
+              <p className="w-full text-[32px] font-medium text-center leading-snug">사업자회원</p>
+              <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-5">
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
                   absolute">ID(이메일 주소)</p>
                   <input type="email" ref={refEmail} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
                   absolute">비밀번호</p>
                   <input type="password" ref={refPassword} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업장명</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업장명</p>
                   <input type="text" ref={refUsername} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">대표번호</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">대표번호</p>
                   <input type="number" ref={refPhone} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업 업종을 선택해주세요</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업 업종을 선택해주세요</p>
                   <div className="border placeholder-gray-400 focus:outline-none
                       focus:border-black w-full pt-4 pr-3 pb-4 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                       border-gray-300 rounded-md ">
@@ -241,14 +241,14 @@ export default () => {
                     </div>
                   </div>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">대표자명</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">대표자명</p>
                   <input type="text" ref={refCeo_name} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업장 주소</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업장 주소</p>
                   <input type="text" ref={refAddress} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
@@ -260,13 +260,13 @@ export default () => {
                   border-gray-300 rounded-md"/>
                 </div>
                 {/* 사업자등록증 */}
-                <div class="relative">
-                  <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업자등록증</p>
+                <div className="relative">
+                  <p className="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">사업자등록증</p>
                   <input type="file" onChange={handleFileChange} className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-3 pb-4 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"/>
                 </div>
-                <div class="relative">
+                <div className="relative">
                   <button type="submit" className="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-[#0070ba]
                   rounded-lg transition duration-200 ">회원가입</button>
                 </div>

@@ -38,8 +38,8 @@ export default () => {
           <div>
             <img src="/img.jpg" alt="메인이미지" className="main-img" />
           </div>
-          <div class="flex justify-center items-center">
-            <button class="bg-indigo-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-20 rounded-xl hover:scale-110 transition duration-300" onClick={handleStartClick}>
+          <div className="flex justify-center items-center">
+            <button className="bg-indigo-500 hover:bg-dangerActive text-white text-lg py-2.5 px-5 mr-2 mb-20 rounded-xl hover:scale-110 transition duration-300" onClick={handleStartClick}>
               소소이사 시작하기
             </button>
           </div>

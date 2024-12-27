@@ -46,29 +46,29 @@ export default () => {
   }
 
   return (
-    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400">
-      <div class="flex flex-col rounded-lg w-[1000px]">
-        <div class="w-full px-5 pt-5 pb-5 mx-auto mb-5 text-gray-800 bg-white rounded-lg">
-          <p class="flex items-center justify-center text-center mb-2">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-400 via-purple-300 to-indigo-400">
+      <div className="flex flex-col rounded-lg w-[1000px]">
+        <div className="w-full px-5 pt-5 pb-5 mx-auto mb-5 text-gray-800 bg-white rounded-lg">
+          <p className="flex items-center justify-center text-center mb-2">
             이삿짐 사진을 첨부해서 업로드하세요. <br />
             이미지 분석을 통해 이사물품을 찾고 대략적인 사이즈를 알려드립니다.
           </p>
-          <p class="flex items-center justify-center text-center mb-5 text-sm">
-            (파일 업로드 후 사진 하단에 &nbsp;<span class="text-red-500">분석완료</span>가 표시되면 오른편에 분석결과 버튼을 눌러 확인하세요!)
+          <p className="flex items-center justify-center text-center mb-5 text-sm">
+            (파일 업로드 후 사진 하단에 &nbsp;<span className="text-red-500">분석완료</span>가 표시되면 오른편에 분석결과 버튼을 눌러 확인하세요!)
           </p>
         </div>
 
-        <div class="flex flex-row rounded-lg w-[1000px]">
-          <div class="w-full px-5 pt-5 pb-5 mx-auto mr-5 text-gray-800 bg-white rounded-lg h-[500px] items-center justify-center">
-            <div class="flex items-center justify-center text-center border">
+        <div className="flex flex-row rounded-lg w-[1000px]">
+          <div className="w-full px-5 pt-5 pb-5 mx-auto mr-5 text-gray-800 bg-white rounded-lg h-[500px] items-center justify-center">
+            <div className="flex items-center justify-center text-center border">
               <input type="file" name="image" onChange={handleUpload} />
             </div>
-            <div class="flex items-center justify-center text-center mb-10 " >
+            <div className="flex items-center justify-center text-center mb-10 " >
               {imagePreview &&
-                <img src={imagePreview} alt="업로드 이미지" class="w-[400px] h-[350px]" />
+                <img src={imagePreview} alt="업로드 이미지" className="w-[400px] h-[350px]" />
               }
             </div>
-            <div class="text-center text-red-500 font-bold">
+            <div className="text-center text-red-500 font-bold">
               {loading ? (
                 <p>분석완료</p>
               ) : (
@@ -76,9 +76,9 @@ export default () => {
               )}
             </div>
           </div>
-          <div class="w-full px-5 pt-5 pb-5 mx-auto text-gray-800 bg-white rounded-lg border ">
+          <div className="w-full px-5 pt-5 pb-5 mx-auto text-gray-800 bg-white rounded-lg border ">
             <div className="flex justify-end">
-              <button disabled={status} onClick={handleAnalyze} class="px-3 py-1 bg-green-600 text-white rounded-lg text-lg shadow-md hover:from-green-500 hover:to-green-700 disabled:opacity-50 disabled:bg-green-300 transition-all duration-200 mb-10">분석결과 확인</button>
+              <button disabled={status} onClick={handleAnalyze} className="px-3 py-1 bg-green-600 text-white rounded-lg text-lg shadow-md hover:from-green-500 hover:to-green-700 disabled:opacity-50 disabled:bg-green-300 transition-all duration-200 mb-10">분석결과 확인</button>
             </div>
             <div>
               <p style={{ whiteSpace: 'pre-line' }}>{res ? res : ''}</p>

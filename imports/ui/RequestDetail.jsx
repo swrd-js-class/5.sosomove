@@ -296,7 +296,7 @@ export default () => {
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.business_contact}</td>
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{carestimate.amount}</td>
                       <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
-                        <div class="w-[300px] break-words whitespace-normal">
+                        <div className="w-[300px] break-words whitespace-normal">
                           {carestimate.details}
                         </div>
                       </td>
