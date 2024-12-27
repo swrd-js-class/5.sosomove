@@ -12,10 +12,10 @@
 #export MONGO_URL=mongodb://yegam:mStartup!24@211.249.61.156:27777/soongrye
 export MONGO_OPLOG_URL=mongodb://admin:mStartup!24@localhost:27777/local?authSource=admin
 export MONGO_URL=mongodb://admin:mStartup!24@localhost:27777/db5jo?authSource=admin
-export AZURE_API_KEY = "9Z38qzJ5LwWvnTGgDrl6uZFGkRm60uVz6KhcawHHK7enymVHkMF9JQQJ99ALACYeBjFXJ3w3AAABACOGrqQp"
-export AZURE_API_URL = "https://ai-sosogpt.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview"
+export AZURE_API_KEY="9Z38qzJ5LwWvnTGgDrl6uZFGkRm60uVz6KhcawHHK7enymVHkMF9JQQJ99ALACYeBjFXJ3w3AAABACOGrqQp"
+export AZURE_API_URL="https://ai-sosogpt.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview"
 export AZURE_CV_KEY="6w72WwdKKMxVEZTZxLVha640eG50A1mekHsnePNuyLcphmXkHX5eJQQJ99ALACYeBjFXJ3w3AAAFACOG4dQ8"
-export AZURE_CV_URL = "https://ai-sosocv.cognitiveservices.azure.com/vision/v3.2/analyze"
+export AZURE_CV_URL="https://ai-sosocv.cognitiveservices.azure.com/vision/v3.2/analyze"
 
 export ROOT_URL="https://db5jo.meteor.or.kr"
 export PORT=5112
