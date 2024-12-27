@@ -11,25 +11,19 @@
 #export MONGO_OPLOG_URL=mongodb://oplogger:mStartup!24@211.249.61.156:27777/local?authSource=admin
 #export MONGO_URL=mongodb://yegam:mStartup!24@211.249.61.156:27777/soongrye
 export MONGO_OPLOG_URL=mongodb://admin:mStartup!24@localhost:27777/local?authSource=admin
-export MONGO_URL=mongodb://admin:mStartup!24@localhost:27777/artwith?authSource=admin
+export MONGO_URL=mongodb://admin:mStartup!24@localhost:27777/db5jo?authSource=admin
+export AZURE_API_KEY = '9Z38qzJ5LwWvnTGgDrl6uZFGkRm60uVz6KhcawHHK7enymVHkMF9JQQJ99ALACYeBjFXJ3w3AAABACOGrqQp'
+export AZURE_API_URL = 'https://ai-sosogpt.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-08-01-preview'
+export AZURE_CV_KEY='6w72WwdKKMxVEZTZxLVha640eG50A1mekHsnePNuyLcphmXkHX5eJQQJ99ALACYeBjFXJ3w3AAAFACOG4dQ8'
+export AZURE_CV_URL = 'https://ai-sosocv.cognitiveservices.azure.com/vision/v3.2/analyze'
 
-#export MONGO_OPLOG_URL=mongodb://oplogger:Thflskf0@54.65.142.59:27777/local?authSource=admin
-#export MONGO_URL=mongodb://vansports:Thflskf0@54.65.142.59:27777/vansports
-export HTTP_FORWARDED_COUNT=1
-#export MAIL_URL=smtp://postmaster@sv-1234.com:ada8ff07daa9c7c71d47776ba70614e5@smtp.mailgun.org:587
-#export MAIL_URL=smtp://postmaster@artwith.kr:51199e2e23de44c287c6ca59b4fd5491@smtp.mailgun.org:587
-# export MAIL_URL=smtps://help.shdang:waehok2526@smtp.gmail.com:465
-export MAIL_URL=smtps://meteorstartup:kwlgevradebyrszc@smtp.gmail.com:465
-#export MAIL_URL=smtps://meteorstartup:mStartup!!24@smtp.gmail.com:465
-# export NODE_TLS_REJECT_UNAUTHORIZED=0
-#export NODE_TLS_REJECT_UNAUTHORIZED=0
-export ROOT_URL=https://artwith.kr
-export PORT=5025
+export ROOT_URL="https://db5jo.meteor.or.kr"
+export PORT=5112
 
 #meteor -p5025
 
 METEOR_NODE_PATH=$(meteor node -e "console.log(process.execPath);" 2>&1)
-pm2 start .meteor/build/bundle/main.js --name "artwith.kr" --interpreter "$METEOR_NODE_PATH"
+pm2 start .meteor/build/bundle/main.js --name "db5jo" --interpreter "$METEOR_NODE_PATH"
 
 #kill -9 |  ps ax | grep soongrye | awk '{print $1}'
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
